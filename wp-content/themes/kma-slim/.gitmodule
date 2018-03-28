@@ -1,0 +1,3 @@
+[submodule "kerigansolutions/fb-autoblog-wp"]
+    path = vendor/kerigansolutions/fb-autoblog-wp
+    url = https://github.com/kerigansolutions/fb-autoblog-wp.git

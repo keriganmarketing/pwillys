@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "npm run development",
+    "development": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch-poll": "npm run watch -- --watch-poll",
+    "hot": "cnode node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "devDependencies": {
+    "bulma": "^0.4.4",
+    "cross-env": "^5.1.4",
+    "font-awesome": "^4.7.0",
+    "laravel-mix": "0.*",
+    "vue": "^2.5.16"
+  },
+  "dependencies": {
+    "autoprefixer": "^8.2.0",
+    "babel-polyfill": "^6.26.0",
+    "glob": "^7.1.2",
+    "purgecss-webpack-plugin": "^0.20.1",
+    "vue-masonry": "^0.10.17",
+    "vue-parallax-js": "0.0.5",
+    "vue-template-compiler": "^2.5.16"
+  }
+}

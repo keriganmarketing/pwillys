@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700,900');
+
+@font-face {
+  font-family: 'Dimbo-Regular';
+  src:url('/wp-content/themes/kma-slim/fonts/dimbo/Dimbo-Regular.woff') format('woff'),
+  url('/wp-content/themes/kma-slim/fonts/dimbo/Dimbo-Regular.svg#Dimbo-Regular') format('svg'),
+  url('/wp-content/themes/kma-slim/fonts/dimbo/Dimbo-Regular.eot'),
+  url('/wp-content/themes/kma-slim/fonts/dimbo/Dimbo-Regular.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Bernadette-Rough';
+  src:url('/wp-content/themes/kma-slim/fonts/bernadette/Bernadette-Rough.woff') format('woff'),
+  url('/wp-content/themes/kma-slim/fonts/bernadette/Bernadette-Rough.svg#Bernadette-Rough') format('svg'),
+  url('/wp-content/themes/kma-slim/fonts/bernadette/Bernadette-Rough.eot'),
+  url('/wp-content/themes/kma-slim/fonts/bernadette/Bernadette-Rough.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.bernadette {
+  font-family: "Bernadette-Rough";
+}
+
+.dimbo {
+  font-family: "Dimbo-Regular";
+}
+
+.montserrat {
+  font-family: "montserrat";
+}
