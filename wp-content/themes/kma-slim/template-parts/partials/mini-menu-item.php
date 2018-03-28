@@ -3,17 +3,14 @@
         <div class="card-image">
             <figure class="image is-16by9">
                 <div class="card-content item-price-info columns is-multiline is-mobile is-gapless">
-
-                    <div class="column">
+                    <div class="column has-text-left">
                         <p class="item-name dimbo"><?= $menuItem['name']; ?></p>
                     </div>
-
                     <div class="column is-narrow has-text-right">
                         <p class="item-price dimbo"><?= $menuItem['price']; ?></p>
                     </div>
                 </div>
-                <img src="<?= $menuItem['photo']; ?>"
-                     alt="<?= $menuItem['name']; ?>">
+                <img src="<?= $menuItem['photo']; ?>" alt="<?= $menuItem['name']; ?>">
             </figure>
         </div>
     <?php } else { ?>
@@ -22,13 +19,15 @@
             <p class="item-name dimbo"><?= $menuItem['name']; ?></p>
         </div>
         <div class="column is-narrow has-text-right">
-            <p class="item-price tandelle"><?= $menuItem['price']; ?></p>
+            <p class="item-price dimbo"><?= $menuItem['price']; ?></p>
         </div>
     </div>
     <?php } ?>
+    <?php if($menuItem['description'] != ''){ ?>
     <div class="card-content columns is-multiline is-mobile is-gapless">
         <div class="column is-12">
             <p class="item-description"><?= $menuItem['description']; ?></p>
         </div>
     </div>
+    <?php } ?>
 </div>

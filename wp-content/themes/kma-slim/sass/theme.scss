@@ -895,6 +895,7 @@ h2.subtitle {
   }
   .menu-item.has-image {
     padding-top: 0;
+    padding-bottom:0;
 
     .card-image {
       figure {
@@ -924,6 +925,11 @@ h2.subtitle {
       .item-price {
         color: #FFF;
         text-shadow: 0 0 4px rgba(0, 0, 0, .75);
+      }
+    }
+    .card-content {
+      .item-description {
+        margin-bottom: 1rem !important;
       }
     }
 
