@@ -24,5 +24,6 @@ include(locate_template('template-parts/sections/top.php'));
             </div>
         </section>
     </article>
+    <?php include(locate_template('template-parts/sections/social-media.php')); ?>
 </div>
 <?php include(locate_template('template-parts/sections/bot.php')); ?>

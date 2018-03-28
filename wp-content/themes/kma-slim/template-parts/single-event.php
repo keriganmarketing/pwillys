@@ -14,8 +14,8 @@ $event  = $events->getSingleEvent($post->ID);
 $terms  = wp_get_post_terms($post->ID, 'bands');
 $isBand = (isset($terms) && count($terms) > 0);
 
-$headline = ($post->page_information_headline != '' ? $post->page_information_headline : $post->post_title);
-$subhead  = ($post->page_information_subhead != '' ? $post->page_information_subhead : '');
+$parent = get_post(7);
+$parentHeader = $parent->page_information_header_image;
 
 include(locate_template('template-parts/sections/top.php'));
 ?>
@@ -34,5 +34,6 @@ include(locate_template('template-parts/sections/top.php'));
                 </div>
             </section>
         </article>
+        <?php include(locate_template('template-parts/sections/social-media.php')); ?>
     </div>
 <?php include(locate_template('template-parts/sections/bot.php')); ?>

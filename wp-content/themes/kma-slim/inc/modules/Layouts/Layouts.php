@@ -24,7 +24,8 @@ class Layouts
             array(
                 'Headline'     => 'text',
                 'Subhead'      => 'text',
-                'Preview Text' => 'textarea'
+                'Preview Text' => 'textarea',
+                'Header Image' => 'image'
             )
         );
     }

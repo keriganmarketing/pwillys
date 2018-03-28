@@ -386,9 +386,17 @@ body {
 }
 
 .support-header {
-  @media screen and (min-width: $tablet) {
-    padding: 0 0 20px;
-    background: url('/wp-content/themes/kma-slim/img/background.png') bottom center;
+  background-color: $secondary;
+  background-size: cover;
+  min-height: 140px;
+
+  .title {
+    margin-top:1rem;
+  }
+
+  .title,
+  .subtitle {
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .8);
   }
 }
 
@@ -702,9 +710,6 @@ h2.subtitle {
 
   .review-module {
     padding: 2rem 1rem;
-    @media screen and (min-width: $desktop){
-      padding-bottom: 8rem;
-    }
   }
 
   .review {
@@ -759,6 +764,7 @@ h2.subtitle {
     padding: 4rem 1rem;
     background-color: $info;
     @media screen and (min-width: $desktop) {
+      margin-top: 8rem;
       background: url("/wp-content/themes/kma-slim/img/leaves-bkgd.png") center;
       background-size: cover;
     }

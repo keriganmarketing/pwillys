@@ -51,8 +51,6 @@ class Events
             'End'                  => 'date',
             'Time'                 => 'text',
             'Location'             => 'text',
-            'Show Details'         => 'boolean',
-            'Feature on Home page' => 'boolean',
             'Tickets Link'         => 'text',
             'Full Image'           => 'image'
         ]);
@@ -89,6 +87,11 @@ class Events
         $events->convertCheckToRadio( 'bands' );
         $events->createTaxonomyMeta( 'bands', [ 'label' => 'Band Photo', 'type' => 'image' ] );
         $events->createTaxonomyMeta( 'bands', [ 'label' => 'Band Description', 'type' => 'wysiwyg' ] );
+        $events->createTaxonomyMeta( 'bands', [ 'label' => 'Facebook Link', 'type' => 'text' ] );
+        $events->createTaxonomyMeta( 'bands', [ 'label' => 'Twitter Link', 'type' => 'text' ] );
+        $events->createTaxonomyMeta( 'bands', [ 'label' => 'Instagram Link', 'type' => 'text' ] );
+        $events->createTaxonomyMeta( 'bands', [ 'label' => 'YouTube Link', 'type' => 'text' ] );
+        $events->createTaxonomyMeta( 'bands', [ 'label' => 'Website Link', 'type' => 'text' ] );
     }
 
     /**
@@ -261,7 +264,7 @@ class Events
                 'location'        => (isset($post->event_details_location) ? $post->event_details_location : null),
                 'full_image'      => (isset($post->event_details_full_image) ? $post->event_details_full_image : null),
                 'details'         => (isset($post->event_details_show_details) ? $post->event_details_show_details : null),
-                'featured'        => (isset($post->event_details_feature_on_home_page) ? $post->event_details_feature_on_home_page : null),
+                'tickets'         => (isset($post->event_details_tickets_link) ? $post->event_details_tickets_link : null),
                 'content'         => (isset($post->event_description_html) ? $post->event_description_html : null),
                 'link'            => get_permalink($post->ID),
             ];

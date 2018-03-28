@@ -29,8 +29,6 @@ if (is_admin()) {
 
 $layouts = new Layouts();
 $layouts->addPageHeadlines();
-$layouts->createSidebarSelector();
-$layouts->addSidebar('Featured Image Sidebar');
 
 $contact = new SimpleContact();
 $contact->setupAdmin();

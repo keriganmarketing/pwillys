@@ -13,9 +13,6 @@ use Includes\Modules\Menu\Menu;
 $menu           = new Menu();
 $menuCategories = $menu->getMenu();
 
-$headline = ($post->page_information_headline != '' ? $post->page_information_headline : $post->post_title);
-$subhead  = ($post->page_information_subhead != '' ? $post->page_information_subhead : '');
-
 include(locate_template('template-parts/sections/top.php'));
 ?>
     <div id="mid">
@@ -43,5 +40,6 @@ include(locate_template('template-parts/sections/top.php'));
                 </div>
             </section>
         </article>
+        <?php include(locate_template('template-parts/sections/social-media.php')); ?>
     </div>
 <?php include(locate_template('template-parts/sections/bot.php')); ?>
