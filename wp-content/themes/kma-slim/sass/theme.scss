@@ -1054,4 +1054,16 @@ h2.subtitle {
     font-size: .8em;
     a {
       color: $grey;
-      text-decorati
+      text-decoration: underline;
+    }
+
+    .siteby {
+      display: inline-block;
+      padding: 0 1rem;
+
+      svg {
+        height: 11px;
+      }
+    }
+  }
+}

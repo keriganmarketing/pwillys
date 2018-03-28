@@ -45,13 +45,6 @@ $events->setupAdmin();
 $ourMenu = new Menu();
 $ourMenu->setupAdmin();
 
-$pageField = new PageField();
-$pageField->addField(get_option('page_on_front'), 'Get involved', [
-    'Section Title' => 'text',
-    'Section Text'  => 'wysiwyg',
-    'Section Photo' => 'image'
-]);
-
 $facebook = new FacebookController();
 $facebook->setupAdmin();
 

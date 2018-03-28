@@ -10,4 +10,8 @@
             <p class="date"><?= $event['recurr_readable']; ?></p>
             <p class="time"><?php echo $event['time']; ?></p>
 <!--            <p class="location">--><?php //echo $event['location']; ?><!--</p>-->
-            <p class="event-button"><a class="button is-primary is-rounded has-shadow" >More Info
+            <p class="event-button"><a class="button is-primary is-rounded has-shadow" >More Info</a></p>
+        </div>
+        <a class="tile-link" href="<?= $event['link']; ?>" ></a>
+    </div>
+</div>
