@@ -149,10 +149,11 @@ class Reviews
     {
 
         $request = $this->getReviews([
+            'orderby'        => 'meta_value_num',
+            'order'          => 'DESC',
+            'meta_key'       => 'author_info_date',
             'posts_per_page' => 1
         ]);
-
-        array_multisort($request, 'SORT_DESC','SORT_NUMERIC');
 
         return $request[0];
     }
@@ -179,7 +180,7 @@ class Reviews
                 'author'   => get_post_meta($post->ID, 'author_info_name', true),
                 'company'  => get_post_meta($post->ID, 'author_info_company', true),
                 'featured' => get_post_meta($post->ID, 'author_info_featured', true),
-                'date'     => get_post_meta($post->ID, 'author_info_date', true),
+                'date'     => date('YmdGi', strtotime(get_post_meta($post->ID, 'author_info_date', true))),
                 'location' => get_post_meta($post->ID, 'author_info_location', true),
                 'rating'   => get_post_meta($post->ID, 'author_info_stars', true)
             ];

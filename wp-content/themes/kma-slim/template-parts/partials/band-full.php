@@ -7,6 +7,7 @@ $band                            = $terms[0];
 $band->photo                     = get_term_meta($band->term_id, 'bands_band_photo', true);
 $band->description               = get_term_meta($band->term_id, 'bands_band_description', true);
 $band->website                   = get_term_meta($band->term_id, 'bands_website_link', true);
+$band->video                     = get_term_meta($band->term_id, 'bands_featured_youtube_video_id', true);
 $band->social_media              = [];
 $band->social_media['facebook']  = get_term_meta($band->term_id, 'bands_facebook_link', true);
 $band->social_media['twitter']   = get_term_meta($band->term_id, 'bands_twitter_link', true);
@@ -35,6 +36,8 @@ $eventsArray = $events->getUpcomingEvents(
 );
 
 $band->show_times = $eventsArray;
+
+//echo '<pre>',print_r($band),'</pre>';
 
 ?>
 <div class="columns is-multiline">
@@ -77,6 +80,13 @@ $band->show_times = $eventsArray;
                 <div class="column website is-narrow">
                     <a class="button is-info is-rounded has-shadow" style="height: 2.6rem"
                        href="<?= $band->website; ?>">Visit Website</a>
+                </div>
+            <?php } ?>
+            <?php if ($band->video != '') { ?>
+                <div class="column is-12">
+                    <div class="video">
+                        <iframe src="https://www.youtube-nocookie.com/embed/<?= $band->video; ?>?rel=0&amp;showinfo=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                    </div>
                 </div>
             <?php } ?>
             <div class="column is-12">

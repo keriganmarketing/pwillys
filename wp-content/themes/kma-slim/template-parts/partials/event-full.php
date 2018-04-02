@@ -7,6 +7,12 @@
                         <span class="icon">
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
                         </span> <?= $event['location']; ?></a></p>
+        <?php if ($event['tickets'] != '') { ?>
+            <p class="tickets">
+                <a class="button is-info is-rounded has-shadow" href="<?= $show['tickets']; ?>">Buy Tickets</a>
+            </p>
+        <?php } ?>
+        <p></p>
         <?= $event['content']; ?>
     </div>
     <div class="column is-8">

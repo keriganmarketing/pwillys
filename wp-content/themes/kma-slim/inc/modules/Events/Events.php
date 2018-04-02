@@ -199,7 +199,7 @@ class Events
             }
         }else{
             if ($end != null && $startController != $endController) {
-                $dateString .= ($startController > $todayController ? $startString . ' - ' : ' through ' ) . $endString;
+                $dateString .= $startString . ' - ' . $endString;
             }else{
                 $dateString .= $startString;
             }
