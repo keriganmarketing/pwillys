@@ -7,6 +7,7 @@
  */
 
 use Includes\Modules\Events\Events;
+use Includes\Modules\Reviews\Reviews;
 use Includes\Modules\Slider\BulmaSlider;
 use Includes\Modules\Helpers\CleanWP;
 use Includes\Modules\Layouts\Layouts;
@@ -48,6 +49,9 @@ $facebook->setupAdmin();
 
 $instagram = new InstagramController();
 $instagram->setupAdmin();
+
+$reviews = new Reviews();
+$reviews->setupAdmin();
 
 add_action('after_setup_theme', function () {
     load_theme_textdomain('kmaslim', get_template_directory() . '/languages');

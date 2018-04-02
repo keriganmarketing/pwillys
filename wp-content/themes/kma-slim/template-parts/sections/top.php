@@ -53,7 +53,7 @@ use Includes\Modules\Navwalker\BulmaNavwalker;
                                 <a href="tel:850-588-7947">
                                     <span class="icon" >
                                         <i class="fa fa-phone" aria-hidden="true"></i>
-                                    </span> 850-588-7947</a>
+                                    </span> 850-235-0928</a>
                             </div>
                             <div class="navbar-item social-buttons">
                                 <div class="burger button is-white is-outlined" id="MobileNavBurger" data-target="MobileNavMenu"

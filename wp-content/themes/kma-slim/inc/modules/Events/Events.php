@@ -86,12 +86,14 @@ class Events
         $events->addTaxonomy('Bands');
         $events->convertCheckToRadio( 'bands' );
         $events->createTaxonomyMeta( 'bands', [ 'label' => 'Band Photo', 'type' => 'image' ] );
+        $events->createTaxonomyMeta( 'bands', [ 'label' => 'Featured YouTube Video ID', 'type' => 'text' ] );
         $events->createTaxonomyMeta( 'bands', [ 'label' => 'Band Description', 'type' => 'wysiwyg' ] );
         $events->createTaxonomyMeta( 'bands', [ 'label' => 'Facebook Link', 'type' => 'text' ] );
         $events->createTaxonomyMeta( 'bands', [ 'label' => 'Twitter Link', 'type' => 'text' ] );
         $events->createTaxonomyMeta( 'bands', [ 'label' => 'Instagram Link', 'type' => 'text' ] );
         $events->createTaxonomyMeta( 'bands', [ 'label' => 'YouTube Link', 'type' => 'text' ] );
         $events->createTaxonomyMeta( 'bands', [ 'label' => 'Website Link', 'type' => 'text' ] );
+
     }
 
     /**

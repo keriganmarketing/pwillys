@@ -24,27 +24,33 @@ include(locate_template('template-parts/sections/top.php'));
                                     <a href="tel:850-588-7947">
                                         <span class="icon">
                                             <i aria-hidden="true" class="fa fa-phone"></i>
-                                        </span> 850-588-7947</a></p>
+                                        </span> 850-235-0928</a></p>
                                 <p class="title is-5 hours">
                                     <span class="icon">
                                         <i aria-hidden="true" class="fa fa-clock-o"></i>
                                     </span> 11AM - 9PM</p>
+                                <p class="title is-5 email">
+                                    <span class="icon">
+                                        <i aria-hidden="true" class="fa fa-envelope-o"></i>
+                                    </span> Band Booking: <a href="mailto:booking@pwillys.com">booking@pwillys.com</a>
+                                </p>
                                 <p></p>
                             </div>
                             <div class="column is-12 is-6-desktop">
-                                <h2 class="title is-primary is-2 tandelle">Come Visit</h2>
-                                <google-map :latitude="30.182326" :longitude="-85.8077277" :zoom="15" name="ww">
-                                    <pin :latitude="30.182326" :longitude="-85.8077277" title="The Wicked Wheel">
-                                        <p><strong>The Wicked Wheel</strong></p>
-                                        <p class="address">10025 Hutchison Blvd,<br>Panama City Beach, FL 32408</p>
-                                        <p class="appt-button"><a class="button is-primary is-rounded has-shadow is-fullwidth"
-                                                                  href="https://www.google.com/maps/dir/29.9516777,-85.4236099/The+Wicked+Wheel+Bar+%26+Grill,+10025+Hutchison+Blvd,+Panama+City+Beach,+FL+32408">Get
-                                                Directions</a></p>
+                                <h2 class="title is-primary is-2 dimbo">Come Visit</h2>
+                                <google-map :latitude="30.1752009" :longitude="-85.8051388" :zoom="15" name="ww">
+                                    <pin :latitude="30.1752009" :longitude="-85.8051388" title="Pineapple Willy's">
+                                        <p><strong>Pineapple Willy's</strong></p>
+                                        <p class="address">9875 South Thomas Drive,<br>Panama City Beach, FL 32408</p>
+                                        <p class="appt-button"><a
+                                                    class="button is-primary is-rounded has-shadow is-fullwidth"
+                                                    href="https://www.google.com/maps/dir//30.1752009,-85.8051388">
+                                                Get Directions</a></p>
                                     </pin>
                                 </google-map>
                             </div>
                             <div class="column is-12 is-6-desktop">
-                                <h2 class="title is-primary is-2 tandelle">Get in Touch</h2>
+                                <h2 class="title is-primary is-2 dimbo">Get in Touch</h2>
                                 <p>Just fill out the form below and we'll get back with you.</p>
                                 <?php echo do_shortcode('[contact_form]'); ?>
                             </div>
