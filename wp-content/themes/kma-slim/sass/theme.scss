@@ -388,7 +388,7 @@ body {
 .support-header {
   background-color: $secondary;
   background-size: cover;
-  min-height: 140px;
+  min-height: 250px;
 
   .title {
     margin-top:1rem;
@@ -681,7 +681,7 @@ h2.subtitle {
   .header-content {
     padding: 2rem 1rem 0;
     @media screen and (min-width: $desktop) {
-      padding: 2rem 0 0;
+      padding: 5.5rem 0 0;
     }
   }
 
