@@ -17,7 +17,7 @@ include(locate_template('template-parts/sections/top.php'));
     <div class="container">
         <div class="entry-content content has-text-centered">
             <h1 class="title dimbo is-primary"><?php echo $headline; ?></h1>
-            <?php echo ($subhead!='' ? '<h2 class="subtitle bernadette">'.$subhead.'</h2>' : null); ?>
+            <?php echo ($subhead!='' ? '<h2 class="subtitle bernadette">Seafood, Music &&nbsp;Fun</h2>' : null); ?>
             <?php the_content(); ?>
         </div>
     </div>

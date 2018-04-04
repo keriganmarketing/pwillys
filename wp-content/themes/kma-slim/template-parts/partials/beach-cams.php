@@ -1,6 +1,6 @@
 <div class="beach-cams">
     <div class="container has-text-centered">
-        <h2 class="bernadette">Willy's Live Beach Cam</h2>
+        <h2 class="bernadette">Willy's&nbsp;Live Beach&nbsp;Cam</h2>
         <div class="columns is-mobile">
             <div class="column">
                 <div class="beach-cam-button">
@@ -15,6 +15,6 @@
                 </div>
             </div>
         </div>
-        <a class="button is-primary is-rounded has-shadow" href="/beach-cam/" >Check out the view</a>
+        <a class="button is-primary is-rounded has-shadow" href="/beach-cam/" >Check out the view!</a>
     </div>
 </div>

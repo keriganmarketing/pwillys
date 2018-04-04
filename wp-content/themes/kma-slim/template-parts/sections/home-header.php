@@ -27,5 +27,5 @@ use Includes\Modules\Slider\BulmaSlider;
     </slider>
 </div>
 <div class="menu-button-mobile-only is-hidden-tablet has-text-centered">
-    <a class="menu-button button is-primary is-rounded has-shadow" href="/pineapple-willys-menu/">Our Menu</a>
+    <a class="menu-button button is-primary is-rounded has-shadow" href="/pineapple-willys-menu/">View Our Menu</a>
 </div>

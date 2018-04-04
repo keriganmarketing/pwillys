@@ -155,9 +155,11 @@ body {
 
   #MobileNavBurger {
     border-radius: 0;
-    height: 28px !important;
+    height: 26px !important;
     width: 32px;
     padding: 0 !important;
+    position: relative;
+    z-index: 3;
 
     @media screen and (min-width: $fullhd) {
       display: none;
@@ -170,7 +172,8 @@ body {
       background-color: transparent !important;
 
       span {
-        background-color: $primary !important;
+        background-color: $white !important;
+        height: 2px;
       }
     }
   }
@@ -232,9 +235,10 @@ body {
       }
 
       .logo {
+        position: relative;
         transition: max-width linear .5s;
         display: block;
-        margin-top: -22px;
+        margin-top: -59px;
         margin-bottom: -33px;
 
         @media screen and (min-width: $tablet) {
@@ -295,7 +299,13 @@ body {
 
       .top-phone {
         font-family: $header-font-family;
-        font-size: 2.1em;
+        position: relative;
+        z-index: 3;
+        font-size: 1.8em;
+
+        @media screen and (min-width: $tablet){
+          font-size: 2.1em;
+        }
       }
     }
 
@@ -372,7 +382,7 @@ body {
 
 #top {
   .logo {
-    max-width: 200px;
+    max-width: none;
   }
 }
 
@@ -410,8 +420,10 @@ h1.title {
 
 h2.subtitle {
   color: $info;
-  font-size: 2em;
+  font-size: 2.4em;
+  padding-top: 1rem;
   @media screen and (min-width: $desktop) {
+    padding-top: 0;
     font-size: 54px;
   }
 }
@@ -539,21 +551,31 @@ h2.subtitle {
   }
 
   .beach-cams {
-    padding: 3rem 1rem 2rem;
+    padding: 2rem 1rem 2rem;
     box-shadow: inset 0 0 30px rgba(0, 0, 0, .5);
     background: url('/wp-content/themes/kma-slim/img/wavepattern.png') center;
+
+    @media screen and (min-width: $tablet) {
+      padding: 3rem 1rem 2rem;
+    }
 
     @media screen and (min-width: $desktop) {
       padding: 5rem 0 4rem;
     }
 
+    .container {
+      overflow: hidden;
+    }
+
     h2 {
       color: $white;
       text-shadow: 1px 1px 1px rgba(0, 0, 0, .8);
-      font-size: 25px;
-      padding-bottom: 3rem;
+      font-size: 30px;
+      line-height: 1.2em;
+      padding-bottom: 1rem;
       @media screen and (min-width: $tablet) {
         font-size: 40px;
+        padding-bottom: 3rem;
       }
       @media screen and (min-width: $desktop) {
         font-size: 55px;
@@ -769,15 +791,23 @@ h2.subtitle {
     }
     .review-author {
       margin-top: 1rem;
+      line-height: 1.3em;
+
+      span {
+        display: inline-block;
+        vertical-align: middle;
+      }
     }
   }
 
   .social-media-section {
+    margin-top: 2.7rem;
     padding: 4rem 1rem;
     background-color: $info;
+    background: url("/wp-content/themes/kma-slim/img/leaves-bkgd.png") center;
+
     @media screen and (min-width: $desktop) {
       margin-top: 8rem;
-      background: url("/wp-content/themes/kma-slim/img/leaves-bkgd.png") center;
       background-size: cover;
     }
 
@@ -949,23 +979,32 @@ h2.subtitle {
 }
 
 //Bottom
+.top-leaves {
+  position: absolute;
+  background: url("/wp-content/themes/kma-slim/img/top-leaves.png") center no-repeat;
+  background-size: contain;
+  height: 340px;
+  width: 311px;
+  margin: -177px 0 0 -5px;
+}
+
+.bottom-leaves {
+  position: absolute;
+  background: url("/wp-content/themes/kma-slim/img/bottom-leaves.png") center no-repeat;
+  background-size: contain;
+  height: 149px;
+  width: 146px;
+  right: 0;
+  margin: 0 -67px 0 0;
+}
 @media screen and (min-width: $widescreen) {
   .top-leaves {
-    position: absolute;
-    background: url("/wp-content/themes/kma-slim/img/top-leaves.png") center no-repeat;
-    background-size: contain;
     height: 340px;
     width: 524px;
     margin: -177px 0 0 -56px;
   }
   .bottom-leaves {
-    position: absolute;
-    background: url("/wp-content/themes/kma-slim/img/bottom-leaves.png") center no-repeat;
-    background-size: contain;
-    height: 149px;
     width: 222px;
-    right: 0;
-    margin: 0 -67px 0 0;
   }
 }
 
