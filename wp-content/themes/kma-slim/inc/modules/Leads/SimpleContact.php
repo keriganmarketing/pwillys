@@ -13,7 +13,7 @@ class SimpleContact extends Leads
             ]
         );
         parent::set('postType', 'Contact Submission');
-        parent::set('adminEmail', 'jaredknetzer@gmail.com');
+        parent::set('adminEmail', 'info@pwillys.com');
     }
 
     protected function showForm()
