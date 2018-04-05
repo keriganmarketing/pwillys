@@ -47,7 +47,7 @@ use Includes\Modules\Social\SocialSettingsPage;
                         <p class="while-youre-here">While you're in town, visit<br>our sister restaurant:</p>
                         <a href="https://thewickedwheel.com" target="_blank"><img src="<?php echo get_template_directory_uri() . '/img/wicked-wheel-logo.png'; ?>"
                                                                            alt="The Wicked Wheel Restaurant"></a>
-                        <p class="visit-website">Visit <a href="https://pwillys.com" target="_blank">website.</a></p>
+                        <p class="visit-website">Visit <a href="https://thewickedwheel.com" target="_blank">website.</a></p>
                     </div>
                 </div>
             </div>

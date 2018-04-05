@@ -14,6 +14,7 @@ body {
 #app {
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 
   #MobileNavMenu {
     width: 100%;
@@ -398,7 +399,13 @@ body {
 .support-header {
   background-color: $secondary;
   background-size: cover;
-  min-height: 250px;
+  min-height: 165px;
+  @media screen and(min-width: $tablet){
+    min-height: 200px;
+  }
+  @media screen and(min-width: $desktop){
+    min-height: 250px;
+  }
 
   .title {
     margin-top:1rem;
@@ -820,9 +827,12 @@ h2.subtitle {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        width: 366px;
+      }
+
+      @media screen and (min-width: $desktop) {
         min-height: 450px;
         height: 450px;
-        width: 366px;
       }
 
       .card-bottom {
@@ -993,9 +1003,22 @@ h2.subtitle {
   background: url("/wp-content/themes/kma-slim/img/bottom-leaves.png") center no-repeat;
   background-size: contain;
   height: 149px;
-  width: 146px;
+  width: 144px;
   right: 0;
-  margin: 0 -67px 0 0;
+  margin: -46px 0 0 0;
+}
+@media screen and (min-width: $tablet) {
+  .top-leaves {
+    height: 340px;
+    width: 446px;
+    margin: -152px 0 0 24px;
+  }
+  .bottom-leaves {
+    height: 149px;
+    width: 146px;
+    right: 0;
+    margin: -50px -52px 0 0;
+  }
 }
 @media screen and (min-width: $widescreen) {
   .top-leaves {

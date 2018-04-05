@@ -25,9 +25,9 @@ include(locate_template('template-parts/sections/top.php'));
 
                         <div class="section">
                             <div v-masonry transition-duration="0.3s" item-selector=".menu-category"
-                                 class="our-menu columns is-multiline">
+                                 class="our-menu columns is-multiline is-mobile">
                                 <?php foreach ($menuCategories as $menuCategory) { ?>
-                                    <div v-masonry-tile class="menu-category column is-6 is-4-widescreen">
+                                    <div v-masonry-tile class="menu-category column is-12-mobile is-6-tablet is-4-widescreen">
                                         <h2 class="title is-2 dimbo"><?= $menuCategory['category_name']; ?></h2>
                                         <?php foreach ($menuCategory['menu_items'] as $menuItem) { ?>
                                             <?php include(locate_template('template-parts/partials/mini-menu-item.php')); ?>
