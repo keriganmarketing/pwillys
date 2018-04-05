@@ -1,4 +1,4 @@
-<div class="column is-6-tablet is-3-desktop is-variable">
+<div class="column is-6-tablet is-3-widescreen is-variable">
     <div class="card has-text-centered">
         <div class="card-image">
             <a href="<?= $event['link']; ?>" >
