@@ -50,7 +50,7 @@ use Includes\Modules\Navwalker\BulmaNavwalker;
                                 <a href="/contact/">Contact</a>
                             </div>
                             <div class="navbar-item top-phone">
-                                <a href="tel:850-588-7947">
+                                <a href="tel:850-235-0928">
                                     <span class="icon" >
                                         <i class="fa fa-phone" aria-hidden="true"></i>
                                     </span> 850-235-0928</a>
