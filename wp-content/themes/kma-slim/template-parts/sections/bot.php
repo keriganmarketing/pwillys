@@ -21,7 +21,7 @@ use Includes\Modules\Social\SocialSettingsPage;
                         <img class="footer-logo" src="<?php echo get_template_directory_uri() . '/img/logo.png'; ?>"
                              alt="Pineapple Willy's">
                         <div class="contact-box">
-                            <p class="footer-phone"><a class="dimbo" href="tel:850-588-7947">850-588-7947</a></p>
+                            <p class="footer-phone"><a class="dimbo" href="tel:850-235-0928">850-235-0928</a></p>
                             <p class="open-text">Open 11am daily</p>
                             <p class="address">9875 South Thomas Drive<br>
                                 Panama City Beach, Florida 32408</p>
