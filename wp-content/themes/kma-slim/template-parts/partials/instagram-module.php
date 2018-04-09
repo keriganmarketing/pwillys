@@ -3,6 +3,8 @@ use Includes\Modules\KMAInstagram\InstagramController;
 
 $instagram = new InstagramController();
 $photos = $instagram->getFeed(9);
+
+if(count($photos)>0){
 ?>
 <div class="card social-module instagram has-text-centered">
     <div class="card-content">
@@ -12,3 +14,4 @@ $photos = $instagram->getFeed(9);
         <a target="_blank" href="https://www.instagram.com/pwillys/" class="button is-primary is-large is-rounded has-shadow">View more on Instagram</a>
     </div>
 </div>
+<?php } ?>

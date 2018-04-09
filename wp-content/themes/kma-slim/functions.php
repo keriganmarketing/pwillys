@@ -11,6 +11,7 @@ use Includes\Modules\Reviews\Reviews;
 use Includes\Modules\Slider\BulmaSlider;
 use Includes\Modules\Helpers\CleanWP;
 use Includes\Modules\Layouts\Layouts;
+use Includes\Modules\Helpers\Session;
 use Includes\Modules\Helpers\PageField;
 use Includes\Modules\Leads\SimpleContact;
 use Includes\Modules\Social\SocialSettingsPage;
@@ -22,6 +23,7 @@ use Includes\Modules\Menu\Menu;
 require('vendor/autoload.php');
 
 new CleanWP();
+new Session();
 
 $socialLinks = new SocialSettingsPage();
 if (is_admin()) {
