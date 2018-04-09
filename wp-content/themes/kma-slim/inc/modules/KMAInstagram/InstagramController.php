@@ -11,9 +11,11 @@ class InstagramController
     protected $accessToken;
     public $num;
     public $requestContent;
+    public $cacheFile;
 
     public function __construct()
     {
+        $this->cacheFile   = wp_normalize_path(dirname(__FILE__) . '/cache/instagram.json');
         $this->userID      = get_option('instagram_page_id');
         $this->accessToken = get_option('instagram_token');
     }
@@ -43,43 +45,44 @@ class InstagramController
             }
 
             $this->requestContent = $photos;
-
-            add_action('init', function () {
-
-
-            });
-
-            //echo 'new content fetched';
+            $this->saveCacheFile();
 
             return json_encode($this->requestContent);
 
         } catch (GuzzleException $e) {
-            wp_cache_set('instagram_content', json_encode([]), 'social_media_content', 600);
-            echo '<p>Error: ' . $e->getMessage() . '</p>';
+            error_log( 'Error: ' . $e->getMessage(), 0);
+            $this->saveEmptyCacheFile();
         }
     }
 
     public function saveCacheFile()
     {
-        echo 'writing file to ' . wp_normalize_path(dirname(__FILE__) . '/instagram.json');
+        echo 'writing file to ' . $this->cacheFile;
 
-        $cacheFile = fopen(wp_normalize_path(dirname(__FILE__) . '/instagram.json'),
-            'w') or die('Unable to open file!');
-        fwrite($cacheFile, $this->requestContent);
+        $cacheFile = fopen($this->cacheFile,'w') or die('Unable to open file!');
+        fwrite($cacheFile, json_encode($this->requestContent));
+        fclose($cacheFile);
+    }
+
+    public function saveEmptyCacheFile()
+    {
+        echo 'saving empty file to ' . $this->cacheFile;
+
+        $cacheFile = fopen($this->cacheFile,'w') or die('Unable to open file!');
+        fwrite($cacheFile, '');
         fclose($cacheFile);
     }
 
     public function getCacheFile()
     {
-        $cacheFile = wp_normalize_path(dirname(__FILE__) . '/instagram.json');
-        $expires   = time() - 3600;
+        $expires   = time() + 10;
 
-        if ( ! file_exists($cacheFile)) {
+        if ( ! file_exists($this->cacheFile)) {
             return false;
         }
-        $cacheFilecontent = file_get_contents($cacheFile);
 
-        if (filectime($cacheFile) > $expires && $cacheFilecontent != '') {
+        $cacheFilecontent = file_get_contents($this->cacheFile);
+        if (filectime($this->cacheFile) < $expires) {
             echo 'file is good';
             return $cacheFilecontent;
         } else {
@@ -92,14 +95,15 @@ class InstagramController
     {
         $this->num    = $num;
         $savedContent = $this->getCacheFile();
+        $content = (!$savedContent ? $this->connectToAPI() : $savedContent);
+        $trimmedContent = array_slice(json_decode($content),0 ,$num);
 
-        echo $savedContent;
-
-        return (! $savedContent ? $this->connectToAPI() : $savedContent);
+        return json_encode($trimmedContent);
     }
 
     public function setupAdmin()
     {
+        $this->getFeed(20); //set cache file
         add_action('admin_menu', function () {
             $this->addMenus();
         });
@@ -118,6 +122,4 @@ class InstagramController
             include(wp_normalize_path(dirname(__FILE__) . '/templates/AdminOverview.php'));
         }, "dashicons-admin-generic");
     }
-
-
 }
