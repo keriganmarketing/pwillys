@@ -51,7 +51,7 @@ $facebook->setupAdmin();
 
 $instagram = new InstagramController();
 $instagram->setupAdmin();
-$photos = $instagram->getFeed(9);
+//$photos = $instagram->getFeed(9);
 
 $reviews = new Reviews();
 $reviews->setupAdmin();
