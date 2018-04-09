@@ -23,7 +23,7 @@ class Leads
         date_default_timezone_set('America/Chicago');
 
         $this->postType   = 'Lead';
-        $this->domain     = 'thewickedwheel.com';
+        $this->domain     = 'pwillys.com';
 
         //separate multiple email addresses with a ';'
         $this->adminEmail = 'bryan@kerigan.com';
