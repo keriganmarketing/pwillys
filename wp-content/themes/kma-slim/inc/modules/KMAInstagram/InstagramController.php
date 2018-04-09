@@ -83,7 +83,7 @@ class InstagramController
         }
 
         $cacheFilecontent = file_get_contents($this->cacheFile);
-        echo $now, ' - ', $fileTime;
+        //echo $now, ' - ', $fileTime;
 
         if ($now < $fileTime + 3600) {
             //echo 'file is good';
