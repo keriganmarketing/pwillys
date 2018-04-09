@@ -46,6 +46,7 @@ class InstagramController
 
             add_action('init', function() {
                 //$this->saveCookie();
+                $_SESSION['instagram_content'] = json_encode($this->requestContent);
                 wp_cache_set( 'instagram_content', json_encode($this->requestContent), 'social_media_content', 3600);
             });
 
