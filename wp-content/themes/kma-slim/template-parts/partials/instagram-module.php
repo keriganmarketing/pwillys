@@ -4,7 +4,7 @@ use Includes\Modules\KMAInstagram\InstagramController;
 $instagram = new InstagramController();
 $photos = $instagram->getFeed(9);
 
-if(count($photos)>0){
+if(count(json_decode($photos))>0){
 ?>
 <div class="card social-module instagram has-text-centered">
     <div class="card-content">
