@@ -65,7 +65,8 @@ class InstagramController
                 return json_encode($photos);
 
             }catch (\Exception $e) {
-                echo 'Error: ' . $e->getMessage();
+                echo '<p>Error: ' . $e->getMessage() . '</p>';
+                return json_encode([]);
             }
         }
     }
