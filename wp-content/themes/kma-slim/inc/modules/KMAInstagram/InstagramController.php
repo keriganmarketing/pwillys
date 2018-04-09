@@ -3,6 +3,7 @@
 namespace Includes\Modules\KMAInstagram;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class InstagramController
 {
@@ -25,8 +26,14 @@ class InstagramController
     {
         $client = new Client();
 
-        return $client->request('GET',
-            'https://api.instagram.com/v1/users/self/media/recent/?access_token=' . $this->accessToken);
+        try {
+            $content = $client->request('GET',
+                'https://api.instagram.com/v1/users/self/media/recent/?access_token=' . $this->accessToken);
+        }catch (\Exception $e) {
+            $content = 'Error: ' . $e->getMessage();
+        }
+
+        return $content;
     }
 
     public function getFeed($num = 1)
