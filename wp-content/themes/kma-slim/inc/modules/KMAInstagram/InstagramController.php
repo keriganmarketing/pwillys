@@ -75,14 +75,17 @@ class InstagramController
 
     public function getCacheFile()
     {
-        $expires   = time() + 10;
+        $now      = time();
+        $fileTime = filectime($this->cacheFile);
 
         if ( ! file_exists($this->cacheFile)) {
             return false;
         }
 
         $cacheFilecontent = file_get_contents($this->cacheFile);
-        if (filectime($this->cacheFile) < $expires) {
+        echo $now, ' - ', $fileTime;
+
+        if ($now < $fileTime + 20) {
             echo 'file is good';
             return $cacheFilecontent;
         } else {
