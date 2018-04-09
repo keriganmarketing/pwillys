@@ -39,9 +39,9 @@ class InstagramController
     public function getFeed($num = 1)
     {
         $this->num = $num;
-        $savedContent = (isset($_SESSION['instagram_content']) ? $_SESSION['instagram_content'] : '');
+        $savedContent = (isset($_COOKIE['instagram_content']) ? $_COOKIE['instagram_content'] : '');
         if (count(json_decode($savedContent)) > 0) {
-            return $_SESSION['instagram_content'];
+            return $savedContent;
         } else {
 
             $client = new Client();
@@ -60,7 +60,7 @@ class InstagramController
                         ];
                     }
                 }
-                $_SESSION['instagram_content'] = json_encode($photos);
+                //$_SESSION['instagram_content'] = json_encode($photos);
 
                 return json_encode($photos);
 
