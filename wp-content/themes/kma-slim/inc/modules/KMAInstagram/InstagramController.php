@@ -27,7 +27,7 @@ class InstagramController
     {
         $client = new Client();
         try {
-            $request = $client->request('GET',
+            $request  = $client->request('GET',
                 'https://api.instagram.com/v1/users/self/media/recent/?access_token=' . $this->accessToken);
             $response = json_decode($request->getBody());
             $photos   = [];
@@ -44,39 +44,58 @@ class InstagramController
 
             $this->requestContent = $photos;
 
-            add_action('init', function() {
-                //$this->saveCookie();
-                $_SESSION['instagram_content'] = json_encode($this->requestContent);
-                wp_cache_set( 'instagram_content', json_encode($this->requestContent), 'social_media_content', 3600);
+            add_action('init', function () {
+
+
             });
 
             //echo 'new content fetched';
 
             return json_encode($this->requestContent);
 
-        }catch (GuzzleException $e) {
-            wp_cache_set( 'instagram_content', json_encode([]), 'social_media_content', 600);
+        } catch (GuzzleException $e) {
+            wp_cache_set('instagram_content', json_encode([]), 'social_media_content', 600);
             echo '<p>Error: ' . $e->getMessage() . '</p>';
         }
     }
 
-    public function saveCookie()
+    public function saveCacheFile()
     {
-        $path = parse_url(WP_SITEURL, PHP_URL_PATH);
-        $host = parse_url(WP_SITEURL, PHP_URL_HOST);
-        $expiry = strtotime('+1 hour');
-        setcookie('instagram_content_temp', json_encode($this->requestContent), $expiry, $path, $host);
+        echo 'writing file to ' . wp_normalize_path(dirname(__FILE__) . '/instagram.json');
+
+        $cacheFile = fopen(wp_normalize_path(dirname(__FILE__) . '/instagram.json'),
+            'w') or die('Unable to open file!');
+        fwrite($cacheFile, $this->requestContent);
+        fclose($cacheFile);
+    }
+
+    public function getCacheFile()
+    {
+        $cacheFile = wp_normalize_path(dirname(__FILE__) . '/instagram.json');
+        $expires   = time() - 3600;
+
+        if ( ! file_exists($cacheFile)) {
+            return false;
+        }
+        $cacheFilecontent = file_get_contents($cacheFile);
+
+        if (filectime($cacheFile) > $expires && $cacheFilecontent != '') {
+            echo 'file is good';
+            return $cacheFilecontent;
+        } else {
+            echo 'file is old';
+            return false;
+        }
     }
 
     public function getFeed($num = 1)
     {
-        $this->num = $num;
-        $savedContent = wp_cache_get( 'instagram_content', 'social_media_content' );
-        if($savedContent === false){
-            return $this->connectToAPI();
-        }else{
-            return $savedContent;
-        }
+        $this->num    = $num;
+        $savedContent = $this->getCacheFile();
+
+        echo $savedContent;
+
+        return (! $savedContent ? $this->connectToAPI() : $savedContent);
     }
 
     public function setupAdmin()
