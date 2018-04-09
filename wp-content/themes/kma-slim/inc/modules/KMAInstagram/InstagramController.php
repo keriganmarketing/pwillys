@@ -10,9 +10,12 @@ class InstagramController
     protected $userID;
     protected $accessToken;
     public $num;
+    public $requestContent;
+    public $cacheFile;
 
     public function __construct()
     {
+        $this->cacheFile   = wp_normalize_path(dirname(__FILE__) . '/cache/instagram.json');
         $this->userID      = get_option('instagram_page_id');
         $this->accessToken = get_option('instagram_token');
     }
@@ -25,54 +28,85 @@ class InstagramController
     public function connectToAPI()
     {
         $client = new Client();
-
         try {
-            $content = $client->request('GET',
+            $request  = $client->request('GET',
                 'https://api.instagram.com/v1/users/self/media/recent/?access_token=' . $this->accessToken);
-        }catch (\Exception $e) {
-            $content = 'Error: ' . $e->getMessage();
+            $response = json_decode($request->getBody());
+            $photos   = [];
+
+            foreach ($response->data as $key => $image) {
+                if ($key < $this->num) {
+                    $photos[] = [
+                        'small'  => $image->images->thumbnail->url,
+                        'medium' => $image->images->low_resolution->url,
+                        'large'  => $image->images->standard_resolution->url
+                    ];
+                }
+            }
+
+            $this->requestContent = $photos;
+            $this->saveCacheFile();
+
+            return json_encode($this->requestContent);
+
+        } catch (GuzzleException $e) {
+            error_log( 'Error: ' . $e->getMessage(), 0);
+            $this->saveEmptyCacheFile();
+        }
+    }
+
+    public function saveCacheFile()
+    {
+        //echo 'writing file to ' . $this->cacheFile;
+
+        $cacheFile = fopen($this->cacheFile,'w') or die('Unable to open file!');
+        fwrite($cacheFile, json_encode($this->requestContent));
+        fclose($cacheFile);
+    }
+
+    public function saveEmptyCacheFile()
+    {
+        //echo 'saving empty file to ' . $this->cacheFile;
+
+        $cacheFile = fopen($this->cacheFile,'w') or die('Unable to open file!');
+        fwrite($cacheFile, '');
+        fclose($cacheFile);
+    }
+
+    public function getCacheFile()
+    {
+        $now      = time();
+        $fileTime = filectime($this->cacheFile);
+
+        if ( ! file_exists($this->cacheFile)) {
+            return false;
         }
 
-        return $content;
+        $cacheFilecontent = file_get_contents($this->cacheFile);
+        echo $now, ' - ', $fileTime;
+
+        if ($now < $fileTime + 3600) {
+            //echo 'file is good';
+            return $cacheFilecontent;
+        } else {
+            //echo 'file is old';
+            return false;
+        }
     }
 
     public function getFeed($num = 1)
     {
-        $this->num = $num;
-        $savedContent = (isset($_SESSION['instagram_content']) ? $_SESSION['instagram_content'] : '');
-        if (count(json_decode($savedContent)) > 0) {
-            return $_SESSION['instagram_content'];
-        } else {
+        $this->num    = $num;
+        $savedContent = $this->getCacheFile();
+        $content = (!$savedContent ? $this->connectToAPI() : $savedContent);
+        $trimmedContent = array_slice(json_decode($content),0 ,$num);
 
-            $client = new Client();
-            try {
-                $request = $client->request('GET',
-                    'https://api.instagram.com/v1/users/self/media/recent/?access_token=' . $this->accessToken);
-                $response = json_decode($request->getBody());
-                $photos   = [];
-
-                foreach ($response->data as $key => $image) {
-                    if ($key < $this->num) {
-                        $photos[] = [
-                            'small'  => $image->images->thumbnail->url,
-                            'medium' => $image->images->low_resolution->url,
-                            'large'  => $image->images->standard_resolution->url
-                        ];
-                    }
-                }
-                $_SESSION['instagram_content'] = json_encode($photos);
-
-                return json_encode($photos);
-
-            }catch (\Exception $e) {
-                //echo '<p>Error: ' . $e->getMessage() . '</p>';
-                return json_encode([]);
-            }
-        }
+        return json_encode($trimmedContent);
     }
 
     public function setupAdmin()
     {
+        $this->getFeed(20); //set cache file
         add_action('admin_menu', function () {
             $this->addMenus();
         });
@@ -91,6 +125,4 @@ class InstagramController
             include(wp_normalize_path(dirname(__FILE__) . '/templates/AdminOverview.php'));
         }, "dashicons-admin-generic");
     }
-
-
 }
