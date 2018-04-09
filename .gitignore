@@ -1,9 +1,15 @@
+# IDE/OS folders
 .idea/
 .DS_Store
-wp-config.php
 tags
-.user.ini
-php.ini
-*error_log
-*/cache/
+# Error logs and cache directories
+**/error_log
+**/cache
+# Untracked prod/dev files
+wp-config.php
 wp-content/themes/kma-slim/vendor/
+
+# Untracked prod files
+wp-content/uploads/**
+wp-admin/**
+wp-includes/**
