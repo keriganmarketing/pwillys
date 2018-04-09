@@ -57,7 +57,7 @@ class InstagramController
 
     public function saveCacheFile()
     {
-        echo 'writing file to ' . $this->cacheFile;
+        //echo 'writing file to ' . $this->cacheFile;
 
         $cacheFile = fopen($this->cacheFile,'w') or die('Unable to open file!');
         fwrite($cacheFile, json_encode($this->requestContent));
@@ -66,7 +66,7 @@ class InstagramController
 
     public function saveEmptyCacheFile()
     {
-        echo 'saving empty file to ' . $this->cacheFile;
+        //echo 'saving empty file to ' . $this->cacheFile;
 
         $cacheFile = fopen($this->cacheFile,'w') or die('Unable to open file!');
         fwrite($cacheFile, '');
@@ -86,10 +86,10 @@ class InstagramController
         echo $now, ' - ', $fileTime;
 
         if ($now < $fileTime + 3600) {
-            echo 'file is good';
+            //echo 'file is good';
             return $cacheFilecontent;
         } else {
-            echo 'file is old';
+            //echo 'file is old';
             return false;
         }
     }
