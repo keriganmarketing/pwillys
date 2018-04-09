@@ -54,6 +54,7 @@ class InstagramController
             return json_encode($this->requestContent);
 
         }catch (GuzzleException $e) {
+            wp_cache_set( 'instagram_content', json_encode([]), 'social_media_content', 600);
             echo '<p>Error: ' . $e->getMessage() . '</p>';
         }
     }
