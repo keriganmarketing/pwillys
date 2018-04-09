@@ -10,6 +10,7 @@ class InstagramController
     protected $userID;
     protected $accessToken;
     public $num;
+    public $requestContent;
 
     public function __construct()
     {
@@ -25,49 +26,54 @@ class InstagramController
     public function connectToAPI()
     {
         $client = new Client();
-
         try {
-            $content = $client->request('GET',
+            $request = $client->request('GET',
                 'https://api.instagram.com/v1/users/self/media/recent/?access_token=' . $this->accessToken);
-        }catch (\Exception $e) {
-            $content = 'Error: ' . $e->getMessage();
-        }
+            $response = json_decode($request->getBody());
+            $photos   = [];
 
-        return $content;
+            foreach ($response->data as $key => $image) {
+                if ($key < $this->num) {
+                    $photos[] = [
+                        'small'  => $image->images->thumbnail->url,
+                        'medium' => $image->images->low_resolution->url,
+                        'large'  => $image->images->standard_resolution->url
+                    ];
+                }
+            }
+
+            $this->requestContent = $photos;
+
+            add_action('init', function() {
+                //$this->saveCookie();
+                wp_cache_set( 'instagram_content', json_encode($this->requestContent), 'social_media_content', 3600);
+            });
+
+            //echo 'new content fetched';
+
+            return json_encode($this->requestContent);
+
+        }catch (GuzzleException $e) {
+            echo '<p>Error: ' . $e->getMessage() . '</p>';
+        }
+    }
+
+    public function saveCookie()
+    {
+        $path = parse_url(WP_SITEURL, PHP_URL_PATH);
+        $host = parse_url(WP_SITEURL, PHP_URL_HOST);
+        $expiry = strtotime('+1 hour');
+        setcookie('instagram_content_temp', json_encode($this->requestContent), $expiry, $path, $host);
     }
 
     public function getFeed($num = 1)
     {
         $this->num = $num;
-        $savedContent = (isset($_COOKIE['instagram_content']) ? $_COOKIE['instagram_content'] : '');
-        if (count(json_decode($savedContent)) > 0) {
+        $savedContent = wp_cache_get( 'instagram_content', 'social_media_content' );
+        if($savedContent === false){
+            return $this->connectToAPI();
+        }else{
             return $savedContent;
-        } else {
-
-            $client = new Client();
-            try {
-                $request = $client->request('GET',
-                    'https://api.instagram.com/v1/users/self/media/recent/?access_token=' . $this->accessToken);
-                $response = json_decode($request->getBody());
-                $photos   = [];
-
-                foreach ($response->data as $key => $image) {
-                    if ($key < $this->num) {
-                        $photos[] = [
-                            'small'  => $image->images->thumbnail->url,
-                            'medium' => $image->images->low_resolution->url,
-                            'large'  => $image->images->standard_resolution->url
-                        ];
-                    }
-                }
-                //$_SESSION['instagram_content'] = json_encode($photos);
-
-                return json_encode($photos);
-
-            }catch (\Exception $e) {
-                echo '<p>Error: ' . $e->getMessage() . '</p>';
-                return json_encode([]);
-            }
         }
     }
 
