@@ -43,7 +43,16 @@ class InstagramController
         if (count(json_decode($savedContent)) > 0) {
             return $_SESSION['instagram_content'];
         } else {
-            $request  = $this->connectToAPI();
+
+            $client = new Client();
+            try {
+                $request = $client->request('GET',
+                    'https://api.instagram.com/v1/users/self/media/recent/?access_token=' . $this->accessToken);
+            }catch (\Exception $e) {
+                $request = 'Error: ' . $e->getMessage();
+            }
+
+            //$request  = $this->connectToAPI();
             $response = json_decode($request->getBody());
             $photos   = [];
 
