@@ -48,26 +48,25 @@ class InstagramController
             try {
                 $request = $client->request('GET',
                     'https://api.instagram.com/v1/users/self/media/recent/?access_token=' . $this->accessToken);
-            }catch (\Exception $e) {
-                $request = 'Error: ' . $e->getMessage();
-            }
+                $response = json_decode($request->getBody());
+                $photos   = [];
 
-            //$request  = $this->connectToAPI();
-            $response = json_decode($request->getBody());
-            $photos   = [];
-
-            foreach ($response->data as $key => $image) {
-                if ($key < $this->num) {
-                    $photos[] = [
-                        'small'  => $image->images->thumbnail->url,
-                        'medium' => $image->images->low_resolution->url,
-                        'large'  => $image->images->standard_resolution->url
-                    ];
+                foreach ($response->data as $key => $image) {
+                    if ($key < $this->num) {
+                        $photos[] = [
+                            'small'  => $image->images->thumbnail->url,
+                            'medium' => $image->images->low_resolution->url,
+                            'large'  => $image->images->standard_resolution->url
+                        ];
+                    }
                 }
-            }
-            $_SESSION['instagram_content'] = json_encode($photos);
+                $_SESSION['instagram_content'] = json_encode($photos);
 
-            return json_encode($photos);
+                return json_encode($photos);
+
+            }catch (\Exception $e) {
+                echo 'Error: ' . $e->getMessage();
+            }
         }
     }
 
