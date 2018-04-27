@@ -49,6 +49,12 @@ use Includes\Modules\Navwalker\BulmaNavwalker;
                             <div class="navbar-item is-hidden-touch">
                                 <a href="/contact/">Contact</a>
                             </div>
+                            <div class="navbar-item separator is-hidden-touch">
+                                |
+                            </div>
+                            <div class="navbar-item is-hidden-touch">
+                                <a href="/faq/">FAQ</a>
+                            </div>
                             <div class="navbar-item top-phone">
                                 <a href="tel:850-235-0928">
                                     <span class="icon" >
