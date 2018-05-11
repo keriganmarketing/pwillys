@@ -18,6 +18,7 @@
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-5T9GLL7');</script>
     <!-- End Google Tag Manager -->
+    <script src="https://www.jscache.com/wejs?wtype=selfserveprop&amp;uniq=244&amp;locationId=550328&amp;lang=en_US&amp;rating=true&amp;nreviews=3&amp;writereviewlink=true&amp;popIdx=true&amp;iswide=true&amp;border=false&amp;display_version=2"></script>
     <?php wp_head(); ?>
 </head>
 
