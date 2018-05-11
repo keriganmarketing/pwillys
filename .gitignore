@@ -13,3 +13,4 @@ wp-content/themes/kma-slim/vendor/
 wp-content/uploads/**
 wp-admin/**
 wp-includes/**
+wp-content/plugins/**

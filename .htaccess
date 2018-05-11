@@ -88,3 +88,16 @@ BrowserMatch ^Mozilla/4\.0[678] no-gzip
 BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
 </IfModule>
 ## END EXPIRES CACHING - JCH OPTIMIZE ##
+
+#SITEGUARD_PLUGIN_SETTINGS_START
+#==== SITEGUARD_DISABLE_XMLRPC_SETTINGS_START
+<Files xmlrpc.php>
+    Order allow,deny
+    Deny from all 
+</Files>
+#==== SITEGUARD_DISABLE_XMLRPC_SETTINGS_END
+#SITEGUARD_PLUGIN_SETTINGS_END
+
+# BEGIN WordPress
+# END WordPress
+
