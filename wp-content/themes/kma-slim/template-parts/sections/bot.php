@@ -62,6 +62,5 @@ use Includes\Modules\Social\SocialSettingsPage;
 <?php if(!is_front_page()){ ?>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRXeRhZCIYcKhtc-rfHCejAJsEW9rYtt4"></script>
 <?php } ?>
-    <script async
-            src="https://www.jscache.com/wejs?wtype=selfserveprop&amp;uniq=244&amp;locationId=550328&amp;lang=en_US&amp;rating=true&amp;nreviews=3&amp;writereviewlink=true&amp;popIdx=true&amp;iswide=true&amp;border=false&amp;display_version=2"></script>
+    <script src="https://www.jscache.com/wejs?wtype=selfserveprop&amp;uniq=244&amp;locationId=550328&amp;lang=en_US&amp;rating=true&amp;nreviews=3&amp;writereviewlink=true&amp;popIdx=true&amp;iswide=true&amp;border=false&amp;display_version=2"></script>
 <?php wp_footer(); ?>
