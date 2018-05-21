@@ -1,3 +1,6 @@
+<IfModule mod_headers.c>     
+Header set Access-Control-Allow-Origin * 
+</IfModule>
 
 ## BEGIN EXPIRES CACHING - JCH OPTIMIZE ##
 <IfModule mod_expires.c>
