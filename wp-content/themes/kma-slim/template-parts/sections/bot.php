@@ -22,7 +22,7 @@ use Includes\Modules\Social\SocialSettingsPage;
                              alt="Pineapple Willy's">
                         <div class="contact-box">
                             <p class="footer-phone"><a class="dimbo" href="tel:850-235-0928">850-235-0928</a></p>
-                            <p class="open-text">Open 11am daily</p>
+                            <p class="open-text">Open 11am - 10pm daily</p>
                             <p class="address">9875 South Thomas Drive<br>
                                 Panama City Beach, Florida 32408</p>
                             <div class="social">

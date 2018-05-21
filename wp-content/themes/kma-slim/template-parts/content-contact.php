@@ -28,7 +28,7 @@ include(locate_template('template-parts/sections/top.php'));
                                 <p class="title is-5 hours">
                                     <span class="icon">
                                         <i aria-hidden="true" class="fa fa-clock-o"></i>
-                                    </span> 11AM - 9PM</p>
+                                    </span> 11am - 10pm</p>
                                 <p class="title is-5 email">
                                     <span class="icon">
                                         <i aria-hidden="true" class="fa fa-envelope-o"></i>
