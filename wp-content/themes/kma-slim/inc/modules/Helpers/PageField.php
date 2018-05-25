@@ -18,7 +18,7 @@ class PageField
 
     public static function getField( $fieldKey, $pageId = '' )
     {
-        $pageId = $pageId != '' ? $pageId : get_the_ID();
+        $pageId = ($pageId != '' ? $pageId : get_the_ID());
         return get_post_meta( $pageId, $fieldKey, true);
     }
 }

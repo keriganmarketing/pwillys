@@ -2,6 +2,7 @@
 
 use Includes\Modules\Social\SocialSettingsPage;
 use Includes\Modules\Navwalker\BulmaNavwalker;
+use Includes\Modules\Helpers\PageField;
 
 /**
  * @package KMA
@@ -56,10 +57,10 @@ use Includes\Modules\Navwalker\BulmaNavwalker;
                                 <a href="/faq/">FAQ</a>
                             </div>
                             <div class="navbar-item top-phone">
-                                <a href="tel:850-235-0928">
+                                <a href="tel:<?= PageField::getField('contact_info_phone_number', 17); ?>">
                                     <span class="icon" >
                                         <i class="fa fa-phone" aria-hidden="true"></i>
-                                    </span> 850-235-0928</a>
+                                    </span> <?= PageField::getField('contact_info_phone_number', 17); ?></a>
                             </div>
                             <div class="navbar-item social-buttons">
                                 <div class="burger button is-white is-outlined" id="MobileNavBurger" data-target="MobileNavMenu"

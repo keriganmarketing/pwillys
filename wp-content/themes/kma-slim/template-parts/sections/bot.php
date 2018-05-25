@@ -1,6 +1,7 @@
 <?php
 
 use Includes\Modules\Social\SocialSettingsPage;
+use Includes\Modules\Helpers\PageField;
 
 ?>
     <div class="sticky-footer">
@@ -21,10 +22,9 @@ use Includes\Modules\Social\SocialSettingsPage;
                         <img class="footer-logo" src="<?php echo get_template_directory_uri() . '/img/logo.png'; ?>"
                              alt="Pineapple Willy's">
                         <div class="contact-box">
-                            <p class="footer-phone"><a class="dimbo" href="tel:850-235-0928">850-235-0928</a></p>
-                            <p class="open-text">Open 11am - 10pm daily</p>
-                            <p class="address">9875 South Thomas Drive<br>
-                                Panama City Beach, Florida 32408</p>
+                            <p class="footer-phone"><a class="dimbo" href="tel:<?= PageField::getField('contact_info_phone_number', 17); ?>"><?= PageField::getField('contact_info_phone_number', 17); ?></a></p>
+                            <p class="open-text">Open <?= PageField::getField('contact_info_hours', 17); ?></p>
+                            <p class="address"><?= nl2br(PageField::getField('contact_info_address', 17)); ?></p>
                             <div class="social">
                                 <?php
                                 $socialLinks = new SocialSettingsPage();

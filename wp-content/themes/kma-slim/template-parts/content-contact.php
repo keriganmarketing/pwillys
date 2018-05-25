@@ -1,6 +1,7 @@
 <?php
 
 use Includes\Modules\Layouts\Layouts;
+use Includes\Modules\Helpers\PageField;
 
 /**
  * @package KMA
@@ -21,14 +22,14 @@ include(locate_template('template-parts/sections/top.php'));
                             <div class="column is-12">
                                 <?php the_content(); ?>
                                 <p class="title is-5 phone">
-                                    <a href="tel:850-235-0928">
+                                    <a href="tel:<?= PageField::getField('contact_info_phone_number', 17); ?>">
                                         <span class="icon">
                                             <i aria-hidden="true" class="fa fa-phone"></i>
-                                        </span> 850-235-0928</a></p>
+                                        </span> <?= PageField::getField('contact_info_phone_number', 17); ?></a></p>
                                 <p class="title is-5 hours">
                                     <span class="icon">
                                         <i aria-hidden="true" class="fa fa-clock-o"></i>
-                                    </span> 11am - 10pm</p>
+                                    </span> <?= PageField::getField('contact_info_hours', 17); ?></p>
                                 <p class="title is-5 email">
                                     <span class="icon">
                                         <i aria-hidden="true" class="fa fa-envelope-o"></i>
@@ -41,7 +42,7 @@ include(locate_template('template-parts/sections/top.php'));
                                 <google-map :latitude="30.1752009" :longitude="-85.8051388" :zoom="15" name="ww">
                                     <pin :latitude="30.1752009" :longitude="-85.8051388" title="Pineapple Willy's">
                                         <p><strong>Pineapple Willy's</strong></p>
-                                        <p class="address">9875 South Thomas Drive,<br>Panama City Beach, FL 32408</p>
+                                        <p class="address"><?= nl2br(PageField::getField('contact_info_address', 17)); ?></p>
                                         <p class="appt-button"><a
                                                     class="button is-primary is-rounded has-shadow is-fullwidth"
                                                     href="https://www.google.com/maps/dir//30.1752009,-85.8051388">
