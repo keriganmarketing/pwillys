@@ -55,6 +55,12 @@ $instagram->setupAdmin();
 $reviews = new Reviews();
 $reviews->setupAdmin();
 
+PageField::addField('Contact Info',[
+	'Phone number' => 'text',
+    'Address'  => 'textarea',
+    'Hours'  => 'text'
+], 17);
+
 add_action('after_setup_theme', function () {
     load_theme_textdomain('kmaslim', get_template_directory() . '/languages');
     add_theme_support('automatic-feed-links');
