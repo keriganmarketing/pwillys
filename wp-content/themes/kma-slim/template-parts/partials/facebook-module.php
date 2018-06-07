@@ -4,9 +4,7 @@ use Includes\Modules\KMAFacebook\FacebookController;
 $facebook = new FacebookController();
 $feed = $facebook->getFeed(1);
 
-echo '<pre>',print_r($feed),'</pre>';
-
-if($feed){
+if($feed->posts){
     $fbPost = $feed->posts[0];
     $isVideo  = ($fbPost->type == 'video');
     $hasImage = ($fbPost->full_picture != '' && $isVideo == false);
