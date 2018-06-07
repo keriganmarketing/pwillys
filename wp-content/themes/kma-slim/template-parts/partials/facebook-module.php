@@ -6,11 +6,11 @@ $feed = $facebook->getFeed(1);
 
 //echo '<pre>',print_r($feed),'</pre>';
 
-$fbPost = $feed->posts[0];
-
-$isVideo  = ($fbPost->type == 'video');
-$hasImage = ($fbPost->full_picture != '' && $isVideo == false);
-$date     = date('M j',strtotime($fbPost->created_time)) . ' at ' . date('g:i a',strtotime($fbPost->created_time));
+if($feed){
+    $fbPost = $feed->posts[0];
+    $isVideo  = ($fbPost->type == 'video');
+    $hasImage = ($fbPost->full_picture != '' && $isVideo == false);
+    $date     = date('M j',strtotime($fbPost->created_time)) . ' at ' . date('g:i a',strtotime($fbPost->created_time));
 ?>
     <div class="card social-module facebook has-text-centered <?= ($hasImage == true ? 'has-image' : 'no-image'); ?>">
         <?php if ($hasImage == true) { ?>
@@ -41,6 +41,4 @@ $date     = date('M j',strtotime($fbPost->created_time)) . ' at ' . date('g:i a'
         </div>
     </div>
 
-<?php ?>
-
-<?php ?>
+<?php } ?>
