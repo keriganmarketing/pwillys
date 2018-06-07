@@ -4,6 +4,8 @@ use Includes\Modules\KMAFacebook\FacebookController;
 $facebook = new FacebookController();
 $feed = $facebook->getFeed(1);
 
+//echo '<pre>',print_r($feed),'</pre>';
+
 $fbPost = $feed->posts[0];
 
 $isVideo  = ($fbPost->type == 'video');
@@ -39,3 +41,6 @@ $date     = date('M j',strtotime($fbPost->created_time)) . ' at ' . date('g:i a'
         </div>
     </div>
 
+<?php ?>
+
+<?php ?>
