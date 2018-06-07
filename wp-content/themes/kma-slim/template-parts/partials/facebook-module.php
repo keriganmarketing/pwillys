@@ -4,7 +4,7 @@ use Includes\Modules\KMAFacebook\FacebookController;
 $facebook = new FacebookController();
 $feed = $facebook->getFeed(1);
 
-//echo '<pre>',print_r($feed),'</pre>';
+echo '<pre>',print_r($feed),'</pre>';
 
 if($feed){
     $fbPost = $feed->posts[0];
