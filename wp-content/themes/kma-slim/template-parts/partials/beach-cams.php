@@ -4,13 +4,13 @@
         <div class="columns is-mobile">
             <div class="column">
                 <div class="beach-cam-button">
-                    <img src="<?php echo get_template_directory_uri() . '/img/beach-cam-1.png'; ?>" >
+                    <img src="<?php echo get_template_directory_uri() . '/img/pwillys-cam-1.jpg'; ?>" >
                     <a class="play-button" href="/beach-cam/"></a>
                 </div>
             </div>
             <div class="column is-6 is-hidden-mobile">
                 <div class="beach-cam-button">
-                    <img src="<?php echo get_template_directory_uri() . '/img/beach-cam-2.png'; ?>" >
+                    <img src="<?php echo get_template_directory_uri() . '/img/pwillys-cam-2.jpg'; ?>" >
                     <a class="play-button" href="/beach-cam/"></a>
                 </div>
             </div>
