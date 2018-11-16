@@ -60,6 +60,6 @@ use Includes\Modules\Helpers\PageField;
     </div><!-- .site-wrapper -->
 </div><!-- .app -->
 <?php if(!is_front_page()){ ?>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRXeRhZCIYcKhtc-rfHCejAJsEW9rYtt4"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo GOOGLEMAPS_KEY; ?>"></script>
 <?php } ?>
 <?php wp_footer(); ?>
