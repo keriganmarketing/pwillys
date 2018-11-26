@@ -36,6 +36,9 @@ use Includes\Modules\Helpers\PageField;
         'full-height': footerStuck,
         'scrolling': isScrolling }
     ">
+        <div id="alert" class="bg-primary p-2 text-white">
+        Closed for the season to make repairs from Hurricane Michael. Enjoy our beach cams while we prepare for the 2019 season.
+        </div> 
         <div id="top" class="header">
             <div class="top-one">
                 <div class="container">
