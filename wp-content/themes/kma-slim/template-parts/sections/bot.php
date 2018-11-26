@@ -23,7 +23,7 @@ use Includes\Modules\Helpers\PageField;
                              alt="Pineapple Willy's">
                         <div class="contact-box">
                             <p class="footer-phone"><a class="dimbo" href="tel:<?= PageField::getField('contact_info_phone_number', 17); ?>"><?= PageField::getField('contact_info_phone_number', 17); ?></a></p>
-                            <p class="open-text">Open <?= PageField::getField('contact_info_hours', 17); ?></p>
+                            <p class="open-text"><?= PageField::getField('contact_info_hours', 17); ?></p>
                             <p class="address"><?= nl2br(PageField::getField('contact_info_address', 17)); ?></p>
                             <div class="social">
                                 <?php
