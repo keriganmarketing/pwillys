@@ -37,9 +37,9 @@ use Includes\Modules\Helpers\PageField;
         'scrolling': isScrolling }
     ">
         <div id="top" class="header">
-        <div id="alert" style="background-color:#fdb813; text-align: center; color: #FFF; padding:.5rem;">
+        <!-- <div id="alert" style="background-color:#fdb813; text-align: center; color: #FFF; padding:.5rem;">
         <p class="m-0">Closed for the season to make repairs from Hurricane Michael. Enjoy our beach cams while we prepare for the 2019 season.</p>
-        </div> 
+        </div>  -->
             <div class="top-one">
                 <div class="container">
                     <nav class="navbar navbar-top-row">
