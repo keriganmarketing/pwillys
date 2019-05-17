@@ -91,8 +91,18 @@ class JchPlatformUtility implements JchInterfaceUtility
          */
         public static function createFolder($path)
         {
+		//Create all necessary parent folders
+		if(!is_dir(dirname($path)))
+		{ 
+			if(!self::createFolder(dirname($path)))
+			{
+				return false;
+			}
+		}
+
                 $wp_filesystem = JchPlatformCache::getWpFileSystem();
-                $wp_filesystem->mkdir($path);
+
+                return $wp_filesystem->mkdir($path);
         }
 
         /**
@@ -102,8 +112,18 @@ class JchPlatformUtility implements JchInterfaceUtility
          */
         public static function write($file, $contents)
         {
+		//Make sure parent folder exists
+		if(!file_exists(dirname($file)))
+		{
+			if(!self::createFolder(dirname($file)))
+			{
+				return false;
+			}
+		}
+
                 $wp_filesystem = JchPlatformCache::getWpFileSystem();
-                $wp_filesystem->put_contents($file, $contents);
+
+                return $wp_filesystem->put_contents($file, $contents);
         }
 
         /**
@@ -272,7 +292,10 @@ class JchPlatformUtility implements JchInterfaceUtility
 
                 $files = array();
 
-                self::filterItems($path, $filter, $items, $files);
+		if(!empty($items))
+		{
+			self::filterItems($path, $filter, $items, $files);
+		}
 
                 return $files;
         }
@@ -288,6 +311,11 @@ class JchPlatformUtility implements JchInterfaceUtility
         {
                 foreach ($items as $item)
                 {
+			if ($item['name'] == 'jch_optimize_backup_images')
+			{
+				continue;
+			}
+
                         if ($item['type'] == 'f' && preg_match('#' . $filter . '#', $item['name']))
                         {
                                 $files[] = $path . '/' . $item['name'];
@@ -300,4 +328,25 @@ class JchPlatformUtility implements JchInterfaceUtility
                 }
         }
 
+	/**
+	 * Checks if user is not logged in
+	 *
+	 */
+	public static function isGuest()
+	{
+		return !is_user_logged_in();
+	}
+
+
+	public static function sendHeaders($headers)
+	{
+		if (!empty($headers))
+		{
+			foreach ($headers as $header => $value)
+			{
+				header($header . ': ' . $value);
+			}
+		}
+
+	}
 }

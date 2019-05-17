@@ -40,7 +40,7 @@ class JchOptimizeCron
          */
         public function runCronTasks($oParser)
         {
-                $this->getAdminObject($oParser);
+                //$this->getAdminObject($oParser);
                 $this->garbageCron();
                 
                 return 'CRON';
@@ -56,7 +56,7 @@ class JchOptimizeCron
                 try
                 {
                         $oAdmin = new JchOptimizeAdmin($this->params);
-                        $oAdmin->getAdminLinks($oParser, JchPlatformUtility::menuId());
+                        $oAdmin->getAdminLinks($oParser->getOriginalHtml(), JchPlatformUtility::menuId());
                 }
                 catch (Exception $ex)
                 {

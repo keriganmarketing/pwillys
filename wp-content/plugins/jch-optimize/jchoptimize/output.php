@@ -30,7 +30,7 @@ class JchOptimizeOutput
          * 
          * @return type
          */
-        public static function getCombinedFile($aGet=array(), $bSend=true)
+        public static function getCombinedFile($aGet=array(), $bSend=true, $needFontFace=false)
         {
 		if (empty($aGet))
 		{
@@ -43,7 +43,7 @@ class JchOptimizeOutput
 
                 $aCache = JchPlatformCache::getCache($aGet['f']);
 
-                if ($aCache === FALSE)
+                if ($aCache === false)
                 {
 			if($bSend)
 			{
@@ -109,13 +109,13 @@ class JchOptimizeOutput
 
                 $sFile = $aCache['file'][$aGet['i']];
 
-                $sFile = JchOptimizeOutput::getCachedFile($sFile);
+                //$sFile = JchOptimizeOutput::getCachedFile($sFile);
 
                 $aSpriteCss = $aCache['spritecss'];
 
                 if (($aGet['type'] == 'css'))
                 {
-                        if (is_array($aSpriteCss) && !empty($aSpriteCss) && isset($aSpriteCss['needles']) && $aSpriteCss['replacements'])
+                        if (!empty($aSpriteCss) && !empty($aSpriteCss['needles']) && !empty($aSpriteCss['replacements']))
                         {
                                 $sFile = str_replace($aSpriteCss['needles'], $aSpriteCss['replacements'], $sFile);
                         }
@@ -123,12 +123,18 @@ class JchOptimizeOutput
                         $oCssParser = new JchOptimizeCssParser();
                         $sFile      = $oCssParser->sortImports($sFile);
 
+			if (!$needFontFace && $aCache['optimizecssdelivery'])
+			{
+				$sFile = $oCssParser->removeFontFace($sFile);
+			}
+
                         if (function_exists('mb_convert_encoding'))
                         {
                                 $sFile = '@charset "utf-8";' . $sFile;
                         }
                 }
 
+		//Return file if we're not outputting to browser
 		if (!$bSend)
 		{
 			return $sFile;

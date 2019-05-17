@@ -28,7 +28,6 @@ interface JchInterfaceCache
         /**
          * 
          * @param type $id
-         * @param type $lifetime
          * @param type $function
          * @param type $args
          */
@@ -39,11 +38,23 @@ interface JchInterfaceCache
          * @param type $id
          * @param type $lifetime
          */
-        public static function getCache($id);
+        public static function getCache($id, $checkexpire=false);
         
         /**
          * 
-         * @param type $lifetime
+         * 
          */
         public static function gc();
+
+	/**
+	 *
+	 *
+	 */
+	public static function saveCache($content, $id);
+
+	/**
+	 *
+	 *
+	 */
+	public static function deleteCache();
 }

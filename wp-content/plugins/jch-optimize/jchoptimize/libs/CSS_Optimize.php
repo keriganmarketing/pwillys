@@ -24,8 +24,6 @@ namespace JchOptimize;
 class CSS_Optimize extends Optimize
 {
 
-        const URI = '(?<=url)\(\s*+(?:"[^"]*+"|\'[^\']*+\'|[^)]*+)\s*+\)';
-
         public $css;
         
         /**
@@ -85,8 +83,11 @@ class CSS_Optimize extends Optimize
                 $u  = self::URI;
                 $e  = '(?<!\\\\)(?:' . $es . '|' . $u . ')|[\'"(]';
 
+		$b = self::BLOCK_COMMENT;
+		$c = self::LINE_COMMENT;
+
                 // Remove all comments
-                $rx   = "#(?>/?[^/\"'(]*+(?:$e)?)*?" . '\K(?>/\*(?:\*?[^*]*+)*?\*/|//[^\r\n]*+|$)#s';
+                $rx   = "#(?>/?[^/\"'(]*+(?:{$e})?)*?\K(?>{$b}|{$c}|$)#s";
                 $this->css = $this->_replace($rx, '', $this->css, '1');
 
                 // remove ws around , ; : { } in CSS Declarations and media queries

@@ -105,8 +105,11 @@ class JchPlatformProfiler implements JchInterfaceProfiler
                 $node = self::getAdminBarNodeBegin() . $items . self::getAdminBarNodeEnd();
 
                 $script = '<script type="application/javascript">' .
+			(JchOptimizeHelper::isXhtml($sHtml) ? '/*<![CDATA[*/' : '').
                            'var ul = document.getElementById("wp-admin-bar-root-default");' .
-                           'ul.insertAdjacentHTML(\'beforeend\', \'' . $node . '\');' .
+			   'if (ul !== null){' .
+                           'ul.insertAdjacentHTML(\'beforeend\', \'' . $node . '\');}' .
+			(JchOptimizeHelper::isXhtml($sHtml) ? '/*]]>*/' : '').
                         '</script>';
 
                 $sHtml = str_replace('</body>', $script . '</body>', $sHtml);

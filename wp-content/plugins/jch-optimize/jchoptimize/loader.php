@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 /**
  * JCH Optimize - Aggregate and minify external resources for optmized downloads
  * 

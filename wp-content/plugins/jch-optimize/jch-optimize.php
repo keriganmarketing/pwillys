@@ -4,7 +4,7 @@
  * Plugin Name: JCH Optimize
  * Plugin URI: http://www.jch-optimize.net/
  * Description: This plugin aggregates and minifies CSS and Javascript files for optimized page download
- * Version: 2.2.1
+ * Version: 2.4.2
  * Author: Samuel Marshall
  * License: GNU/GPLv3
  * Text Domain: jch-optimize
@@ -42,29 +42,23 @@ define('JCH_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
 if (!defined('JCH_VERSION'))
 {
-        define('JCH_VERSION', '2.2.1');
+        define('JCH_VERSION', '2.4.2');
 }
 
 require_once(JCH_PLUGIN_DIR . 'jchoptimize/loader.php');
 
+//Handles activation routines
+include_once JCH_PLUGIN_DIR. 'jchplugininstaller.php';
+$JchPluginInstaller = new JchPluginInstaller();
+register_activation_hook(__FILE__, array($JchPluginInstaller, 'activate'));
+
 if (!file_exists(dirname(__FILE__) . '/dir.php'))
 {
-        jch_optimize_activate();
+        $JchPluginInstaller->activate();
 }
 
 if (is_admin())
 {
-        add_action('wp_ajax_garbagecron', 'jch_ajax_garbage_cron');
-        add_action('wp_ajax_nopriv_garbagecron', 'jch_ajax_garbage_cron');
-
-        function jch_ajax_garbage_cron()
-        {
-                $params = JchPlatformPlugin::getPluginParams();
-                JchOptimizeAjax::garbageCron($params);
-
-                die();
-        }
-
         require_once(JCH_PLUGIN_DIR . 'options.php');
 }
 else
@@ -126,27 +120,38 @@ function jchoptimize($sHtml)
 
 function jch_buffer_start()
 {
+	JchOptimizePagecache::initialize();
+
         ob_start();
 }
 
 function jch_buffer_end()
 {
+	//Iterate through all active buffers
         while ($level = ob_get_level())
         {
-                if (JchOptimizeHelper::validateHtml($sHtml = ob_get_contents()))
-                {
-                        $sOptimizedHtml = jchoptimize($sHtml);
+		//Need to access the final buffer, apparently using ob_get_status is more reliable
+		$buffer_status = ob_get_status();
 
-                        ob_clean();
+		//If there's a valid HTML at the last buffer, optimize, cache and exit loop
+		if ($buffer_status['level'] == '1' && JchOptimizeHelper::validateHtml(ob_get_contents()))
+		{
+			//Retrieve and erase the contents of buffer
+			$sHtml = ob_get_clean();
+			//Optimize and store HTML
+			$sOptimizedHtml = jchoptimize($sHtml);
+			JchOptimizePagecache::store($sOptimizedHtml);
+			
+			//Send optimized HTML to browser
+			echo $sOptimizedHtml;
 
-                        echo $sOptimizedHtml;
+			//Exit loop
+			break;
+		}
 
-                        break;
-                }
+		ob_end_flush();
 
-                ob_end_flush();
-
-                //buffer not flushed for some reason.
+                //buffer not turned off for some reason.
                 if ($level == ob_get_level())
                 {
                         break;
@@ -173,37 +178,6 @@ function jch_plugin_action_links($links, $file)
 
         return $links;
 }
-
-function jch_optimize_activate()
-{
-        try
-        {
-                $wp_filesystem = JchPlatformCache::getWpFileSystem();
-        }
-        catch(Exception $e)
-        {
-                return false;
-        }
-
-        if ($wp_filesystem === false)
-        {
-                return false;
-        }
-
-        $file    = $wp_filesystem->wp_plugins_dir() . '/jch-optimize/dir.php';
-        $abspath = ABSPATH;
-        $code    = <<<PHPCODE
-<?php
-           
-\$DIR = '$abspath';
-           
-PHPCODE;
-
-        $wp_filesystem->put_contents($file, $code, FS_CHMOD_FILE);
-	JchOptimizeAdmin::leverageBrowserCaching();
-}
-
-register_activation_hook(__FILE__, 'jch_optimize_activate');
 
 function jch_optimize_uninstall()
 {

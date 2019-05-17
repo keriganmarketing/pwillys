@@ -31,6 +31,7 @@ class JchOptimizeFileRetriever
         protected static $instances = array();
         protected $oHttpAdapter = Null;
         public $response_code = null;
+	public $response_error = '';
         public $allow_400 = FALSE;
 
         /**
@@ -46,17 +47,19 @@ class JchOptimizeFileRetriever
          * @param type $sPath
          * @return type
          */
-        public function getFileContents($sPath, $aPost = null, $aHeader = array(), $sOrigPath = '')
+        public function getFileContents($sPath, $aPost = null, $aHeader = array(), $sOrigPath = '', $timeout=7)
         {
+		//We need to use an http adapter if it's a remote or dynamic file
                 if (strpos($sPath, 'http') === 0)
                 {
+			//Initialize response code
                         $this->response_code = 0;
 
                         try
                         {
                                 $sUserAgent = !empty($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 				$aHeader = array_merge($aHeader, array('Accept-Encoding' => 'identity, deflate, *;q=0'));
-                                $response = $this->oHttpAdapter->request($sPath, $aPost, $aHeader, $sUserAgent);
+                                $response = $this->oHttpAdapter->request($sPath, $aPost, $aHeader, $sUserAgent, $timeout);
                                 $this->response_code = $response['code'];
 
                                 if (!isset($response) || $response === FALSE)
@@ -66,7 +69,8 @@ class JchOptimizeFileRetriever
                         }
                         catch (RuntimeException $ex)
                         {
-                                JchOptimizelogger::log($sPath . ': ' . $ex->getMessage(), JchPlatformPlugin::getPluginParams());
+				//Record error message
+				$this->response_error = $ex->getMessage();
                         }
                         catch (Exception $ex)
                         {
@@ -75,8 +79,16 @@ class JchOptimizeFileRetriever
 
                         if ($this->response_code != 200 && !$this->allow_400)
                         {
-                                $sPath     = $sOrigPath == '' ? $sPath : $sOrigPath;
-                                $sContents = $this->notFound($sPath);
+				//Most likely a RuntimeException has occurred here in that case we want the error message
+				if($this->response_code === 0 && $this->response_error !== '')
+				{ 
+					$sContents = '|"COMMENT_START ' . $this->response_error . ' COMMENT_END"|';
+				}
+				else
+				{
+					$sPath     = $sOrigPath == '' ? $sPath : $sOrigPath;
+					$sContents = $this->notFound($sPath);
+				}
                         }
                         else
                         {

@@ -114,14 +114,16 @@ class JchPlatformUri implements JchInterfaceUri
         {
                 if(empty(self::$base))
                 {
-                        $uri = self::getInstance();
-                        
-                        $path = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-                        $path = str_replace('/wp-admin', '', $path);
-                        
-                        self::$base['pathonly'] = $path;
-                        self::$base['base'] = $uri->toString(array('scheme', 'host', 'port')) . $path . '/';
-                }
+                        //$uri = self::getInstance();
+                        //
+                        //$path = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+                        //$path = str_replace('/wp-admin', '', $path);
+                        //
+                        //self::$base['pathonly'] = $path;
+                        //self::$base['base'] = $uri->toString(array('scheme', 'host', 'port')) . $path . '/';
+			self::$base['pathonly'] = ($url = site_url(NULL, 'relative')) == '' ? '/' : $url;
+			self::$base['base'] = site_url('/');                
+		}
 
                 return $pathonly ? self::$base['pathonly'] : self::$base['base'];
         }

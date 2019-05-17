@@ -81,14 +81,11 @@ add_action('after_setup_theme', function () {
         'caption'
     ]);
 
-    add_action('wp_head', function () {
-        ?><style type="text/css">
-        <?php echo file_get_contents(get_template_directory() . '/style.css'); ?>
-        </style><?php
-    });
+    
 });
 
 add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_style('styles', get_template_directory_uri() . '/style.css');
     wp_enqueue_script('scripts', get_template_directory_uri() . '/app.js', array(), '0.0.1', true);
 });
 
@@ -103,3 +100,10 @@ function getPageChildren($pageName)
 
     return $children;
 }
+
+function custom_admin_css() {
+    echo '<style type="text/css">
+    .wp-block { max-width: 800px; }
+    </style>';
+    }
+add_action('admin_head', 'custom_admin_css');

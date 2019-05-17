@@ -30,6 +30,7 @@ include(locate_template('template-parts/sections/top.php'));
                         }else{
                             include(locate_template('template-parts/partials/event-full.php'));
                         } ?>
+                        <?php echo do_shortcode('[Sassy_Social_Share]'); ?>
                     </div>
                 </div>
             </section>

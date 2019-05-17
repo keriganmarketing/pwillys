@@ -13,18 +13,20 @@ include(locate_template('template-parts/sections/top.php'));
 <div id="mid" >
     <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
         <?php include(locate_template('template-parts/sections/support-heading.php')); ?>
-        <section id="content" class="content section">
+        <section id="content" class="section support">
             <div class="container">
-                <div class="columns is-multiline">
-                <?php
+                <div class="entry-content content">
+                    <div class="columns is-multiline">
+                    <?php
 
-                    while ( have_posts() ) : the_post();
+                        while ( have_posts() ) : the_post();
 
-                        get_template_part( 'template-parts/partials/mini-article', get_post_format() );
+                            get_template_part( 'template-parts/partials/mini-article', get_post_format() );
 
-                    endwhile;
+                        endwhile;
 
-                ?>
+                    ?>
+                    </div>
                 </div>
             </div>
         </section>

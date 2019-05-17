@@ -460,6 +460,14 @@ h2.subtitle {
   }
 }
 
+.entry-content {
+  ul li {
+    list-style: disc;
+    padding-left: .25rem;
+    margin-left: 2rem;
+  }
+}
+
 //Middle section
 #mid {
   line-height: $body-line-height;
@@ -624,6 +632,10 @@ h2.subtitle {
     }
   }
 
+  .wp-block-gallery {
+    margin-left: 0;
+  }
+
   .events-grid {
     padding: 3rem 0 2rem;
 
@@ -713,12 +725,6 @@ h2.subtitle {
     @media screen and (min-width: $desktop) {
       padding: 0 0 2rem;
     }
-  }
-
-  ul li {
-    list-style: disc;
-    padding-left: .25rem;
-    margin-left: 2rem;
   }
 
   .header-content {
@@ -888,12 +894,6 @@ h2.subtitle {
         text-align: left;
         justify-content: center;
         padding: 0 2rem;
-        ///* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c19724+0,c4ac66+100 */
-        //background: rgb(193,151,36); /* Old browsers */
-        //background: -moz-linear-gradient(-45deg, rgba(193,151,36,1) 0%, rgba(196,172,102,1) 100%); /* FF3.6-15 */
-        //background: -webkit-linear-gradient(-45deg, rgba(193,151,36,1) 0%,rgba(196,172,102,1) 100%); /* Chrome10-25,Safari5.1-6 */
-        //background: linear-gradient(135deg, rgba(193,151,36,1) 0%,rgba(196,172,102,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-        //filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c19724', endColorstr='#c4ac66',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
         .post-text {
           color: $secondary;
@@ -902,9 +902,6 @@ h2.subtitle {
           padding: .5rem 0;
         }
       }
-    }
-
-    .instagram {
     }
 
     .tripadvisor {
@@ -926,6 +923,13 @@ h2.subtitle {
 
       }
     }
+  }
+}
+
+@media screen and (min-width: $desktop) {
+  .container.is-desktop {
+    max-width: 800px !important;
+    width: 800px !important;
   }
 }
 

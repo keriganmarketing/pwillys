@@ -32,7 +32,7 @@ class JchPlatformCache implements JchInterfaceCache
          * @param type $id
          * @return type
          */
-        public static function getCache($id)
+        public static function getCache($id, $checkexpire=false)
         {
                 $wp_filesystem = self::getWpFileSystem();
                 
@@ -41,14 +41,17 @@ class JchPlatformCache implements JchInterfaceCache
                         return false;
                 }
                 
-                $filename = self::_getFileName($id);
-
-                $file = JCH_CACHE_DIR . $filename;
+                $file = self::_getFileName($id);
 
                 if (!$wp_filesystem->exists($file))
                 {
-                        return FALSE;
+                        return false;
                 }
+
+		if ($checkexpire && time() > $wp_filesystem->mtime($file) + self::getLifetime())
+		{
+			return false;
+		}
 
                 return self::_getCacheFile($file, $wp_filesystem);
         }
@@ -69,26 +72,13 @@ class JchPlatformCache implements JchInterfaceCache
                         return false;
                 }
 
-                $filename = self::_getFileName($id);
+                $file = self::_getFileName($id);
 
-                $file = JCH_CACHE_DIR . $filename;
-
-                if (!file_exists($file) || filemtime($file) > (time() + 86400))
+                if (!self::getCache($id, true))
                 {
-                        $contents = call_user_func_array($function, $args);
+			$contents = call_user_func_array($function, $args);
 
-                        $filecontents = base64_encode(serialize($contents));
-
-                        self::initializeCache();
-
-                        if ($wp_filesystem->put_contents($file, $filecontents, FS_CHMOD_FILE))
-                        {
-                                return $contents;
-                        }
-                        else
-                        {
-                                throw new Exception(__('Error writing files to cache'));
-                        }
+			return self::saveCache($contents, $id);
                 }
 
                 return self::_getCacheFile($file, $wp_filesystem);
@@ -99,24 +89,46 @@ class JchPlatformCache implements JchInterfaceCache
          * @param type $type
          * @return type
          */
-        public static function deleteCache()
+        public static function deleteCache($pagecacheonly=false)
         {
+		//Purge LiteSpeed cache
+		if (class_exists('LiteSpeed_Cache_API'))
+		{
+			LiteSpeed_Cache_API::purge_all();
+		}
+
                 $wp_filesystem = self::getWpFileSystem();
 
                 if ($wp_filesystem === false || !$wp_filesystem->exists(JCH_CACHE_DIR))
                 {
-                        return FALSE;
+                        return false;
                 }
 
-                if ($wp_filesystem->rmdir(JCH_CACHE_DIR, TRUE))
-                {
-                        return TRUE;
-                }
-                else
-                {
-                        return FALSE;
-                }
+		$cache_dir = dirname(JCH_CACHE_DIR);
+		//Get list of all folders in the cache directory (.../wp-content/cache/)
+		$cache_dir_list = $wp_filesystem->dirlist($cache_dir, false, false);
+
+		foreach($cache_dir_list as $entry)
+		{
+			//Skip the jch-optimize cache if we're only deleting page cache
+			if($entry['name'] == 'jch-optimize' && $pagecacheonly)
+			{
+				continue;
+			}
+
+			if($entry['type'] == 'd')
+			{
+				//Delete each cache folder, including JCH Optimize cache
+				if(!$wp_filesystem->rmdir($cache_dir . DIRECTORY_SEPARATOR . $entry['name'], true))
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
         }
+
 
         /**
          * 
@@ -264,7 +276,7 @@ class JchPlatformCache implements JchInterfaceCache
          */
         private static function _getFileName($id)
         {
-                return md5(NONCE_SALT . $id);
+                return JCH_CACHE_DIR . md5(NONCE_SALT . $id);
         }
 
         /**
@@ -288,13 +300,52 @@ class JchPlatformCache implements JchInterfaceCache
                 {
                         $time = $wp_filesystem->mtime($file);
 
-                        if (($time + 86400) < $now || empty($time))
+                        if (($time + self::getLifetime()) < $now || empty($time))
                         {
                                 $result |= $wp_filesystem->delete($file);
                         }
                 }
 
+		//Delete any page cache
+		$result |= self::deleteCache(true);
+
+
                 return $result;
         }
 
+	/**
+	 *
+	 *
+	 */
+	public static function saveCache($content, $id)
+	{
+                $wp_filesystem = self::getWpFileSystem();
+		$filecontents = base64_encode(serialize($content));
+		$file = self::_getFileName($id);
+
+		self::initializeCache();
+
+		if ($wp_filesystem->put_contents($file, $filecontents, FS_CHMOD_FILE))
+		{
+			return $content;
+		}
+		else
+		{
+			throw new Exception(__('Error writing files to cache'));
+		}
+	}
+
+	protected static function getLifetime()
+	{
+		static $lifetime;
+
+		if(!$lifetime)
+		{
+			$params = JchPlatformPlugin::getPluginParams();
+
+			$lifetime = $params->get('cache_lifetime', '900');
+		}
+
+		return (int) $lifetime;
+	}
 }

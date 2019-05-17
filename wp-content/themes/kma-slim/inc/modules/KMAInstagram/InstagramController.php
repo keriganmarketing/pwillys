@@ -99,7 +99,7 @@ class InstagramController
         $this->num    = $num;
         $savedContent = $this->getCacheFile();
         $content = (!$savedContent ? $this->connectToAPI() : $savedContent);
-        $trimmedContent = array_slice(json_decode($content),0 ,$num);
+        $trimmedContent = (is_array(json_decode($content)) ? array_slice(json_decode($content),0 ,$num) : []);
 
         return json_encode($trimmedContent);
     }

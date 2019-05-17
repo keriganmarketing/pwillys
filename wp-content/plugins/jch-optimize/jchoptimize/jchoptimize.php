@@ -58,9 +58,9 @@ class JchOptimize
                         $oParser->runCookieLessDomain();
                         $oParser->lazyLoadImages();
 
-                        $this->params->set('isXhtml', $oLinkBuilder->isXhtml());
-                        $this->params->set('isHtml5', $oParser->isHtml5());
                         $sOptimizedHtml = JchOptimizeHelper::minifyHtml($oParser->getHtml(), $this->params);
+
+			$this->sendHeaders();
                 }
                 catch (Exception $ex)
                 {
@@ -135,4 +135,8 @@ class JchOptimize
                 }
         }
 
+	protected function sendHeaders()
+	{
+		
+	}
 }

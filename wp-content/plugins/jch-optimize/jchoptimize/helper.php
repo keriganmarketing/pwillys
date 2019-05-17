@@ -36,6 +36,10 @@ class JchOptimizeHelperBase
                 return $domains_only ? array() : $orig_path;
         }
 
+	public static function addHttp2Push($url, $type)
+	{
+		return $url;
+	}
 }
 
 /**
@@ -44,6 +48,7 @@ class JchOptimizeHelperBase
  */
 class JchOptimizeHelper extends JchOptimizeHelperBase
 {
+	public static $preloads = array();
 
         /**
          * Checks if file (can be external) exists
@@ -304,6 +309,26 @@ class JchOptimizeHelper extends JchOptimizeHelperBase
         }
 
         /**
+         * Determines if document is of html5 doctype
+         * 
+         * @return boolean	True if doctype is html5
+         */
+        public static function isHtml5($sHtml)
+        {
+                return (bool) preg_match('#^<!DOCTYPE html>#i', trim($sHtml));
+        }
+
+        /**
+         * Determine if document is of XHTML doctype
+         * 
+         * @return boolean
+         */
+        public static function isXhtml($sHtml)
+        {
+                return (bool) preg_match('#^\s*+(?:<!DOCTYPE(?=[^>]+XHTML)|<\?xml.*?\?>)#i', trim($sHtml));
+        }
+
+        /**
          * If parameter is set will minify HTML before sending to browser; 
          * Inline CSS and JS will also be minified if respective parameters are set
          * 
@@ -329,9 +354,10 @@ class JchOptimizeHelper extends JchOptimizeHelperBase
                                 $aOptions['jsMinifier'] = array('JchOptimize\JS_Optimize', 'optimize');
                         }
 
+			$aOptions['jsonMinifier'] = array('JchOptimize\JSON_Optimize', 'optimize');
                         $aOptions['minifyLevel'] = $oParams->get('html_minify_level', 2);
-                        $aOptions['isXhtml']     = (bool) $oParams->get('isXhtml', false);
-                        $aOptions['isHtml5']     = (bool) $oParams->get('isHtml5', false);
+                        $aOptions['isXhtml']     = self::isXhtml($sHtml);
+                        $aOptions['isHtml5']     = self::isHtml5($sHtml);
 
                         $sHtmlMin = HTML_Optimize::optimize($sHtml, $aOptions);
 
@@ -412,6 +438,7 @@ class JchOptimizeHelper extends JchOptimizeHelperBase
                 if (!$fp)
                 {
                         JchOptimizeLogger::log($errno . ': ' . $errstr, $params);
+			JchOptimizeLogger::debug($errno . ': ' . $errstr, 'JCH_post-error');
                 }
                 else
                 {
@@ -428,6 +455,7 @@ class JchOptimizeHelper extends JchOptimizeHelperBase
 
                         fwrite($fp, $out);
                         fclose($fp);
+			JchOptimizeLogger::debug($out, 'JCH_post');
                 }
         }
 
@@ -460,6 +488,6 @@ class JchOptimizeHelper extends JchOptimizeHelperBase
                 $params->set('hidden_containsgf', '');
                 JchPlatformPlugin::saveSettings($params);
         }
-
+	
 
 }
