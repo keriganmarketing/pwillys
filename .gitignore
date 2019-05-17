@@ -11,6 +11,6 @@ wp-content/themes/kma-slim/vendor/
 
 # Untracked prod files
 wp-content/uploads/**
-wp-admin/**
-wp-includes/**
-wp-content/plugins/**
+# wp-admin/**
+# wp-includes/**
+# wp-content/plugins/**
