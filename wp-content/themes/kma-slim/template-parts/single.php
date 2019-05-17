@@ -14,7 +14,7 @@ $event  = $events->getSingleEvent($post->ID);
 $terms  = wp_get_post_terms($post->ID, 'bands');
 $isBand = (isset($terms) && count($terms) > 0);
 
-$parent = get_post(7);
+$parent = get_post(get_option( 'page_for_posts' ));
 $parentHeader = $parent->page_information_header_image;
 
 include(locate_template('template-parts/sections/top.php'));
