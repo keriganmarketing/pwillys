@@ -5,13 +5,19 @@
             <div class="column">
                 <div class="beach-cam-button">
                     <img src="<?php echo get_template_directory_uri() . '/img/pwillys-cam-1.jpg'; ?>" >
-                    <a class="play-button" href="/beach-cam/"></a>
+                    <a class="play-button"
+                        aria-label="View Beach Cam One" 
+                        title="View Beach Cam One"
+                        href="/beach-cam/"></a>
                 </div>
             </div>
             <div class="column is-6 is-hidden-mobile">
                 <div class="beach-cam-button">
                     <img src="<?php echo get_template_directory_uri() . '/img/pwillys-cam-2.jpg'; ?>" >
-                    <a class="play-button" href="/beach-cam/"></a>
+                    <a class="play-button" 
+                        aria-label="View Beach Cam Two" 
+                        title="View Beach Cam Two"
+                        href="/beach-cam/"></a>
                 </div>
             </div>
         </div>
