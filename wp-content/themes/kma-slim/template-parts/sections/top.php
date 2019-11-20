@@ -11,7 +11,7 @@ use Includes\Modules\Helpers\PageField;
  * @version 1.2
  */
 ?>
-<a class="skip-link screen-reader-text" href="#content"><?php _e('Skip to content', 'kmaslim'); ?></a>
+<a class="skip-link screen-reader-text" href="#mid"><?php _e('Skip to content', 'kmaslim'); ?></a>
 <div id="app" class="app" :class="{'modal-open': modalOpen }">
     <div id="MobileNavMenu" class="navbar" :class="{ 'is-active': isOpen }">
         <div class="nav-wrapper">
