@@ -1,13 +1,16 @@
 <template>
     <div class="columns is-multiline is-justified is-aligned is-mobile">
-        <div v-for="(photo, index) in photos" class="column is-4">
+        <div 
+            v-for="(photo, index) in photos" 
+            :key="photo.index"
+            class="column is-4">
             <img class="is-block" :src="photo.small" @click="toggleGallery(index)" >
         </div>
         <div class="modal is-active" v-if="showModal">
             <div class="modal-background" @click="toggleGallery"></div>
             <div class="modal-content large" >
                 <div class="photo-holder" >
-                    <img :src="photos[currentPhoto].large" >
+                    <img :src="photos[currentPhoto].large" :alt="'Pwillys Instagram Photo ' + id" >
                 </div>
                 <div class="navigation columns is-mobile is-centered is-justified">
                     <div class="column is-narrow has-text-right"><a class="button is-primary tandelle" @click="previousPhoto">Previous</a></div>
