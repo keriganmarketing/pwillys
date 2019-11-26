@@ -13,7 +13,7 @@ use Includes\Modules\Helpers\PageField;
             'menu_id'        => '',
             'link_before'    => '',
             'link_after'     => '',
-            'items_wrap'     => '<div id="%1$s" class="%2$s">%3$s</div>'
+            'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>'
         ]); ?>
         <div id="bot">
             <div class="container">
