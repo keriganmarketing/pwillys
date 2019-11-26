@@ -7,7 +7,7 @@ $post = get_posts(['posts_per_page' => 1]);
     <div class="card-image">
         <figure class="image is-16by3">
         <a href="<?php echo get_the_permalink($post[0]->ID); ?>">
-            <img src="<?php echo get_the_post_thumbnail_url($post[0]->ID); ?>">
+            <img alt="<?php echo $post[0]->post_title; ?>" src="<?php echo get_the_post_thumbnail_url($post[0]->ID); ?>">
         </a>
         </figure>
     </div>
