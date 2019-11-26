@@ -7,7 +7,7 @@
             <img 
                 class="is-block" 
                 :src="photo.small" 
-                :alt="'Pwillys Instagram Photo ' + id"
+                :alt="'Pwillys Instagram Photo ' + index"
                 @click="toggleGallery(index)" 
             >
         </div>
