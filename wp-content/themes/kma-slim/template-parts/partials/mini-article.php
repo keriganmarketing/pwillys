@@ -27,7 +27,8 @@ $subhead = ($post->page_information_subhead != '' ? $post->page_information_subh
 
         </div>
         <div class="card-footer">
-            <a class="card-footer-item" href="<?php echo get_the_permalink(); ?>">Read More</a>
+            <a class="card-footer-item" 
+                href="<?php echo get_the_permalink(); ?>">Read Full Article</a>
         </div>
     </div>
 </div>
