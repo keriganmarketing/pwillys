@@ -11,6 +11,9 @@
             <p class="time"><?php echo $event['time']; ?></p>
             <p class="event-button"><a class="button is-primary is-rounded has-shadow" >More Info</a></p>
         </div>
-        <a class="tile-link" href="<?= $event['link']; ?>" title="More about <?= $event['name']; ?>"  ></a>
+        <a class="tile-link" 
+            href="<?= $event['link']; ?>" 
+            title="More about <?= $event['name']; ?>" 
+            aria-label="More about <?= $event['name']; ?>"  ></a>
     </div>
 </div>
