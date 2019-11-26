@@ -17,7 +17,7 @@ $post = get_posts(['posts_per_page' => 1]);
         <!-- <?php echo apply_filters('the_content', wp_trim_words($post[0]->post_content, 20, '...')); ?> -->
     </div>
     <div class="card-footer">
-        <a class="card-footer-item" href="<?php echo get_the_permalink($post[0]->ID); ?>">Read More</a>
+        <a class="card-footer-item" href="<?php echo get_the_permalink($post[0]->ID); ?>">Read Full Article</a>
         <a class="card-footer-item" href="/pineapple-culture/">More Culture</a>
     </div>
 </div>
