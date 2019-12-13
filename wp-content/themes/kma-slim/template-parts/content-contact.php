@@ -20,7 +20,7 @@ include(locate_template('template-parts/sections/top.php'));
                     <div class="entry-content content contact">
                         <div class="columns is-multiline">
                             <div class="column is-12">
-                                <?php the_content(); ?>
+                                
                                 <p class="title is-5 phone">
                                     <a href="tel:<?= PageField::getField('contact_info_phone_number', 17); ?>">
                                         <span class="icon">
@@ -35,6 +35,7 @@ include(locate_template('template-parts/sections/top.php'));
                                         <i aria-hidden="true" class="fa fa-envelope-o"></i>
                                     </span> Band Booking: <a href="mailto:booking@pwillys.com">booking@pwillys.com</a>
                                 </p>
+                                <?php the_content(); ?>
                                 <p></p>
                             </div>
                             <div class="column is-12 is-6-desktop">
