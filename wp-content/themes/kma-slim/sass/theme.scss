@@ -496,11 +496,7 @@ h2.subtitle {
     position: relative;
     width: 100%;
     background-color: $white;
-    min-height: 15rem;
-
-    @media screen and (min-width: $tablet) {
-      min-height: 25rem;
-    }
+    min-height: 26rem;
 
     @media screen and (min-width: $desktop) {
       min-height: auto;
@@ -538,17 +534,20 @@ h2.subtitle {
     }
 
     .slide-content {
-      padding: 2rem;
+      padding: 2rem 2rem 1rem;
       text-align: center;
+      width: 100vw;
+      background-color: #0060B9;
+
       @media screen and (min-width: $desktop) {
-        background-color: transparent;
-        padding: 7rem 0;
+        margin: 7rem 0;
         overflow: visible;
         position: absolute;
         z-index: 30;
-        max-width: 213px;
+        width: 30vw;
         text-align: left;
       }
+      
       h2 {
         font-size: 5rem;
         font-family: $header-font-family;
@@ -577,6 +576,7 @@ h2.subtitle {
   .menu-button-mobile-only {
     margin-top: -4rem;
     padding-bottom: .75rem;
+    display: none !important;
   }
 
   .beach-cams {

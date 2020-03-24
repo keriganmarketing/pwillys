@@ -1,15 +1,17 @@
 <template>
-    <div class="slider">
-        <div class="slider-left icon is-large" @click="clickPrev" >
-            <i class="fa fa-angle-left is-large" aria-hidden="true"></i>
-        </div>
+    <div class="h-100">
+        <div class="slider">
+            <div class="slider-left icon is-large" @click="clickPrev" >
+                <i class="fa fa-angle-left is-large" aria-hidden="true"></i>
+            </div>
 
-        <div class="slides" @mouseover="pauseSlide" @mouseleave="unpauseSlide">
-            <slot></slot>
-        </div>
+            <div class="slides" @mouseover="pauseSlide" @mouseleave="unpauseSlide">
+                <slot></slot>
+            </div>
 
-        <div class="slider-right icon is-large" @click="clickNext" >
-            <i class="fa fa-angle-right is-large" aria-hidden="true"></i>
+            <div class="slider-right icon is-large" @click="clickNext" >
+                <i class="fa fa-angle-right is-large" aria-hidden="true"></i>
+            </div>
         </div>
     </div>
 </template>

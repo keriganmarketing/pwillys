@@ -1,14 +1,21 @@
 <template>
-    <div :id="'slide-' + id"
-         class="slide"
-         :class="{ 'active' :isActive }"
-         :style="'background-image: url('+image+')'">
-        <div class="container">
-            <div class="slide-container columns is-justified is-aligned">
-                <div class="column is-narrow">
-                    <slot></slot>
+    <div class="h-100">
+        <div :id="'slide-' + id"
+            class="slide"
+            :class="{ 'active' :isActive }"
+            :style="'background-image: url('+image+')'">
+            <div class="container">
+                <div class="slide-container columns is-justified is-aligned">
+                    <div class="column">
+                        <slot></slot>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div
+            :class="{ 'active' :isActive }"
+            class="mobile-description d-md-none">
+            <slot></slot>
         </div>
     </div>
 </template>
@@ -54,6 +61,28 @@
         background-position: center;
         background-size: conver;
     }
+
+    .mobile-description {
+        display: none;
+        background-color: #0060B9;
+    }
+
+    @media screen and (max-width: 768px){
+        .slide {
+            height: 60%;
+        } 
+        .mobile-description {
+            display: flex;
+            position: absolute;
+            bottom: 0;
+            background-color: #0060B9;
+            line-height: 1.4em;
+        }
+        .slide .container {
+            display: none;
+        }
+    }
+
     .slide.active {
         opacity: 1;
         z-index: 0;
