@@ -4,15 +4,16 @@
             class="slide"
             :class="{ 'active' :isActive }"
             :style="'background-image: url('+image+')'">
-            <div class="container">
+            <div class="container" v-if="$slots.content !=''">
                 <div class="slide-container columns is-justified is-aligned">
                     <div class="column">
-                        <slot></slot>
+                        <slot name="content"></slot>
                     </div>
                 </div>
             </div>
         </div>
         <div
+            v-if="$slots.content !=''"
             :class="{ 'active' :isActive }"
             class="mobile-description d-md-none">
             <slot></slot>
@@ -64,7 +65,7 @@
 
     .mobile-description {
         display: none;
-        background-color: #0060B9;
+        /* background-color: #0060B9; */
     }
 
     @media screen and (max-width: 768px){
@@ -75,7 +76,7 @@
             display: flex;
             position: absolute;
             bottom: 0;
-            background-color: #0060B9;
+            /* background-color: #0060B9; */
             line-height: 1.4em;
         }
         .slide .container {
