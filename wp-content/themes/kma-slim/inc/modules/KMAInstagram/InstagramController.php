@@ -3,118 +3,117 @@
 namespace Includes\Modules\KMAInstagram;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Exception\RequestException;
+use Kevinrob\GuzzleCache\CacheMiddleware;
+use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
+use Kevinrob\GuzzleCache\Storage\WordPressObjectCacheStorage;
 
 class InstagramController
 {
-    protected $userID;
     protected $accessToken;
-    public $num;
-    public $requestContent;
-    public $cacheFile;
+    protected $appId;
+    protected $appSecret;
+    protected $redirectUri;
+    protected $callbackUrl;
+    protected $tempToken;
+    protected $userID;
 
     public function __construct()
     {
-        $this->cacheFile   = wp_normalize_path(dirname(__FILE__) . '/cache/instagram.json');
         $this->userID      = get_option('instagram_page_id');
         $this->accessToken = get_option('instagram_token');
+        // $this->appId = '695239097631215';
+        // $this->appSecret = '0e128b4bee3b8500c5cb87a5ea233511';
+        $this->appId = '2174657569497762';
+        $this->appSecret = 'a795ba90bc44482dca37aea223e0fda7';
+        $this->appToken = '2174657569497762|1Z4klT-FAQrzEJTgnbGpOsIEwQc';
     }
 
-    protected function initialize()
+    public function use()
     {
+        $this->setupAdmin();
+    }
 
+    public function initCache()
+    {
+        // Create default HandlerStack
+        $stack = HandlerStack::create();
+
+        // Add this middleware to the top with `push`
+        $stack->push(new CacheMiddleware(
+            new PrivateCacheStrategy(
+                new WordPressObjectCacheStorage()
+            )
+        ), 'cache');
+
+        return $stack;
     }
 
     public function connectToAPI()
     {
-        $client = new Client();
+        if(! $this->accessToken){
+            return false;
+        }
+
+        $client = new Client([ 'handler' => $this->initCache() ]);
+
         try {
-            $request  = $client->request('GET',
-                'https://api.instagram.com/v1/users/self/media/recent/?access_token=' . $this->accessToken);
-            $response = json_decode($request->getBody());
-            $photos   = [];
 
-            foreach ($response->data as $key => $image) {
-                if ($key < $this->num) {
-                    $photos[] = [
-                        'small'  => $image->images->thumbnail->url,
-                        'medium' => $image->images->low_resolution->url,
-                        'large'  => $image->images->standard_resolution->url
-                    ];
-                }
+            $response = $client->request('GET',
+            'https://graph.facebook.com/v5.0/' . $this->userID . '/media?' . 
+            'access_token=' . $this->accessToken . 
+            '&fields=media_url,permalink,like_count,comments_count' );
+
+        } catch (RequestException $e) {
+            if ($e->hasResponse()) {
+                echo '<p>Error connecting to the Instagram API.</p>';
+                return false;
             }
-
-            $this->requestContent = $photos;
-            $this->saveCacheFile();
-
-            return json_encode($this->requestContent);
-
-        } catch (GuzzleException $e) {
-            error_log( 'Error: ' . $e->getMessage(), 0);
-            $this->saveEmptyCacheFile();
         }
-    }
 
-    public function saveCacheFile()
-    {
-        //echo 'writing file to ' . $this->cacheFile;
-
-        $cacheFile = fopen($this->cacheFile,'w') or die('Unable to open file!');
-        fwrite($cacheFile, json_encode($this->requestContent));
-        fclose($cacheFile);
-    }
-
-    public function saveEmptyCacheFile()
-    {
-        //echo 'saving empty file to ' . $this->cacheFile;
-
-        $cacheFile = fopen($this->cacheFile,'w') or die('Unable to open file!');
-        fwrite($cacheFile, '');
-        fclose($cacheFile);
-    }
-
-    public function getCacheFile()
-    {
-        $now      = time();
-        $fileTime = filectime($this->cacheFile);
-
-        if ( ! file_exists($this->cacheFile)) {
+        if($response){
+            return $response;
+        }else{
             return false;
         }
 
-        $cacheFilecontent = file_get_contents($this->cacheFile);
-        //echo $now, ' - ', $fileTime;
 
-        if ($now < $fileTime + 3600) {
-            //echo 'file is good';
-            return $cacheFilecontent;
-        } else {
-            //echo 'file is old';
-            return false;
-        }
     }
 
-    public function getFeed($num = 1)
+    public function getFeed($limit = 1)
     {
-        $this->num    = $num;
-        $savedContent = $this->getCacheFile();
-        $content = (!$savedContent ? $this->connectToAPI() : $savedContent);
-        $trimmedContent = (is_array(json_decode($content)) ? array_slice(json_decode($content),0 ,$num) : []);
+        if(! $request = $this->connectToAPI()) {
+            return json_encode([]);
+        }
 
-        return json_encode($trimmedContent);
+        $response = json_decode($request->getBody());
+        $photos = [];
+
+        $num = 0;
+
+        while($num < $limit){
+            $photos[] = $response->data[$num];
+            $num++;
+        }
+
+        return json_encode($photos);
     }
 
     public function setupAdmin()
     {
-        $this->getFeed(20); //set cache file
         add_action('admin_menu', function () {
             $this->addMenus();
+        });
+
+        add_action( 'rest_api_init', function(){
+            $this->addRoutes();
         });
     }
 
     protected function loadCss()
     {
-        wp_enqueue_style('bluma_admin_css', 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css',
+        wp_enqueue_style('bluma_admin_css', 'https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css',
             false, '1.0.0');
     }
 
@@ -124,5 +123,125 @@ class InstagramController
             $this->loadCss();
             include(wp_normalize_path(dirname(__FILE__) . '/templates/AdminOverview.php'));
         }, "dashicons-admin-generic");
+    }
+
+    /**
+	 * Add REST API routes
+	 */
+    public function addRoutes() 
+    {
+        register_rest_route( 'kerigansolutions/v1', '/instagallerytoken',
+            [
+                'methods'  => 'GET',
+                'callback' => [ $this, 'exchangeToken' ]
+            ]
+        );
+
+        register_rest_route( 'kerigansolutions/v1', '/permatoken',
+            [
+                'methods'  => 'GET',
+                'callback' => [ $this, 'getPermaToken' ]
+            ]
+        );
+
+        register_rest_route( 'kerigansolutions/v1', '/instagramdata',
+            [
+                'methods'  => 'GET',
+                'callback' => [ $this, 'getInstagramData' ]
+            ]
+        );
+    }
+
+    public function exchangeToken($request)
+    {
+        $token = $request->get_param( 'token' );
+        $client = new Client();
+
+        try {
+            $response = $client->request('GET',
+            'https://graph.facebook.com/v5.0/oauth/access_token?' . 
+            'grant_type=fb_exchange_token&' .
+            'client_id=' . $this->appId . '&' .
+            'client_secret=' . $this->appSecret . '&' .
+            'fb_exchange_token=' . $token );
+        } catch (RequestException $e) {
+            
+        }
+
+        return rest_ensure_response(json_decode($response->getBody()));
+
+        // curl -i -X GET "https://graph.facebook.com/{graph-api-version}/oauth/access_token?  
+        // grant_type=fb_exchange_token&          
+        // client_id={app-id}&
+        // client_secret={app-secret}&
+        // fb_exchange_token={your-access-token}"
+    }
+
+    public function getAppAccessToken()
+    {
+        $client = new Client();
+
+        try {
+
+            $response = $client->request('GET',
+                'https://graph.facebook.com/oauth/access_token' .
+                '?client_id=' . $this->appId .
+                '&client_secret=' . $this->appSecret .
+                '&grant_type=client_credentials' . 
+                ''
+            );
+
+            return json_decode($response->getBody());
+
+        } catch (RequestException $e) {
+            return json_decode($e->getResponse()->getBody(true));
+        }
+    }
+
+    public function getInstagramData($request)
+    {
+        $token = $request->get_param( 'token' );
+        $userId = $request->get_param( 'user' );
+        $appToken = $this->getAppAccessToken()->access_token;
+        $client = new Client();
+
+        try {
+
+            $response = $client->request('GET',
+                'https://graph.facebook.com/v7.0/' . $userId .
+                '?fields=instagram_business_account' .
+                '&access_token=' . $token .
+                '&app_token=' . $appToken .
+                // '&appsecret_proof=' . hash_hmac('sha256', $appToken, $this->appSecret) . 
+                ''
+            );
+
+            return rest_ensure_response(json_decode($response->getBody()));
+
+        } catch (RequestException $e) {
+            return rest_ensure_response(json_decode($e->getResponse()->getBody(true)));
+        }
+    }
+
+    public function getPermaToken($request)
+    {
+        $token = $request->get_param( 'token' );
+        $userId = $request->get_param( 'user' );
+        $client = new Client();
+
+        try {
+
+            $response = $client->request('GET',
+            'https://graph.facebook.com/v5.0/' . $userId . '/accounts?' . 
+            'access_token=' . $token );
+
+            return rest_ensure_response(json_decode($response));
+
+        } catch (RequestException $e) {
+            return rest_ensure_response(json_decode($e->getResponse()->getBody(true)));
+        }     
+        
+        // "https://graph.facebook.com/{graph-api-version}/{user-id}/accounts?
+        // access_token={long-lived-user-access-token}"
     }
 }
