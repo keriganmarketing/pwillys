@@ -496,7 +496,7 @@ h2.subtitle {
     position: relative;
     width: 100%;
     background-color: $white;
-    min-height: 26rem;
+    min-height: 20rem;
 
     @media screen and (min-width: $desktop) {
       min-height: auto;
@@ -534,10 +534,10 @@ h2.subtitle {
     }
 
     .slide-content {
-      padding: 2rem 2rem 1rem;
+      padding: 1rem 1rem .5rem;
       text-align: center;
       width: 100vw;
-      background-color: #0060B9;
+      background-color: rgba(0, 117, 226, .9);
 
       @media screen and (min-width: $desktop) {
         margin: 7rem 0;
@@ -546,6 +546,7 @@ h2.subtitle {
         z-index: 30;
         width: 30vw;
         text-align: left;
+        padding: 2rem 2rem 1rem;
       }
       
       h2 {

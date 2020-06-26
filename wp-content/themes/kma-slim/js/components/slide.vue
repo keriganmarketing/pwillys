@@ -2,21 +2,21 @@
     <div class="h-100">
         <div :id="'slide-' + id"
             class="slide"
-            :class="{ 'active' :isActive }"
+            :class="{ 'active' :isActive, 'has-content': slideContent != '' }"
             :style="'background-image: url('+image+')'">
-            <div class="container" v-if="$slots.content !=''">
+            <div class="container" v-if="slideContent !=''">
                 <div class="slide-container columns is-justified is-aligned">
                     <div class="column">
-                        <slot name="content"></slot>
+                        <slot name="default"></slot>
                     </div>
                 </div>
             </div>
         </div>
         <div
-            v-if="$slots.content !=''"
+            v-if="slideContent != ''"
             :class="{ 'active' :isActive }"
             class="mobile-description d-md-none">
-            <slot></slot>
+            <slot name="default"></slot>
         </div>
     </div>
 </template>
@@ -38,7 +38,8 @@
 
         data(){
             return {
-                isActive: false
+                isActive: false,
+                slideContent: ''
             };
         },
 
@@ -46,6 +47,12 @@
             zindex: function(){
                 let index = this.id;
                 return (20 - index);
+            }
+        },
+
+        created() {
+            if( this.$slots.default ){
+            this.slideContent = this.$slots.default;
             }
         }
 
@@ -70,14 +77,23 @@
 
     @media screen and (max-width: 768px){
         .slide {
-            height: 60%;
+            height: 100%;
         } 
+        .slide.has-content {
+            height: 100%;
+        }
         .mobile-description {
+            height: auto;
             display: flex;
             position: absolute;
             bottom: 0;
             /* background-color: #0060B9; */
             line-height: 1.4em;
+            transition: opacity linear 1.5s;
+            opacity: 0;
+        }
+        .mobile-description.active {
+            opacity: 1;
         }
         .slide .container {
             display: none;
