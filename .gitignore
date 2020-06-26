@@ -8,9 +8,10 @@ tags
 # Untracked prod/dev files
 wp-config.php
 wp-content/themes/kma-slim/vendor/
+wp-content/themes/kma-slim/noce_modules/
 
 # Untracked prod files
 wp-content/uploads/**
-# wp-admin/**
-# wp-includes/**
-# wp-content/plugins/**
+wp-admin/**
+wp-includes/**
+wp-content/plugins/**
