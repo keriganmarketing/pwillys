@@ -67,7 +67,7 @@ class InstagramController
 
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
-                echo '<p>Error connecting to the Instagram API.</p>';
+                // echo '<p>Error connecting to the Instagram API.</p>';
                 return false;
             }
         }
