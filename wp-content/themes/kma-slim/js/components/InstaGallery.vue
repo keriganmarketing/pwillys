@@ -4,9 +4,10 @@
             v-for="(photo, index) in photos" 
             :key="photo.index"
             class="column is-4">
+            
             <img 
                 class="is-block" 
-                :src="photo.small" 
+                :src="photo.media_url" 
                 :alt="'Pwillys Instagram Photo ' + index"
                 @click="toggleGallery(index)" 
             >
@@ -15,7 +16,7 @@
             <div class="modal-background" @click="toggleGallery"></div>
             <div class="modal-content large" >
                 <div class="photo-holder" >
-                    <img :src="photos[currentPhoto].large" :alt="'Pwillys Instagram Photo '" >
+                    <img :src="photos[currentPhoto].media_url" :alt="'Pwillys Instagram Photo '" >
                 </div>
                 <div class="navigation columns is-mobile is-centered is-justified">
                     <div class="column is-narrow has-text-right"><a class="button is-primary tandelle" @click="previousPhoto">Previous</a></div>
