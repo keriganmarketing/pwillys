@@ -4,13 +4,14 @@
             v-for="(photo, index) in photos" 
             :key="photo.index"
             class="column is-4">
-            
+            <figure class="image is-square photo-tile" >
             <img 
-                class="is-block" 
+                class="photo-thumb" 
                 :src="photo.media_url" 
                 :alt="'Pwillys Instagram Photo ' + index"
                 @click="toggleGallery(index)" 
             >
+            </figure>
         </div>
         <div class="modal is-active" v-if="showModal">
             <div class="modal-background" @click="toggleGallery"></div>
@@ -61,8 +62,18 @@
 </script>
 
 <style scoped>
-    img {
+    img.photo-thumb {
         cursor: pointer;
+        min-height: 100%;
+        min-width: 100%;
+        height: 100% !important;
+        width: unset !important;
+        max-width: unset;
+        max-height: unset;
+    }
+
+    .photo-tile {
+        overflow: hidden;
     }
 
     .modal-content.large {
