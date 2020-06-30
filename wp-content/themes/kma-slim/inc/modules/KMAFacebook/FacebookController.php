@@ -77,7 +77,8 @@ class FacebookController
 
     protected function loadCss()
     {
-        wp_enqueue_style('bluma_admin_css', 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css',false, '1.0.0');
+        wp_enqueue_style('bluma_admin_css', 'https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css',
+            false, '1.0.0');
     }
 
     public function addMenus()
