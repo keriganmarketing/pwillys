@@ -8,7 +8,7 @@ $feed = $facebook->getFbPosts(1);
 
 if(count($feed) > 0){
     $fbPost   = $feed[0];
-    $isVideo  = ($fbPost->type == 'video');
+    $isVideo  = ($fbPost->status_type == 'added_video');
     $hasImage = ($fbPost->full_image_url != '' && $isVideo == false);
     $date     = date('M j',strtotime($fbPost->post_date)) . ' at ' . date('g:i a',strtotime($fbPost->post_date));
 ?>

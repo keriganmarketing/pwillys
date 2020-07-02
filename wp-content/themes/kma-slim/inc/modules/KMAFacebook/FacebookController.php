@@ -5,19 +5,41 @@ namespace Includes\Modules\KMAFacebook;
 use KeriganSolutions\FacebookFeed\FacebookFeed;
 use KeriganSolutions\FacebookFeed\FacebookReviews;
 use KeriganSolutions\FacebookFeed\Fetchers\FacebookRequest;
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Exception\RequestException;
+use Kevinrob\GuzzleCache\CacheMiddleware;
+use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
+use Kevinrob\GuzzleCache\Storage\WordPressObjectCacheStorage;
 
 class FacebookController
 {
     protected $facebookPageID;
     protected $facebookToken;
+    protected $appId;
+    protected $appSecret;
 
     public function __construct()
     {
         $this->facebookPageID = get_option('facebook_page_id');
         $this->facebookToken = get_option('facebook_token');
-        add_action( 'init', [$this,'createPostType'], 50 );
-        $this->cron();
-        // $this->updatePosts();
+        $this->appId = '353903931781568';
+        $this->appSecret = 'fb7179ad6bc42644f8182c221c6cb444';
+    }
+
+    public function initCache()
+    {
+        // Create default HandlerStack
+        $stack = HandlerStack::create();
+
+        // Add this middleware to the top with `push`
+        $stack->push(new CacheMiddleware(
+            new PrivateCacheStrategy(
+                new WordPressObjectCacheStorage()
+            )
+        ), 'cache');
+
+        return $stack;
     }
 
     public function getReviews($num = 1)
@@ -60,19 +82,39 @@ class FacebookController
         try{
             $feed = new FacebookFeed($this->facebookPageID,$this->facebookToken);
             $response = $feed->fetch($num);
-        }catch(Exception $e){
+        }catch(RequestException $e){
             $response = $e->getResponse()->getBody(true);
         }
 
         return $response;
-
     }
 
     public function setupAdmin()
     {
-        add_action('admin_menu', function(){
-            $this->addMenus();
-        });
+        add_action('admin_menu', [$this,'addMenus']);
+        add_action( 'rest_api_init', [$this,'addRoutes']);
+        add_action( 'init', [$this,'createPostType'], 50 );
+        $this->cron();
+    }
+
+    /**
+	 * Add REST API routes
+	 */
+    public function addRoutes() 
+    {
+        register_rest_route( 'kerigansolutions/v1', '/autoblogtoken',
+            [
+                'methods'  => 'GET',
+                'callback' => [ $this, 'exchangeToken' ]
+            ]
+        );
+
+        register_rest_route( 'kerigansolutions/v1', '/forcefbsync',
+            [
+                'methods'  => 'GET',
+                'callback' => [ $this, 'forceSync' ]
+            ]
+        );
     }
 
     protected function loadCss()
@@ -113,27 +155,30 @@ class FacebookController
         add_action('kma-fb-sync', [$this,'updatePosts']);
     }
 
-    public function updatePosts()
+    public function forceSync()
     {
-        $feed = $this->getFeed(30);
+        $this->updatePosts(30) ? wp_send_json_success() : wp_send_json_error();
+    }
+
+    public function updatePosts($n = 30)
+    {
+        $feed = $this->getFeed($n);
 
         if($feed->posts){
 
             foreach($feed->posts as $fbpost){
 
-                echo '<pre>',print_r($fbpost),'</pre>';
-
                 $postArray = [
                     'ID' => 0,
                     'post_date' => $fbpost->created_time,
                     'post_content' => $fbpost->message,
-                    'post_title' => $fbpost->object_id,
+                    'post_title' => $fbpost->id,
                     'post_status' => 'publish',
                     'post_type' => 'kma-fb-post',
                     'meta_input' => [
                         'post_link' => $fbpost->permalink_url,
                         'full_image_url' => $fbpost->full_picture,
-                        'attachments' => '',
+                        'attachments' => $fbpost->attachments->data,
                         'type' => $fbpost->type,
                         'status_type' => $fbpost->status_type,
                         'video_url' => $fbpost->attachments->data[0]->media->source,
@@ -141,26 +186,43 @@ class FacebookController
                     ]
                 ];
 
-                $postExists = get_page_by_title($fbpost->object_id, OBJECT, 'kma-fb-post');
-                // echo '<pre>',print_r($postExists),'</pre>';
+                $postExists = get_page_by_title($fbpost->id, OBJECT, 'kma-fb-post');
 
                 if(isset($postExists->ID)){
                     $postArray['ID'] = $postExists->ID;
                     wp_update_post($postArray);
                     update_post_meta($postExists->ID, 'attachments', $fbpost->media);
-
                 }else{
                     $postID = wp_insert_post($postArray);
                     update_post_meta($postID, 'attachments', $fbpost->media);
-                    
                 }
-                
-                
-                
             }
+
+            return true;
         }
 
+        return false;
+        
     }
 
+    public function exchangeToken($request)
+    {
+        $token = $request->get_param( 'token' );
+        $client = new Client();
 
+        try {
+            $response = $client->request('GET',
+            'https://graph.facebook.com/v7.0/oauth/access_token?' . 
+            'grant_type=fb_exchange_token&' .
+            'client_id=' . $this->appId . '&' .
+            'client_secret=' . $this->appSecret . '&' .
+            'fb_exchange_token=' . $token );
+        } catch (RequestException $e) {
+            
+        }
+
+        return rest_ensure_response(json_decode($response->getBody()));
+    }
+
+    
 }

@@ -6,14 +6,14 @@ $facebook = new FacebookController();
 //$reviews  = $facebook->getReviews(4);
 //echo '<pre>',print_r($reviews),'</pre>';
 
-$feed = $facebook->getFbPosts(4);
+$feed = $facebook->getFbPosts(12);
 
 // echo '<pre>',print_r($feed),'</pre>';
 
 if(count($feed) > 0){ ?>
 <div class="columns is-multiline" >
 <?php foreach ($feed as $fbPost) {
-    $isVideo  = ($fbPost->type == 'video');
+    $isVideo  = ($fbPost->status_type == 'added_video');
     $hasImage = ($fbPost->full_image_url != '' && $isVideo == false);
     $date     = date('M j',strtotime($fbPost->post_date)) . ' at ' . date('g:i a',strtotime($fbPost->post_date));
     ?>

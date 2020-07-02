@@ -23,11 +23,8 @@ class InstagramController
     {
         $this->userID      = get_option('instagram_page_id');
         $this->accessToken = get_option('instagram_token');
-        // $this->appId = '695239097631215';
-        // $this->appSecret = '0e128b4bee3b8500c5cb87a5ea233511';
         $this->appId = '2174657569497762';
         $this->appSecret = 'a795ba90bc44482dca37aea223e0fda7';
-        $this->appToken = '2174657569497762|1Z4klT-FAQrzEJTgnbGpOsIEwQc';
     }
 
     public function use()
@@ -61,13 +58,12 @@ class InstagramController
         try {
 
             $response = $client->request('GET',
-            'https://graph.facebook.com/v5.0/' . $this->userID . '/media?' . 
+            'https://graph.facebook.com/v7.0/' . $this->userID . '/media?' . 
             'access_token=' . $this->accessToken . 
             '&fields=media_url,permalink,like_count,comments_count' );
 
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
-                // echo '<p>Error connecting to the Instagram API.</p>';
                 return false;
             }
         }
@@ -77,8 +73,6 @@ class InstagramController
         }else{
             return false;
         }
-
-
     }
 
     public function getFeed($limit = 1)
@@ -137,13 +131,6 @@ class InstagramController
             ]
         );
 
-        register_rest_route( 'kerigansolutions/v1', '/permatoken',
-            [
-                'methods'  => 'GET',
-                'callback' => [ $this, 'getPermaToken' ]
-            ]
-        );
-
         register_rest_route( 'kerigansolutions/v1', '/instagramdata',
             [
                 'methods'  => 'GET',
@@ -159,7 +146,7 @@ class InstagramController
 
         try {
             $response = $client->request('GET',
-            'https://graph.facebook.com/v5.0/oauth/access_token?' . 
+            'https://graph.facebook.com/v7.0/oauth/access_token?' . 
             'grant_type=fb_exchange_token&' .
             'client_id=' . $this->appId . '&' .
             'client_secret=' . $this->appSecret . '&' .
@@ -169,12 +156,6 @@ class InstagramController
         }
 
         return rest_ensure_response(json_decode($response->getBody()));
-
-        // curl -i -X GET "https://graph.facebook.com/{graph-api-version}/oauth/access_token?  
-        // grant_type=fb_exchange_token&          
-        // client_id={app-id}&
-        // client_secret={app-secret}&
-        // fb_exchange_token={your-access-token}"
     }
 
     public function getAppAccessToken()
@@ -212,7 +193,6 @@ class InstagramController
                 '?fields=instagram_business_account' .
                 '&access_token=' . $token .
                 '&app_token=' . $appToken .
-                // '&appsecret_proof=' . hash_hmac('sha256', $appToken, $this->appSecret) . 
                 ''
             );
 
@@ -221,27 +201,5 @@ class InstagramController
         } catch (RequestException $e) {
             return rest_ensure_response(json_decode($e->getResponse()->getBody(true)));
         }
-    }
-
-    public function getPermaToken($request)
-    {
-        $token = $request->get_param( 'token' );
-        $userId = $request->get_param( 'user' );
-        $client = new Client();
-
-        try {
-
-            $response = $client->request('GET',
-            'https://graph.facebook.com/v5.0/' . $userId . '/accounts?' . 
-            'access_token=' . $token );
-
-            return rest_ensure_response(json_decode($response));
-
-        } catch (RequestException $e) {
-            return rest_ensure_response(json_decode($e->getResponse()->getBody(true)));
-        }     
-        
-        // "https://graph.facebook.com/{graph-api-version}/{user-id}/accounts?
-        // access_token={long-lived-user-access-token}"
     }
 }

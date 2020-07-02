@@ -10,7 +10,7 @@
   "require": {
     "guzzlehttp/guzzle": "^6.3",
     "kerigansolutions/cpt": "^0.2.0",
-    "kerigansolutions/fb-autoblog-wp": "dev-master",
+    "kerigansolutions/fb-autoblog-wp": "^0.24.0",
     "gothick/php-akismet": "^1.0",
     "kevinrob/guzzle-cache-middleware": "^3.3",
     "symfony/cache": "^5.1",
