@@ -23,8 +23,8 @@ class FacebookController
     {
         $this->facebookPageID = get_option('facebook_page_id');
         $this->facebookToken = get_option('facebook_token');
+        $this->appSecret = get_option('facebook_app_secret');
         $this->appId = '353903931781568';
-        $this->appSecret = 'fb7179ad6bc42644f8182c221c6cb444';
     }
 
     public function initCache()

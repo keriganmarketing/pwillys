@@ -18,7 +18,7 @@ use Includes\Modules\KMAFacebook\FacebookController;
             </div>
         </div>
     </div>
-    <section class="section">
+    <div class="section" style="background-color: #eee;">
         <div class="container is-fluid">
             <div class="content">
 
@@ -26,26 +26,62 @@ use Includes\Modules\KMAFacebook\FacebookController;
 
                 $facebook = new FacebookController();
 
-                $FacebookPageID = (isset($_POST['facebook_page_id']) ? sanitize_text_field($_POST['facebook_page_id']) : get_option('facebook_page_id'));
-                $FacebookToken  = (isset($_POST['facebook_token']) ? sanitize_text_field($_POST['facebook_token']) : get_option('facebook_token'));
+                $FacebookPageID  = (isset($_POST['facebook_page_id']) ? sanitize_text_field($_POST['facebook_page_id']) : get_option('facebook_page_id'));
+                $FacebookToken   = (isset($_POST['facebook_token']) ? sanitize_text_field($_POST['facebook_token']) : get_option('facebook_token'));
+                $FacebookSecret  = (isset($_POST['facebook_app_secret']) ? sanitize_text_field($_POST['facebook_app_secret']) : get_option('facebook_app_secret'));
+                $tokenExpires    = (isset($_POST['fb_token_expires']) ? sanitize_text_field($_POST['fb_token_expires']) : get_option('fb_token_expires'));
 
-                if (isset($_POST['facebook_submit_settings']) && $_POST['facebook_submit_settings'] == 'yes') {
+                if (isset($_POST['facebook_submit_settings'])) {
                     update_option('facebook_page_id',
                         isset($_POST['facebook_page_id']) ? sanitize_text_field($_POST['facebook_page_id']) : $FacebookPageID);
                     update_option('facebook_token',
                         isset($_POST['facebook_token']) ? sanitize_text_field($_POST['facebook_token']) : $FacebookToken);
+                    update_option('fb_token_expires',
+                        isset($_POST['fb_token_expires']) ? sanitize_text_field($_POST['fb_token_expires']) : $tokenExpires);
                 }
 
+                if (isset($_POST['facebook_submit_secret_settings']) && $_POST['facebook_submit_secret_settings'] == 'yes') {
+                    update_option('facebook_app_secret',
+                        isset($_POST['facebook_app_secret']) ? sanitize_text_field($_POST['facebook_app_secret']) : $FacebookSecret);
+                }
 
-                if(!get_option('facebook_token') && !isset($_GET['code'])){ ?>
-                <h4 id="authorize-headline" style="display: block;" class="wp-heading-inline">Authorize the App to
-                    continue</h4>
+                // Save App Secret
+
+                if(!get_option('facebook_app_secret')){ ?>
+                <h4 id="secret-headline" class="mt-5">Assign App Secret</h4>
+                <p class="is-small">If you don't have this, ask your developer.</p>
+
+                <form enctype="multipart/form-data" name="facebook_secret_settings" id="facebook_secret_settings" method="post"
+                    action="<?php echo str_replace('%7E', '~', $_SERVER['REQUEST_URI']); ?>">
+                    <input type="hidden" name="facebook_submit_secret_settings" value="yes">
+
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input type="text" class="input is-small" name="facebook_app_secret" id="facebook_app_secret"
+                                value="<?= $FacebookSecret; ?>" >
+                        </div>
+                        <div class="control">
+                            <button class="button is-info" > Save </button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <?php } ?>
+
+
+                <?php // Authorize App ?>
+                <?php if(!get_option('facebook_token')){ ?>
+                <h4 id="authorize-headline" class="title mt-5">Request an Authorization Token</h4>
                 <div id="status"></div>
                 <p class="submit" id="authorize">
                     <button onclick="checkStatus()" class="button is-primary"><?php _e('Authorize App') ?></button>
                 </p>
-                <?php } ?>
                 <hr>
+
+                <?php } ?>
+                
+                <?php // Configuration Options ?>
+
                 <div id="accountoptions" class="columns is-multiline"></div>
                 <div id="error"></div>
 
@@ -74,13 +110,17 @@ use Includes\Modules\KMAFacebook\FacebookController;
                         </div>
                     </div>
 
+                    <input type="hidden"  value="" id="tokenexpires" name="fb_token_expires">
+
                     <p class="submit">
                         <input class="button is-info" type="submit" name="Submit"
                             value="<?php _e('Update Settings') ?>" />
 
+                        <?php if(get_option('facebook_token')){ ?>
                         <a onclick="checkStatus();" class="button is-primary"><?php _e('Renew Authorization') ?></a>
-
+                        <span class="ml-5">Expires: </span><span class="mr-5"><?php echo get_option('fb_token_expires'); ?></span>
                         <a onclick="forceSync();" class="button is-primary ml-5"><?php _e('Force Sync') ?></a> <span id="syncstatus"></span>
+                        <?php } ?>
                     </p>
 
                 </form>
@@ -88,7 +128,7 @@ use Includes\Modules\KMAFacebook\FacebookController;
                 <?php include('facebook-module.php'); ?>
             </div>
         </div>
-    </section>
+    </div>
 </div>
 <script>
     function clearError() {
@@ -135,6 +175,9 @@ use Includes\Modules\KMAFacebook\FacebookController;
         }).done(function (response) {
             let longLivedUserToken = response.access_token;
             document.getElementById('facebooktoken').value = longLivedUserToken;
+            console.log(response);
+
+            document.getElementById('tokenexpires').value = toDateTime(response.expires_in);
 
             clearError()
             FB.api('/me/accounts', function (response) {
@@ -150,6 +193,12 @@ use Includes\Modules\KMAFacebook\FacebookController;
                 }
             });
         });
+    }
+
+    function toDateTime(secs) {
+        var t = new Date();
+        t.setSeconds(secs);
+        return t;
     }
 
     function chooseCompany(id) {
