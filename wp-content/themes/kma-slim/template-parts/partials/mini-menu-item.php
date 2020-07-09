@@ -14,7 +14,7 @@
             </figure>
         </div>
     <?php } else { ?>
-    <div class="card-content columns is-multiline is-mobile is-gapless">
+    <div class="card-content item-price-info columns is-multiline is-mobile is-gapless">
         <div class="column">
             <p class="item-name dimbo"><?= $menuItem['name']; ?></p>
         </div>
