@@ -60,7 +60,7 @@ class InstagramController
             $response = $client->request('GET',
             'https://graph.facebook.com/v7.0/' . $this->userID . '/media?' . 
             'access_token=' . $this->accessToken . 
-            '&fields=media_url,permalink,like_count,comments_count' );
+            '&fields=media_url,permalink,like_count,comments_count,media_type,thumbnail_url' );
 
         } catch (RequestException $e) {
             if ($e->hasResponse()) {

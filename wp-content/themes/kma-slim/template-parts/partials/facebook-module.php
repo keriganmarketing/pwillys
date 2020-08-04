@@ -9,13 +9,15 @@ $feed = $facebook->getFbPosts(1);
 if(count($feed) > 0){
     $fbPost   = $feed[0];
     $isVideo  = ($fbPost->status_type == 'added_video');
-    $hasImage = ($fbPost->full_image_url != '' && $isVideo == false);
+    $postImage = ($fbPost->full_image_url != '' ? $fbPost->full_image_url : ( $fbPost->video_image != '' ? $fbPost->video_image : '' ));
+    $hasImage = $postImage != '';
+    $postImage = ($fbPost->full_image_url != '' ? $fbPost->full_image_url : ( $fbPost->video_image != '' ? $fbPost->video_image : '' ));
     $date     = date('M j',strtotime($fbPost->post_date)) . ' at ' . date('g:i a',strtotime($fbPost->post_date));
 ?>
     <div class="card social-module facebook has-text-centered <?= ($hasImage == true ? 'has-image' : 'no-image'); ?>">
-        <?php if ($hasImage == true) { ?>
+        <?php if ($hasImage == true && $isVideo == false) { ?>
             <div class="card-image">
-                <img src="<?= $fbPost->full_image_url; ?>">
+                <img src="<?= $postImage; ?>" alt="Image shared from Facebook">
             </div>
         <?php } ?>
         <?php if ($isVideo == true) { ?>
@@ -33,7 +35,9 @@ if(count($feed) > 0){
             </div>
         <?php } ?>
         <div class="card-content">
+            <?php if($fbPost->post_content != 'Click here to read more on Facebook') {?>
             <p class="post-text"><?= $fbPost->post_content; ?></p>
+            <?php } ?>
             <p class="posted-on">Posted on <?= $date; ?></p>
         </div>
         <div class="card-bottom">

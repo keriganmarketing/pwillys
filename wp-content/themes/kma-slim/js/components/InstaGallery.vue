@@ -7,7 +7,7 @@
             <figure class="image is-square photo-tile" >
             <img 
                 class="photo-thumb" 
-                :src="photo.media_url" 
+                :src="(photo.media_type == 'VIDEO' ? photo.thumbnail_url : photo.media_url )" 
                 :alt="'Pwillys Instagram Photo ' + index"
                 @click="toggleGallery(index)" 
             >
@@ -17,7 +17,9 @@
             <div class="modal-background" @click="toggleGallery"></div>
             <div class="modal-content large" >
                 <div class="photo-holder" >
-                    <img :src="photos[currentPhoto].media_url" :alt="'Pwillys Instagram Photo '" >
+                    <iframe v-if="photos[currentPhoto].media_type == 'VIDEO'" :src="photos[currentPhoto].media_url" style="width: 100%; height: 400px" ></iframe>
+                    <img v-if="photos[currentPhoto].media_type == 'IMAGE' || photos[currentPhoto].media_type == 'CAROUSEL_ALBUM'" :src="photos[currentPhoto].media_url" :alt="'Pwillys Instagram Photo '" >
+
                 </div>
                 <div class="navigation columns is-mobile is-centered is-justified">
                     <div class="column is-narrow has-text-right"><a class="button is-primary tandelle" @click="previousPhoto">Previous</a></div>
