@@ -105,14 +105,16 @@ class FacebookController
         register_rest_route( 'kerigansolutions/v1', '/autoblogtoken',
             [
                 'methods'  => 'GET',
-                'callback' => [ $this, 'exchangeToken' ]
+                'callback' => [ $this, 'exchangeToken' ],
+                'permission_callback'  => '__return_true'
             ]
         );
 
         register_rest_route( 'kerigansolutions/v1', '/forcefbsync',
             [
                 'methods'  => 'GET',
-                'callback' => [ $this, 'forceSync' ]
+                'callback' => [ $this, 'forceSync' ],
+                'permission_callback'  => '__return_true'
             ]
         );
     }

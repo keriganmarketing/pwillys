@@ -2,7 +2,9 @@
 
 namespace WPMailSMTP\Providers\Mailgun;
 
+use WPMailSMTP\Debug;
 use WPMailSMTP\Providers\MailerAbstract;
+use WPMailSMTP\WP;
 
 /**
  * Class Mailer.
@@ -55,7 +57,7 @@ class Mailer extends MailerAbstract {
 		// Default value should be defined before the parent class contructor fires.
 		$this->url = self::API_BASE_US;
 
-		// We want to prefill everything from \WPMailSMTP\MailCatcher class, which extends \PHPMailer.
+		// We want to prefill everything from MailCatcher class, which extends PHPMailer.
 		parent::__construct( $phpmailer );
 
 		// We have a special API URL to query in case of EU region.
@@ -185,6 +187,42 @@ class Mailer extends MailerAbstract {
 	}
 
 	/**
+	 * Redefine the way custom headers are process for this mailer - they should be in body.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param array $headers
+	 */
+	public function set_headers( $headers ) {
+
+		foreach ( $headers as $header ) {
+			$name  = isset( $header[0] ) ? $header[0] : false;
+			$value = isset( $header[1] ) ? $header[1] : false;
+
+			$this->set_body_header( $name, $value );
+		}
+
+		// Add custom PHPMailer-specific header.
+		$this->set_body_header( 'X-Mailer', 'WPMailSMTP/Mailer/' . $this->mailer . ' ' . WPMS_PLUGIN_VER );
+	}
+
+	/**
+	 * This mailer supports email-related custom headers inside a body of the message with a special prefix "h:".
+	 *
+	 * @since 1.5.0
+	 */
+	public function set_body_header( $name, $value ) {
+
+		$name = sanitize_text_field( $name );
+
+		$this->set_body_param(
+			array(
+				'h:' . $name => WP::sanitize_value( $value ),
+			)
+		);
+	}
+
+	/**
 	 * It's the last one, so we can modify the whole body.
 	 *
 	 * @since 1.0.0
@@ -211,7 +249,8 @@ class Mailer extends MailerAbstract {
 				if ( is_file( $attachment[0] ) && is_readable( $attachment[0] ) ) {
 					$file = file_get_contents( $attachment[0] );
 				}
-			} catch ( \Exception $e ) {
+			}
+			catch ( \Exception $e ) {
 				$file = false;
 			}
 
@@ -326,6 +365,40 @@ class Mailer extends MailerAbstract {
 				'sender' => $email,
 			)
 		);
+	}
+
+	/**
+	 * Whether the email is sent or not.
+	 * We basically check the response code from a request to provider.
+	 * Might not be 100% correct, not guarantees that email is delivered.
+	 *
+	 * In Mailgun's case it looks like we have to check if the response body has the message ID.
+	 * All successful API responses should have `id` key in the response body.
+	 *
+	 * @since 2.2.0
+	 *
+	 * @return bool
+	 */
+	public function is_email_sent() {
+
+		$is_sent = parent::is_email_sent();
+
+		if (
+			$is_sent &&
+			isset( $this->response['body'] ) &&
+			! array_key_exists( 'id', (array) $this->response['body'] )
+		) {
+			$message = 'Mailer: Mailgun' . PHP_EOL .
+				esc_html__( 'Mailgun API request was successful, but it could not queue the email for delivery.', 'wp-mail-smtp' ) . PHP_EOL .
+				esc_html__( 'This could point to an incorrect Domain Name in the plugin settings.', 'wp-mail-smtp' ) . PHP_EOL .
+				esc_html__( 'Please check the WP Mail SMTP plugin settings and make sure the Mailgun Domain Name setting is correct.', 'wp-mail-smtp' );
+
+			Debug::set( $message );
+
+			return false;
+		}
+
+		return $is_sent;
 	}
 
 	/**

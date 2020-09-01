@@ -68,7 +68,7 @@ class InstagramController
             }
         }
 
-        if($response){
+        if(isset($response)){
             return $response;
         }else{
             return false;
@@ -127,14 +127,16 @@ class InstagramController
         register_rest_route( 'kerigansolutions/v1', '/instagallerytoken',
             [
                 'methods'  => 'GET',
-                'callback' => [ $this, 'exchangeToken' ]
+                'callback' => [ $this, 'exchangeToken' ],
+                'permission_callback'  => '__return_true'
             ]
         );
 
         register_rest_route( 'kerigansolutions/v1', '/instagramdata',
             [
                 'methods'  => 'GET',
-                'callback' => [ $this, 'getInstagramData' ]
+                'callback' => [ $this, 'getInstagramData' ],
+                'permission_callback'  => '__return_true'
             ]
         );
     }
