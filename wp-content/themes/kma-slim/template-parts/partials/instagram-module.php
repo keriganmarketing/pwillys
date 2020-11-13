@@ -6,8 +6,8 @@ $photos = $instagram->getFeed(9);
 
 if(count(json_decode($photos))>0){
 ?>
-<div class="card social-module instagram has-text-centered" tabindex="0">
-    <div class="card-content">
+<div class="card social-module instagram has-text-centered">
+    <div class="card-content" tabindex="0">
         <insta-gallery :photos='<?= $photos; ?>' ></insta-gallery>
     </div>
     <div class="card-bottom">
