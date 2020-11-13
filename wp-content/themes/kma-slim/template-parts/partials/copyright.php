@@ -1,5 +1,5 @@
 
-<div class="container has-text-centered">
+<div class="container has-text-centered" tabindex="0">
     <p class="copyright">&copy;<?php echo date('Y'); ?> <?php echo get_bloginfo(); ?>. All&nbsp;Rights&nbsp;Reserved.
         <!-- <span class="siteby">
             <svg version="1.1" id="kma" xmlns="http://www.w3.org/2000/svg"

@@ -19,12 +19,12 @@ use Includes\Modules\Helpers\PageField;
             <div class="container">
                 <div class="columns is-multiline is-justified is-aligned">
                     <div class="column is-6 is-4-desktop">
-                        <img class="footer-logo" src="<?php echo get_template_directory_uri() . '/img/logo.png'; ?>"
+                        <img class="footer-logo" tabindex="0" src="<?php echo get_template_directory_uri() . '/img/logo.png'; ?>"
                              alt="Pineapple Willy's">
-                        <div class="contact-box">
+                        <div class="contact-box" >
                             <p class="footer-phone"><a class="dimbo" href="tel:<?= PageField::getField('contact_info_phone_number', 17); ?>"><?= PageField::getField('contact_info_phone_number', 17); ?></a></p>
-                            <p class="open-text"><?= PageField::getField('contact_info_hours', 17); ?></p>
-                            <p class="address"><?= nl2br(PageField::getField('contact_info_address', 17)); ?></p>
+                            <p class="open-text" tabindex="0"><?= PageField::getField('contact_info_hours', 17); ?></p>
+                            <p class="address" tabindex="0"><?= nl2br(PageField::getField('contact_info_address', 17)); ?></p>
                             <div class="social">
                                 <?php
                                 $socialLinks = new SocialSettingsPage();
@@ -41,12 +41,12 @@ use Includes\Modules\Helpers\PageField;
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6 is-4-desktop has-text-centered">
+                    <div class="column is-6 is-4-desktop has-text-centered"  tabindex="0">
                         <a href="/contact/" class="button is-primary tandelle directions-button is-rounded has-shadow">Get Directions</a>
                         <img class="footer-map" src="<?php echo get_template_directory_uri() . '/img/footer-map.jpg'; ?>"
                              alt="Directions to Pineapple Willy's">
                     </div>
-                    <div class="column is-6 is-4-desktop footer-partners has-text-centered">
+                    <div class="column is-6 is-4-desktop footer-partners has-text-centered" tabindex="0">
                         <p class="while-youre-here">While you're in town, visit<br>our sister restaurant:</p>
                         <a href="https://thewickedwheel.com" target="_blank"><img src="<?php echo get_template_directory_uri() . '/img/wicked-wheel-logo.png'; ?>"
                                                                            alt="The Wicked Wheel Restaurant"></a>
