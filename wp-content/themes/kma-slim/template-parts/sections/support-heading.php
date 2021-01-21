@@ -6,7 +6,7 @@ $headerImage = ($post->page_information_header_image != '' ? $post->page_informa
 <div class="sticky-header-pad support"></div>
 <section class="support-header" style="background-image: url('<?= $headerImage; ?>');" >
     <div class="container">
-        <div class="header-content has-text-centered">
+        <div class="header-content has-text-centered"  tabindex="0">
             <h1 class="title is-1 bernadette is-primary" tabindex="0"><?php echo (is_home() ? 'Pineapple Culture' : $headline); ?></h1>
             <?php echo($subhead != '' ? '<p class="subtitle">' . $subhead . '</p>' : null); ?>
             <?php if ('post' === get_post_type()) : ?>

@@ -1,6 +1,6 @@
 <div class="beach-cams">
-    <div class="container has-text-centered">
-        <h2 class="bernadette">Willy's&nbsp;Live Beach&nbsp;Cam</h2>
+    <div class="container has-text-centered" >
+        <h2 class="bernadette" tabindex="0">Willy's&nbsp;Live Beach&nbsp;Cam</h2>
         <div class="columns is-mobile">
             <div class="column">
                 <div class="beach-cam-button">

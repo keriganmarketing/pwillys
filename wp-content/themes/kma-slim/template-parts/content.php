@@ -16,7 +16,7 @@ include(locate_template('template-parts/sections/top.php'));
         <?php include(locate_template('template-parts/sections/support-heading.php')); ?>
         <section id="content" class="section support">
             <div class="container">
-                <div class="entry-content content">
+                <div class="entry-content content" tabindex="0">
                     <?php
                     the_content( sprintf(
                     /* translators: %s: Name of current post. */
