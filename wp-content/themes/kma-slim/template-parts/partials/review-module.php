@@ -19,7 +19,7 @@ for($i=0; $i<floor($feed['rating']); $i++){
 }
 ?>
 <div class="review-module">
-    <div class="container">
+    <div class="container" tabindex="0">
         <div class="columns is-centered is-justified" >
             <div class="column is-10-tablet is-7-desktop" >
                 <div class="review single has-text-centered" >

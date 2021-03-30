@@ -1,4 +1,4 @@
-<div class="card social-module tripadvisor has-text-centered">
+<div class="card social-module tripadvisor has-text-centered" >
     <div id="TA_selfserveprop244" class="TA_selfserveprop">
         <ul id="vdrtZSG" class="TA_links AOUooVMytkd">
             <li id="kNMVDblST" class="8qsex5QQP"><a target="_blank" href="https://www.tripadvisor.com/"><img

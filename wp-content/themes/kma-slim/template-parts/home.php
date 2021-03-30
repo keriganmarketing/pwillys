@@ -14,7 +14,7 @@ include(locate_template('template-parts/sections/top.php'));
 <div id="mid" >
     <?php include(locate_template('template-parts/sections/home-header.php')); ?>
     <?php include(locate_template('template-parts/partials/beach-cams.php')); ?>
-    <div class="container">
+    <div class="container" tabindex="0">
         <div class="entry-content content has-text-centered">
             <h1 class="title dimbo is-primary"><?php echo $headline; ?></h1>
             <?php echo ($subhead!='' ? '<h2 class="subtitle bernadette">Seafood, Music &&nbsp;Fun</h2>' : null); ?>

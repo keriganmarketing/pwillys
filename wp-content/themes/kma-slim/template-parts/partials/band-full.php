@@ -40,58 +40,64 @@ $band->show_times = $eventsArray;
 //echo '<pre>',print_r($band),'</pre>';
 
 ?>
-<div class="columns is-multiline">
-    <div class="column is-4">
-        <img src="<?= $band->photo; ?>" alt="<?= $band->name; ?>">
 
-        <h2 class="dimbo title is-primary">Show Times</h2>
-        <?php foreach ($band->show_times as $show) { ?>
-            <div class="show columns is-multiline">
-                <div class="column">
-                    <p class="title is-5 is-secondary"><?= $show['recurr_readable']; ?></p>
-                    <p class="subtitle is-6"><?= $show['time']; ?></p>
-                </div>
-                <?php if ($show['tickets'] != '') { ?>
-                    <div class="column is-narrow">
-                        <a class="button is-info is-rounded has-shadow" href="<?= $show['tickets']; ?>">Buy
-                            Tickets</a>
-                    </div>
-                <?php } ?>
+<div class="columns is-multiline">
+    <div class="column is-7">
+        <div class="aligncenter">
+            <!-- Band name and pic -->
+            <img src="<?= $band->photo; ?>" style="width:100%;" alt="<?= $band->name; ?>">
+        </div>
+        <!-- Social Media Icons -->
+        <?php if ($hasSocialMedia) { ?>
+            <div class="column social is-narrow" style="margin-bottom: -20px;">
+                <?php
+                $socialLinks = new SocialSettingsPage();
+                $socialIcons = $socialLinks->getSocialLinks('svg', 'circle', $band->social_media);
+                if (is_array($socialIcons)) {
+                    foreach ($socialIcons as $socialId => $socialLink) {
+                        echo '<a class="' . $socialId . '" href="' . $socialLink[0] . '" target="_blank" >' . $socialLink[1] . '</a>';
+                    }
+                }
+                ?>
             </div>
         <?php } ?>
+        
+        <!-- Band Description -->
+        <div class="column is-narrow" style="margin-bottom: 20px;">
+            <?= $band->description; ?>
+        </div>
 
-    </div>
-    <div class="column is-8">
-        <div class="columns is-multiline">
-            <?php if ($hasSocialMedia) { ?>
-                <div class="column social is-narrow">
-                    <?php
-                    $socialLinks = new SocialSettingsPage();
-                    $socialIcons = $socialLinks->getSocialLinks('svg', 'circle', $band->social_media);
-                    if (is_array($socialIcons)) {
-                        foreach ($socialIcons as $socialId => $socialLink) {
-                            echo '<a class="' . $socialId . '" href="' . $socialLink[0] . '" target="_blank" >' . $socialLink[1] . '</a>';
-                        }
-                    }
-                    ?>
-                </div>
-            <?php } ?>
-            <?php if ($band->website != '') { ?>
+        <!-- If the band has a website -->
+        <?php if ($band->website != '') { ?>
                 <div class="column website is-narrow">
                     <a class="button is-info is-rounded has-shadow" style="height: 2.6rem"
                        href="<?= $band->website; ?>">Visit Website</a>
                 </div>
             <?php } ?>
-            <?php if ($band->video != '') { ?>
-                <div class="column is-12">
-                    <div class="video">
-                        <iframe src="https://www.youtube-nocookie.com/embed/<?= $band->video; ?>?rel=0&amp;showinfo=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    </div>
+    <div class="column is-5 mb-5">
+        <h2 class="dimbo title is-primary">Show Times</h2>
+            <?php foreach ($band->show_times as $show) { ?>
+                <div class="show columns is-multiline">
+                    <div class="column">
+                        <p class="title is-5 is-secondary"><?= $show['recurr_readable']; ?></p>
+                        <p class="subtitle is-6"><?= $show['time']; ?></p>
                     </div>
+                    <?php if ($show['tickets'] != '') { ?>
+                        <div class="column is-narrow">
+                            <a class="button is-info is-rounded has-shadow" href="<?= $show['tickets']; ?>">Buy
+                                Tickets</a>
+                        </div>
+                    <?php } ?>
                 </div>
-            <?php } ?>
-            <div class="column is-12">
-                <?= $band->description; ?>
+                <?php } ?>      
+    </div>
+    <!-- Band Video section -->
+    <?php if ($band->video != '') { ?>
+        <div class="is-fullscreen">
+            <div class="video">
+                <iframe src="https://www.youtube-nocookie.com/embed/<?= $band->video; ?>?rel=0&amp;showinfo=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
             </div>
         </div>
-    </div>
+        <?php } ?>
 </div>
