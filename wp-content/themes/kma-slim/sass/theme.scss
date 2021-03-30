@@ -268,7 +268,7 @@ body {
         max-height: 2.75rem;
       }
       a.menu-item {
-        font-size: 1.8em;
+        font-size: 1.5em;
         font-family: $header-font-family;
         text-transform: uppercase;
         color: #2d2d2d;
@@ -1095,8 +1095,8 @@ h2.subtitle {
   .contact-box {
     padding-left: 1rem;
     @media screen and (min-width: $widescreen) {
-      margin-top: -2rem;
-      padding-left: 8rem;
+      margin-top: -1rem;
+      padding-left: 6.25rem;
     }
 
     .footer-phone {
