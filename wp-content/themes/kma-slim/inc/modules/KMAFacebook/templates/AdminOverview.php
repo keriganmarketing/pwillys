@@ -26,18 +26,16 @@ use Includes\Modules\KMAFacebook\FacebookController;
 
                 $facebook = new FacebookController();
 
+                $tokenExpires    = $facebook->getTokenExpiryDate();
                 $FacebookPageID  = (isset($_POST['facebook_page_id']) ? sanitize_text_field($_POST['facebook_page_id']) : get_option('facebook_page_id'));
                 $FacebookToken   = (isset($_POST['facebook_token']) ? sanitize_text_field($_POST['facebook_token']) : get_option('facebook_token'));
                 $FacebookSecret  = (isset($_POST['facebook_app_secret']) ? sanitize_text_field($_POST['facebook_app_secret']) : get_option('facebook_app_secret'));
-                $tokenExpires    = (isset($_POST['fb_token_expires']) ? sanitize_text_field($_POST['fb_token_expires']) : get_option('fb_token_expires'));
 
                 if (isset($_POST['facebook_submit_settings'])) {
                     update_option('facebook_page_id',
                         isset($_POST['facebook_page_id']) ? sanitize_text_field($_POST['facebook_page_id']) : $FacebookPageID);
                     update_option('facebook_token',
                         isset($_POST['facebook_token']) ? sanitize_text_field($_POST['facebook_token']) : $FacebookToken);
-                    update_option('fb_token_expires',
-                        isset($_POST['fb_token_expires']) ? sanitize_text_field($_POST['fb_token_expires']) : $tokenExpires);
                 }
 
                 if (isset($_POST['facebook_submit_secret_settings']) && $_POST['facebook_submit_secret_settings'] == 'yes') {
@@ -58,7 +56,7 @@ use Includes\Modules\KMAFacebook\FacebookController;
                     <div class="field has-addons">
                         <div class="control">
                             <input type="text" class="input is-small" name="facebook_app_secret" id="facebook_app_secret"
-                                value="<?= $FacebookSecret; ?>" >
+                                value="<?= $FacebookSecret; ?>"  style="font-size: .83rem; width: 250px;" >
                         </div>
                         <div class="control">
                             <button class="button is-info" > Save </button>
@@ -110,16 +108,25 @@ use Includes\Modules\KMAFacebook\FacebookController;
                         </div>
                     </div>
 
-                    <input type="hidden"  value="" id="tokenexpires" name="fb_token_expires">
+                    
 
                     <p class="submit">
                         <input class="button is-info" type="submit" name="Submit"
                             value="<?php _e('Update Settings') ?>" />
 
                         <?php if(get_option('facebook_token')){ ?>
-                        <a onclick="checkStatus();" class="button is-primary"><?php _e('Renew Authorization') ?></a>
-                        <span class="ml-5">Expires: </span><span class="mr-5"><?php echo get_option('fb_token_expires'); ?></span>
-                        <a onclick="forceSync();" class="button is-primary ml-5"><?php _e('Force Sync') ?></a> <span id="syncstatus"></span>
+                            <a onclick="checkStatus();" class="button is-primary"><?php _e('Renew Authorization') ?></a>
+
+                            <?php if($tokenExpires > 0){ ?>
+                                <span class="ml-5">Expires:</span> <span class="mr-5"><?php echo date("F j, Y", $tokenExpires); ?></span>
+                            <?php } ?>
+
+                            <a onclick="forceSync('forcepostsync','#postsyncstatus');" class="button is-primary ml-5">
+                                <?php _e('Sync Posts') ?></a> 
+                                <span id="postsyncstatus"></span>
+                            <a onclick="forceSync('forceeventsync','#eventsyncstatus');" class="button is-primary ml-5">
+                                <?php _e('Sync Events') ?></a> 
+                                <span id="eventsyncstatus"></span>
                         <?php } ?>
                     </p>
 
@@ -177,8 +184,6 @@ use Includes\Modules\KMAFacebook\FacebookController;
             document.getElementById('facebooktoken').value = longLivedUserToken;
             console.log(response);
 
-            document.getElementById('tokenexpires').value = toDateTime(response.expires_in);
-
             clearError()
             FB.api('/me/accounts', function (response) {
                 for (let i = 0; i < response.data.length; i++) {
@@ -206,15 +211,15 @@ use Includes\Modules\KMAFacebook\FacebookController;
         jQuery("#accountoptions").html('');
     }
 
-    function forceSync(){
-        jQuery("#syncstatus").text('Please wait...');
+    function forceSync(endpoint, statusdiv){
+        jQuery(statusdiv).text('Please wait...');
         jQuery.ajax({
-            url: "/wp-json/kerigansolutions/v1/forcefbsync"
+            url: "/wp-json/kerigansolutions/v1/" + endpoint
         }).done(function (response) {
             if(response.success == true){
-                jQuery("#syncstatus").text('Done!');
+                jQuery(statusdiv).text('Done!');
             }else{
-                jQuery("#syncstatus").text('Error!');
+                jQuery(statusdiv).text('Error!');
                 jQuery("#error").html('<div class="notification is-danger mb-5">' +
                 '<button class="delete" onclick="clearError()"></button>' +
                 '<p><strong>Error Code ' + response.error.code + ':</strong> ' + response.error
