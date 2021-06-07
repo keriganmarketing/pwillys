@@ -47,7 +47,7 @@ $ourMenu = new Menu();
 $ourMenu->setupAdmin();
 
 $facebook = new FacebookController();
-$facebook->setupAdmin();
+$facebook->use();
 
 $instagram = new InstagramController();
 $instagram->setupAdmin();
