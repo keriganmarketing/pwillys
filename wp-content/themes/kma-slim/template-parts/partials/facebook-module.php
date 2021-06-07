@@ -26,7 +26,7 @@ if(count($feed) > 0){
 
             <div class="card-content">
                 <?php if($fbPost->description != 'Click here to read more on Facebook') {?>
-                <p class="post-text"><?php echo wp_trim_words($fbPost->description, 20, '...'); ?></p>
+                <p class="post-text"><?php echo wp_trim_words($fbPost->description, 25, '...'); ?></p>
                 <?php } ?>
                 <p class="posted-on">Posted on <?php echo $date; ?></p>
             </div>
@@ -49,7 +49,7 @@ if(count($feed) > 0){
 
             <div class="card-content">
                 <?php if($fbPost->description != 'Click here to read more on Facebook') {?>
-                <p class="post-text"><?php echo wp_trim_words($fbPost->description, 20, '...'); ?></p>
+                <p class="post-text"><?php echo wp_trim_words($fbPost->description, 25, '...'); ?></p>
                 <?php } ?>
                 <p class="posted-on">Posted on <?php echo $date; ?></p>
             </div>
