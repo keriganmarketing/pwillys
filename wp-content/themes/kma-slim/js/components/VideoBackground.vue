@@ -1,6 +1,6 @@
 <template>
   <section class="VideoBg" >
-    <video autoplay loop muted playsinline ref="video" class="h-100 w-100" >
+    <video autoplay loop muted playsinline preload="auto" ref="video" class="h-100 w-100" >
       <source v-for="source in sources" :key="source.index" :src="source" :type="getMediaType(source)">
     </video>
   </section>
