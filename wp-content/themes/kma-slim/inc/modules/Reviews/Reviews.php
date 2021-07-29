@@ -179,7 +179,7 @@ class Reviews
                 'author'   => get_post_meta($post->ID, 'author_info_name', true),
                 'company'  => get_post_meta($post->ID, 'author_info_company', true),
                 'featured' => get_post_meta($post->ID, 'author_info_featured', true),
-                'date'     => date('YmdGi', strtotime(get_post_meta($post->ID, 'author_info_date', true))),
+                'date'     => date('Ymd', strtotime(get_post_meta($post->ID, 'author_info_date', true))),
                 'location' => get_post_meta($post->ID, 'author_info_location', true),
                 'rating'   => get_post_meta($post->ID, 'author_info_stars', true)
             ];
