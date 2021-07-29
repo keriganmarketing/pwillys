@@ -1,32 +1,18 @@
-<?php
-use Includes\Modules\Slider\BulmaSlider;
-?>
 <div class="home-header">
-    <slider>
-        <?php
-        $slider = new BulmaSlider();
-        $slides = $slider->getSlides('home-page-slider');
-        $slider = '';
-
-        $i = 0;
-        foreach($slides as $slide){
-            $slider .= '<slide :id="'.number_format($i).'" image="'.$slide['photo'].'" >';
-            if($slide['description'] != '' || $slide['headline'] != ''){
-                $slider .= '<section class="slide-content">'
-                                . ($slide['headline'] != '' ? '<h2 class="title is-1 is-primary">'.$slide['headline'].'</h2>' : '')
-                                . ($slide['caption'] != '' ? '<p class="slider-subtitle">'.$slide['caption'].'</p>' : '')
-                                . ($slide['description'] != '' ? '<div class="slider-description">'.$slide['description'].'</div>' : '')
-                                . ($slide['url'] != '' ? '<a class="button is-primary is-rounded has-shadow" href="'.$slide['link'].'">'
-                                . ($slide['button_text'] != '' ? $slide['button_text'] : 'More Info') . '</a>' : '') .
-                            '</section>';
-            }
-            $slider .= '</slide>';
-            $i++;
-        }
-        echo $slider;
-        ?>
-    </slider>
-</div>
-<div class="menu-button-mobile-only is-hidden-tablet has-text-centered">
-    <a class="menu-button button is-primary is-rounded has-shadow" href="/pineapple-willys-menu/">View Our Menu</a>
+    <div class="video-container h-100">
+        <video-background 
+        img="<?php echo get_stylesheet_directory_uri(); ?>/img/video-backup-mobile.webp"
+        :sources="[
+            '<?php echo get_stylesheet_directory_uri(); ?>/video/pwillys_video_short.webm',
+            '<?php echo get_stylesheet_directory_uri(); ?>/video/pwillys_video_short.mp4'
+        ]" 
+        tabindex="0"
+        aria-label="Promotional Video of Lagoon Pontoon Trips and Adventures"
+        ></video-background>
+    </div>
+    <div class="video-headline has-text-centered">
+        <h1 class="title dimbo is-primary"><?php echo $headline; ?></h1>
+        <?php echo ($subhead!='' ? '<h2 class="subtitle bernadette">Seafood, Music &&nbsp;Fun</h2>' : null); ?>
+        <a class="menu-button button is-primary is-rounded has-shadow" href="/pineapple-willys-menu/">View Our Menu</a>
+    </div>
 </div>

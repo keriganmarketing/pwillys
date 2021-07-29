@@ -18,21 +18,20 @@ for($i=0; $i<floor($feed['rating']); $i++){
                </span>';
 }
 ?>
-<div class="review-module">
-    <div class="container" tabindex="0">
-        <div class="columns is-centered is-justified" >
-            <div class="column is-10-tablet is-7-desktop" >
-                <div class="review single has-text-centered" >
-                    <span class="open-quote">&ldquo;</span>
-                    <p class="review-text is-large is-info">&ldquo;<?= $feed['content']; ?>&rdquo;</p>
-                    <p class="review-author">
-                        <span class="name">&mdash; <?= $feed['author']; ?></span>
-                        <span class="rating">rated <?= $stars; ?></span>
-                        <span class="source">on <?= $feed['location']; ?></span>
-                        <span class="when"><?= $when; ?></span>
-                    </p>
-                </div>
-            </div>
+<div class="card social-module review-module tripadvisor"  tabindex="0">
+    <div class="card-content">
+        <div class="review single has-text-centered" >
+            <span class="open-quote">&ldquo;</span>
+            <p class="review-text"><?= $feed['content']; ?>&rdquo;</p>
+            <p class="review-author">
+                <span class="name">&mdash; <?= $feed['author']; ?></span>
+                <span class="rating">rated <?= $stars; ?></span>
+                <span class="source">on <?= $feed['location']; ?></span>
+                <span class="when"><?= $when; ?></span>
+            </p>
         </div>
+    </div>
+    <div class="card-bottom">
+        <a class="button is-primary is-large is-rounded has-shadow" target="_blank" href="https://www.facebook.com/pineapplewillys/reviews/">More Reviews on Facebook</a>
     </div>
 </div>

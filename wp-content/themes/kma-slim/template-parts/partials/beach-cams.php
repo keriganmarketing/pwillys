@@ -4,7 +4,7 @@
         <div class="columns is-mobile">
             <div class="column">
                 <div class="beach-cam-button">
-                    <img src="<?php echo get_template_directory_uri() . '/img/pwillys-cam-1.jpg'; ?>" alt="Beach Cam One">
+                    <img src="<?php echo get_template_directory_uri() . '/img/beach-cam-1-2021.jpg'; ?>" alt="Beach Cam One">
                     <a class="play-button"
                         aria-label="View Beach Cam One" 
                         title="View Beach Cam One"
@@ -13,7 +13,7 @@
             </div>
             <div class="column is-6 is-hidden-mobile">
                 <div class="beach-cam-button">
-                    <img src="<?php echo get_template_directory_uri() . '/img/pwillys-cam-2.jpg'; ?>" alt="Beach Cam Two">
+                    <img src="<?php echo get_template_directory_uri() . '/img/beach-cam-2-2021.jpg'; ?>" alt="Beach Cam Two">
                     <a class="play-button" 
                         aria-label="View Beach Cam Two" 
                         title="View Beach Cam Two"

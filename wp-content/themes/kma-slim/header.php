@@ -8,6 +8,10 @@
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> >
 <head>
+    <link rel="preconnect" href="https://use.typekit.net">
+    <link rel="preconnect" href="https://googleads.g.doubleclick.net">
+    <link rel="preconnect" href="https://www.google-analytics.com">
+
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="http://gmpg.org/xfn/11">
@@ -18,12 +22,20 @@
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-5T9GLL7');</script>
     <!-- End Google Tag Manager -->
-    <script src="https://www.jscache.com/wejs?wtype=selfserveprop&amp;uniq=244&amp;locationId=550328&amp;lang=en_US&amp;rating=true&amp;nreviews=3&amp;writereviewlink=true&amp;popIdx=true&amp;iswide=true&amp;border=false&amp;display_version=2"></script>
+    
+    <link rel="preload" href="https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://fonts.gstatic.com/s/montserrat/v15/JTURjIg1_i6t8kCHKm45_dJE3gnD_g.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/fonts/vendor/font-awesome/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/fonts/bernadette/Bernadette-Rough.woff" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/fonts/dimbo/Dimbo-Regular.woff" as="font" type="font/woff2" crossorigin="anonymous">
+
+    <?php if(is_front_page()){ ?>
+        <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/img/video-backup-mobile.webp" as="image" type="image/webp">
+        <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/video/pwillys_video_short.mp4" as="video" type="video/mp4">
+        <link rel="preload" href="<?php echo get_stylesheet_directory_uri(); ?>/video/pwillys_video_short.webm" as="video" type="video/webm">
+    <?php } ?>
+
     <?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?> >
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5T9GLL7"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->

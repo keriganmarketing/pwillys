@@ -308,7 +308,6 @@ body {
         padding-left: .5em;
         padding-right: .5em;
         margin: 0 .5rem;
-        font-size: 1.8em;
         text-transform: uppercase;
       }
 
@@ -393,6 +392,16 @@ body {
     }
   }
 
+}
+
+#app .button.is-primary {
+  background: rgb(253,184,19);
+  background: -moz-linear-gradient(122deg, rgba(253,184,19,1) 0%, rgba(229,160,0,1) 100%);
+  background: -webkit-linear-gradient(122deg, rgba(253,184,19,1) 0%, rgba(229,160,0,1) 100%);
+  background: linear-gradient(122deg, rgba(253,184,19,1) 0%, rgba(229,160,0,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fdb813",endColorstr="#e5a000",GradientType=1);
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.25);
+  text-shadow: 2px 2px 0 rgba(0,0,0,.25);
 }
 
 #top {
@@ -496,12 +505,54 @@ h2.subtitle {
     position: relative;
     width: 100%;
     background-color: $white;
-    min-height: 20rem;
+    height: 29rem;
+    overflow: hidden;
+
+    .video-container {
+      position: relative;
+      z-index: 0;
+    }
+
+    .video-headline {
+      padding-top: 8rem;
+      padding-bottom: 1.5rem;
+      position: absolute;
+      width: 100%;
+      z-index: 7;
+      bottom: 0;
+      background: rgb(0,0,0);
+      background: -moz-linear-gradient(0deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 100%);
+      background: -webkit-linear-gradient(0deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 100%);
+      background: linear-gradient(0deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#ffffff",GradientType=1);
+
+      h1 {
+        text-shadow: 3px 3px 0 rgba(0,0,0,.6)
+      }
+
+      h2 {
+        text-shadow: 2px 2px 0 #004f1f;
+        font-size: 30px;
+      }
+    }
+
+    @media screen and (min-width: $tablet) {
+      .video-headline {
+        padding-top: 5rem;
+
+        h2 {
+          font-size: 40px;
+        }
+
+        .menu-button {
+          display: none;
+        }
+
+      }
+    }
 
     @media screen and (min-width: $desktop) {
-      min-height: auto;
-      height: 30rem;
-      overflow: hidden;
+      
     }
 
     @media screen and (min-width: $widescreen) {
@@ -511,75 +562,10 @@ h2.subtitle {
     @media screen and (min-width: $fullhd) {
       height: 45rem;
     }
-
-    .slide {
-      .slide-container {
-        flex-wrap: wrap;
-        flex-direction: column-reverse;
-      }
-    }
-    @media screen and (min-width: $desktop) {
-      .slide {
-        .slide-container,
-        .container,
-        .columns,
-        .column {
-          height: 100%;
-        }
-        .slide-container {
-          flex-wrap: nowrap;
-          flex-direction: row;
-        }
-      }
-    }
-
-    .slide-content {
-      padding: 1rem 1rem .5rem;
-      text-align: center;
-      width: 100vw;
-      background-color: rgba(0, 117, 226, .9);
-
-      @media screen and (min-width: $desktop) {
-        margin: 7rem 0;
-        overflow: visible;
-        position: absolute;
-        z-index: 30;
-        width: 30vw;
-        text-align: left;
-        padding: 2rem 2rem 1rem;
-      }
-      
-      h2 {
-        font-size: 5rem;
-        font-family: $header-font-family;
-        text-transform: uppercase;
-      }
-      .slider-description {
-        color: #FFF;
-        font-size: 1.1em;
-        margin-bottom: 1rem;
-      }
-      .button {
-        font-size: 2em;
-        height: 3rem;
-      }
-    }
-
-    @media screen and (max-width: $desktop) {
-      .slider-right,
-      .slider-left,
-      .slide-image-shadow {
-        display: none !important;
-      }
-    }
+  
   }
 
-  .menu-button-mobile-only {
-    margin-top: -4rem;
-    padding-bottom: .75rem;
-    display: none !important;
-  }
-
+  
   .beach-cams {
     padding: 2rem 1rem 2rem;
     box-shadow: inset 0 0 30px rgba(0, 0, 0, .5);
@@ -618,6 +604,7 @@ h2.subtitle {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      box-shadow:0 0 .5rem rgba(0, 0, 0, .25);
 
       img {
         display: block;
@@ -770,20 +757,12 @@ h2.subtitle {
     }
   }
 
-  .review-module {
-    padding: 2rem 1rem;
-  }
-
   .review {
-    padding: 1rem 0 2rem;
-    border-bottom: 2px solid rgba(255,225,0,0.17);
 
     .review-text {
-      font-size: 18px;
-      color: $info;
-      @media screen and (min-width: $tablet) {
-        font-size: 24px;
-      }
+      font-size: 16px;
+      color: $dark;
+      line-height: 23px;
     }
 
     .review-author {
@@ -799,23 +778,22 @@ h2.subtitle {
   }
 
   .review.single {
-    padding: 2rem;
-    border: 8px solid rgba(255,225,0,0.17);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 
     .open-quote {
       display: inline-block;
-      background-color: $white;
       color: #fbb631;
       font-family: Georgia, serif;
       font-size: 72px;
       font-style: normal;
       font-stretch: normal;
       font-weight: 700;
-      margin-top: -3.25rem;
-      position: absolute;
       width: 60px;
-      margin-left: -30px;
-      padding-top: 1rem;
+      padding-top: .25rem;
     }
     .review-author {
       margin-top: 1rem;
@@ -857,6 +835,7 @@ h2.subtitle {
       }
 
       .card-bottom {
+        text-align: center;
         padding: 0 .5rem 1rem;
       }
     }
@@ -882,7 +861,7 @@ h2.subtitle {
           display: block;
         }
         .posted-on {
-          color: $grey;
+          color: #555555;
           font-size: .9em;
         }
       }
@@ -1063,6 +1042,12 @@ h2.subtitle {
   list-style: none;
   flex-direction: column;
   padding: .25rem 0;
+  background: -moz-linear-gradient(122deg, rgba(253,184,19,1) 0%, rgba(229,160,0,1) 100%);
+  background: -webkit-linear-gradient(122deg, rgba(253,184,19,1) 0%, rgba(229,160,0,1) 100%);
+  background: linear-gradient(122deg, rgba(253,184,19,1) 0%, rgba(229,160,0,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fdb813",endColorstr="#e5a000",GradientType=1);
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.25);
+  text-shadow: 2px 2px 0 rgba(0,0,0,.25);
 
   @media screen and (min-width: $tablet) {
     flex-direction: row;
@@ -1119,16 +1104,16 @@ h2.subtitle {
     }
   }
 
-  .directions-button {
-    font-size: 1.6em;
-    height: 2.75rem;
-    box-shadow: 0 0 3px rgba(0, 0, 0, .4);
-    position: absolute;
-    margin: 10px;
-    width: 170px;
-  }
-  .footer-map {
-    border: $tertiary 4px solid;
+  @media screen and (min-width: 784px){
+    .footer-contact-column {
+      flex-grow: 1;
+    }
+    .flag-system-iframe {
+      margin: 1rem 1.5rem;
+    }
+    .is-narrow-desktop {
+      width: auto;
+    }
   }
 
   .footer-partners {
@@ -1156,11 +1141,12 @@ h2.subtitle {
   }
 
   p {
-    color: $grey;
+    color: #555555;
     font-size: .8em;
     a {
-      color: $grey;
+      color: #555555;
       text-decoration: underline;
+      font-weight: bold;
     }
 
     .siteby {

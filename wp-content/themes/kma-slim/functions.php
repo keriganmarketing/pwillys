@@ -86,7 +86,13 @@ add_action('after_setup_theme', function () {
 
 add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('styles', get_template_directory_uri() . '/style.css');
-    wp_enqueue_script('scripts', get_template_directory_uri() . '/app.js', array(), '0.0.1', true);
+
+    if(is_front_page()){
+        wp_enqueue_script('scripts', get_template_directory_uri() . '/front.js', array(), '0.0.1', true);
+    }else{
+        wp_enqueue_script('scripts', get_template_directory_uri() . '/generic.js', array(), '0.0.1', true);
+    }
+    
 });
 
 function getPageChildren($pageName)

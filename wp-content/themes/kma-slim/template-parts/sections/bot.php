@@ -18,7 +18,7 @@ use Includes\Modules\Helpers\PageField;
         <div id="bot">
             <div class="container">
                 <div class="columns is-multiline is-justified is-aligned">
-                    <div class="column is-6 is-4-desktop">
+                    <div class="column is-6 is-4-desktop footer-contact-column">
                         <img class="footer-logo" tabindex="0" src="<?php echo get_template_directory_uri() . '/img/logo.png'; ?>"
                              alt="Pineapple Willy's">
                         <div class="contact-box" >
@@ -41,12 +41,16 @@ use Includes\Modules\Helpers\PageField;
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6 is-4-desktop has-text-centered"  tabindex="0">
-                        <a href="/contact/" class="button is-primary tandelle directions-button is-rounded has-shadow">Get Directions</a>
-                        <img class="footer-map" src="<?php echo get_template_directory_uri() . '/img/footer-map.jpg'; ?>"
-                             alt="Directions to Pineapple Willy's">
+                    <div class="column is-6 is-narrow-desktop has-text-centered"  tabindex="0">
+                        <iframe title="Panama City Beach Conditions" 
+                            src="https://www.visitpanamacitybeach.com/beach-alerts-iframe/" 
+                            class="flag-system-iframe"
+                            loading="lazy"
+                            width="340"
+                            height="250"
+                        ></iframe>
                     </div>
-                    <div class="column is-6 is-4-desktop footer-partners has-text-centered" tabindex="0">
+                    <div class="column is-6 is-narrow-desktop footer-partners has-text-centered" tabindex="0">
                         <p class="while-youre-here">While you're in town, visit<br>our sister restaurant:</p>
                         <a href="https://thewickedwheel.com" target="_blank"><img src="<?php echo get_template_directory_uri() . '/img/wicked-wheel-logo.png'; ?>"
                                                                            alt="The Wicked Wheel Restaurant"></a>
@@ -59,7 +63,6 @@ use Includes\Modules\Helpers\PageField;
             <?php include(locate_template('template-parts/partials/copyright.php')); ?>
         </div>
     </div><!-- .sticky-footer -->
-    <modal><?= (isset($modalContent) && $modalContent != '' ? $modalContent : ''); ?></modal>
     </div><!-- .site-wrapper -->
 </div><!-- .app -->
 <?php if(!is_front_page()){ ?>
