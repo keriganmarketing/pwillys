@@ -8,6 +8,7 @@ import GoogleMap from './components/GoogleMap.vue';
 import GoogleMapPin from './components/GoogleMapPin.vue';
 import {VueMasonryPlugin} from 'vue-masonry';
 import InstaGallery from './components/InstaGallery';
+import SocialSharingIcons from './components/SocialSharingIcons';
 
 Vue.use(VueMasonryPlugin)
 
@@ -20,7 +21,8 @@ let app = new Vue({
         'video-modal' : VideoModal,
         'google-map': GoogleMap,
         'pin': GoogleMapPin,
-        'insta-gallery': InstaGallery
+        'insta-gallery': InstaGallery,
+        'social-sharing-icons': SocialSharingIcons,
     },
 
     data: {

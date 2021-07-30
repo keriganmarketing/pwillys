@@ -14,7 +14,8 @@
     "cross-env": "^5.2.0",
     "font-awesome": "^4.7.0",
     "laravel-mix": "0.*",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-social-sharing": "^3.0.8"
   },
   "dependencies": {
     "autoprefixer": "^8.6.5",

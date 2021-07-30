@@ -113,3 +113,16 @@ function custom_admin_css() {
     </style>';
     }
 add_action('admin_head', 'custom_admin_css');
+
+function kma_social_share_function( $atts ){
+    $a = shortcode_atts([
+        'label' => 'Share This:'
+    ], $atts, 'kma_social_share');
+
+    ob_start();
+    $label = $a['label'];
+    include('template-parts/partials/social-sharing-icons.php');
+
+    return ob_get_clean(); 
+}
+add_shortcode( 'kma_social_share', 'kma_social_share_function' );

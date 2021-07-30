@@ -986,6 +986,40 @@ h2.subtitle {
   }
 }
 
+// social sharing icons
+.kma-social-share {
+  @media screen and (min-width: 768px){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .kma-social-share-label {
+    margin: 0 !important;
+    font-size: 30px;
+    color: #fdb813;
+    text-shadow: 2px 1px 0 rgba(0, 0, 0, .1);
+
+    @media screen and (min-width: 768px){
+      margin-right: 1rem !important;
+    }
+  }
+  .kma-social-share-icons {
+    display: flex;
+
+    .share-network {
+      padding: 5px;
+      border-radius: 50%;
+      border: 2px solid #015E27;
+      height: 40px;
+      width: 40px;
+      margin:.25rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
 //Bottom
 .top-leaves {
   position: absolute;
