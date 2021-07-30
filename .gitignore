@@ -24,6 +24,7 @@ tags
 /wp-content/upgrade/*
 /wp-content/uploads/*
 /wp-content/wflogs/*
+/wp-content/ajax-handler.php
 
 # WP CORE
 /wp-admin
