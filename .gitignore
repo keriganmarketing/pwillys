@@ -9,43 +9,43 @@ tags
 **/error_log
 **/cache
 
-# CONFIG & PACKAGES
-wp-config.php
-wp-content/themes/kma-slim/vendor/
-wp-content/themes/kma-slim/node_modules/
+# CONFIG
+/wp-config.php
 
 # WP CONTENT
-wp-content/plugins/*
-!wp-content/plugins/index.php
-!wp-content/plugins/kma-*/
-wp-content/themes/*
-!wp-content/themes/kma-*/
+/wp-content/plugins/*
+!/wp-content/plugins/index.php
+!/wp-content/plugins/kma-*/
+/wp-content/themes/*
+!/wp-content/themes/kma-slim
+/wp-content/themes/kma-slim/vendor/
+/wp-content/themes/kma-slim/node_modules/
 !wp-content/themes/index.php
-wp-content/upgrade/*
-wp-content/uploads/*
-wp-content/wflogs/*
+/wp-content/upgrade/*
+/wp-content/uploads/*
+/wp-content/wflogs/*
 
 # WP CORE
-wp-admin/*
-wp-includes/*
+/wp-admin
+/wp-includes
 /index.php
-license.txt
-wp-activate.php
-wp-blog-header.php
-wp-comments-post.php
-wp-config-sample.php
-wp-cron.php
-wp-links-opml.php
-wp-load.php
-wp-login.php
-wp-mail.php
-wp-settings.php
-wp-signup.php
-wp-trackback.php
-xmlrpc.php
-readme.*
-wordfence-waf.php
+/license.txt
+/wp-activate.php
+/wp-blog-header.php
+/wp-comments-post.php
+/wp-config-sample.php
+/wp-cron.php
+/wp-links-opml.php
+/wp-load.php
+/wp-login.php
+/wp-mail.php
+/wp-settings.php
+/wp-signup.php
+/wp-trackback.php
+/xmlrpc.php
+/readme.*
+/wordfence-waf.php
 
 # MISC
-bannerads
-dbs
+/bannerads
+/dbs
