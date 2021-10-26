@@ -30,11 +30,11 @@ include(locate_template('template-parts/sections/top.php'));
                                     <span class="icon">
                                         <i aria-hidden="true" class="fa fa-clock-o"></i>
                                     </span> <?= PageField::getField('contact_info_hours', 17); ?></p>
-                                <p class="title is-5 email">
+                                <!-- <p class="title is-5 email">
                                     <span class="icon">
                                         <i aria-hidden="true" class="fa fa-envelope-o"></i>
                                     </span> Band Booking: <a href="mailto:booking@pwillys.com">booking@pwillys.com</a>
-                                </p>
+                                </p> -->
                                 <?php the_content(); ?>
                                 <p></p>
                             </div>
