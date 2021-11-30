@@ -10662,8 +10662,8 @@ label.panel-block:hover {
       flex-grow: 1;
   -ms-flex-negative: 1;
       flex-shrink: 1;
-  min-height: -webkit-min-content;
   min-height: -moz-min-content;
+  min-height: -webkit-min-content;
   min-height: min-content;
 }
 
