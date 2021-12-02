@@ -37,7 +37,7 @@ use Includes\Modules\Helpers\PageField;
         'scrolling': isScrolling }
     ">
         <div id="top" class="header">
-        <div id="alert" style="background-color:#105427; text-align: center; color: #FFF; padding:.5rem;">
+        <div id="alert" style="background-color:#0e5425; text-align: center; color: #FFF; padding:.5rem;">
         <p class="m-0">We are currently closed for the season and will be reopening early 2022.</p>
         </div> 
             <div class="top-one">
