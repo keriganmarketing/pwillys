@@ -1,10 +1,19 @@
 <template>
   <div>
-    <form method="post" >
+    <div class="" >
+    </div>
+    <message
+      v-if="success" 
+      title="Success" 
+      class="is-success"
+    >
+      Thank you for reaching out to us. We love supporting great causes and organizations. We try to facilitate as many requests as we can and appreciate that you thought of us. Someone will reach out to you to let you know if we are able to contribute!
+    </message>
+    <form method="post" v-else >
       <div v-if="step == 1" class="columns is-multiline">
         <div class="column is-12">
           <h2 class="title is-secondary">Tell us about yourself.</h2>
-          <p class="subtitle is-6">question 1 of 6</p>
+          <p class="subtitle is-6">question 1 of 7</p>
         </div>
         <div class="column is-6">
           <label for="first-name-text">First Name</label>
@@ -43,7 +52,7 @@
       <div v-if="step == 2" class="columns is-multiline">
         <div class="column is-12">
           <h2 class="title is-secondary">Tell us about your organization.</h2>
-          <p class="subtitle is-6">question 2 of 6</p>
+          <p class="subtitle is-6">question 2 of 7</p>
         </div>
 
         <div class="column is-12">
@@ -62,57 +71,11 @@
             class="input select"
             required
           >
-            <option value="AL">Alabama</option>
-            <option value="AK">Alaska</option>
-            <option value="AZ">Arizona</option>
-            <option value="AR">Arkansas</option>
-            <option value="CA">California</option>
-            <option value="CO">Colorado</option>
-            <option value="CT">Connecticut</option>
-            <option value="DE">Delaware</option>
-            <option value="DC">District Of Columbia</option>
-            <option value="FL">Florida</option>
-            <option value="GA">Georgia</option>
-            <option value="HI">Hawaii</option>
-            <option value="ID">Idaho</option>
-            <option value="IL">Illinois</option>
-            <option value="IN">Indiana</option>
-            <option value="IA">Iowa</option>
-            <option value="KS">Kansas</option>
-            <option value="KY">Kentucky</option>
-            <option value="LA">Louisiana</option>
-            <option value="ME">Maine</option>
-            <option value="MD">Maryland</option>
-            <option value="MA">Massachusetts</option>
-            <option value="MI">Michigan</option>
-            <option value="MN">Minnesota</option>
-            <option value="MS">Mississippi</option>
-            <option value="MO">Missouri</option>
-            <option value="MT">Montana</option>
-            <option value="NE">Nebraska</option>
-            <option value="NV">Nevada</option>
-            <option value="NH">New Hampshire</option>
-            <option value="NJ">New Jersey</option>
-            <option value="NM">New Mexico</option>
-            <option value="NY">New York</option>
-            <option value="NC">North Carolina</option>
-            <option value="ND">North Dakota</option>
-            <option value="OH">Ohio</option>
-            <option value="OK">Oklahoma</option>
-            <option value="OR">Oregon</option>
-            <option value="PA">Pennsylvania</option>
-            <option value="RI">Rhode Island</option>
-            <option value="SC">South Carolina</option>
-            <option value="SD">South Dakota</option>
-            <option value="TN">Tennessee</option>
-            <option value="TX">Texas</option>
-            <option value="UT">Utah</option>
-            <option value="VT">Vermont</option>
-            <option value="VA">Virginia</option>
-            <option value="WA">Washington</option>
-            <option value="WV">West Virginia</option>
-            <option value="WI">Wisconsin</option>
-            <option value="WY">Wyoming</option>
+            <option 
+              v-for="state in states" 
+              :key="state.abbreviation" 
+              :value="state.abbreviation" 
+            >{{ state.name }}</option>
           </select>
         </div>
 
@@ -121,7 +84,6 @@
             <div class="column is-narrow">
               <button
                 @click.prevent="step--"
-                :disabled="!validate"
                 class="button is-primary is-rounded"
               >
                 Back
@@ -145,7 +107,7 @@
       <div v-if="step == 3" class="columns is-multiline">
         <div class="column is-12">
           <h2 class="title is-secondary">What is the event or occasion?</h2>
-          <p class="subtitle is-6">question 3 of 6</p>
+          <p class="subtitle is-6">question 3 of 7</p>
         </div>
 
         <div class="column is-6">
@@ -166,7 +128,6 @@
             <div class="column is-narrow">
               <button
                 @click.prevent="step--"
-                :disabled="!validate"
                 class="button is-primary is-rounded"
               >
                 Back
@@ -190,7 +151,7 @@
       <div v-if="step == 4" class="columns is-multiline">
         <div class="column is-12">
           <h2 class="title is-secondary">What type of donation suits your needs?</h2>
-          <p class="subtitle is-6">question 4 of 6</p>
+          <p class="subtitle is-6">question 4 of 7</p>
         </div>
 
         <div class="column is-6">
@@ -272,7 +233,6 @@
             <div class="column is-narrow">
               <button
                 @click.prevent="step--"
-                :disabled="!validate"
                 class="button is-primary is-rounded"
               >
                 Back
@@ -295,8 +255,40 @@
 
       <div v-if="step == 5" class="columns is-multiline">
         <div class="column is-12">
-          <h2 class="title is-secondary">Where should we send it?</h2>
-          <p class="subtitle is-6">question 5 of 6</p>
+          <h2 class="title is-secondary">What is your mailing address?</h2>
+          <p class="subtitle is-6">question 5 of 7</p>
+        </div>
+
+        <div class="column is-8">
+          <label for="address_street">Street</label>
+          <input id="address_street" type="text" v-model="address_street" class="input"  required>
+        </div>
+        <div class="column is-4">
+          <label for="address_apt">Apt / Suite</label>
+          <input id="address_apt" type="text" v-model="address_apt" class="input"  required>
+        </div>
+        <div class="column is-4">
+          <label for="address_city">City</label>
+          <input id="address_city" type="text" v-model="address_city" class="input"  required>
+        </div>
+        <div class="column is-4">
+          <label for="address_state">State</label>
+          <select
+            v-model="address_state"
+            id="address_state"
+            class="input select"
+            required
+          >
+            <option 
+              v-for="state in states" 
+              :key="state.abbreviation" 
+              :value="state.abbreviation" 
+            >{{ state.name }}</option>
+          </select>
+        </div>
+        <div class="column is-4">
+          <label for="address_zip">Zip</label>
+          <input id="address_zip" type="text" v-model="address_zip" class="input"  required>
         </div>
 
         <div class="column is-12">
@@ -304,7 +296,6 @@
             <div class="column is-narrow">
               <button
                 @click.prevent="step--"
-                :disabled="!validate"
                 class="button is-primary is-rounded"
               >
                 Back
@@ -325,10 +316,70 @@
         </div>
       </div>
 
-      <div v-if="step == 6" class="columns is-multiline">  
+      <div v-if="step == 6" class="columns is-multiline">
+        <div class="column is-12">
+          <h2 class="title is-secondary">Please provide us with your donation form.</h2>
+          <p class="subtitle is-6">question 6 of 7</p>
+        </div>
+
+        <div class="column is-6">
+          <label for="form_type">Select the type of form.</label>
+          <select
+            v-model="form_type"
+            id="form_type"
+            class="input select"
+            required
+          >
+            <option value="file">PDF file</option>
+            <option value="url">Online form</option>
+          </select>
+        </div>
+
+        <div v-if="form_type == 'file'" class="column is-6">
+          <label for="donation_file-pdf">Select a PDF file on your computer.</label>
+          <input 
+            id="donation_file-pdf" 
+            type="file" 
+            class="ipnut file" 
+            @change="fileChange($event.target.name, $event.target.files)"
+            accept="application/pdf"
+          >
+        </div>
+
+        <div v-if="form_type == 'url'" class="column is-6">
+          <label for="donation_file-url">Provide the website URL to your form.</label>
+          <input id="donation_file-url" type="text" v-model="formData.donation_file" class="input"  required>
+        </div>
+
+        <div class="column is-12">
+          <div class="columns is-multiline is-vcentered">
+            <div class="column is-narrow">
+              <button
+                @click.prevent="step--"
+                class="button is-primary is-rounded"
+              >
+                Back
+              </button>
+              &nbsp;
+              <button
+                @click.prevent="step++"
+                :disabled="!validate"
+                class="button is-primary is-rounded"
+              >
+                Next
+              </button>
+            </div>
+            <em
+              class="column is-narrow is-inline"
+              >All&nbsp;fields&nbsp;required.</em>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="step == 7" class="columns is-multiline">  
         <div class="column is-12">
           <h2 class="title is-secondary">Is there anything else you'd like us to know?</h2>
-          <p class="subtitle is-6">question 6 of 6</p>
+          <p class="subtitle is-6">question 7 of 7</p>
         </div>
 
         <div class="column is-12">
@@ -341,7 +392,6 @@
             <div class="column is-narrow">
               <button
                 @click.prevent="step--"
-                :disabled="!validate"
                 class="button is-primary is-rounded"
               >
                 Back
@@ -368,9 +418,13 @@
   </div>
 </template>
 <script>
+import Message from './message.vue'
 
 export default {
-  name: 'Donation Form',
+  name: 'DonationForm',
+  components: {
+    message: Message
+  },
   props: {
     nonce: {
       type: String,
@@ -380,6 +434,7 @@ export default {
   data () {
     return {
       step: 1,
+      form_type: '',
       processing: false,
       error_message: '',
       errorCode: null,
@@ -393,7 +448,7 @@ export default {
         org_name: '',
         org_city: '',
         org_state: '',
-        event: '',
+        event_name: '',
         event_date: '',
         event_desc: '',
         donation_type: '',
@@ -408,6 +463,67 @@ export default {
       form: '',
       mailto: '',
       submitted: false,
+      states: [
+        { name: "Alabama", abbreviation: "AL" },
+        { name: "Alaska", abbreviation: "AK" },
+        { name: "Arizona", abbreviation: "AZ" },
+        { name: "Arkansas", abbreviation: "AR" },
+        { name: "California", abbreviation: "CA" },
+        { name: "Colorado", abbreviation: "CO" },
+        { name: "Connecticut", abbreviation: "CT" },
+        { name: "Delaware", abbreviation: "DE" },
+        { name: "Florida", abbreviation: "FL" },
+        { name: "Georgia", abbreviation: "GA" },
+        { name: "Hawaii", abbreviation: "HI" },
+        { name: "Idaho", abbreviation: "ID" },
+        { name: "Illinois", abbreviation: "IL" },
+        { name: "Indiana", abbreviation: "IN" },
+        { name: "Iowa", abbreviation: "IA" },
+        { name: "Kansas", abbreviation: "KS" },
+        { name: "Kentucky", abbreviation: "KY" },
+        { name: "Louisiana", abbreviation: "LA" },
+        { name: "Maine", abbreviation: "ME" },
+        { name: "Maryland", abbreviation: "MD" },
+        { name: "Massachusetts", abbreviation: "MA" },
+        { name: "Michigan", abbreviation: "MI" },
+        { name: "Minnesota", abbreviation: "MN" },
+        { name: "Mississippi", abbreviation: "MS" },
+        { name: "Missouri", abbreviation: "MO" },
+        { name: "Montana", abbreviation: "MT" },
+        { name: "Nebraska", abbreviation: "NE" },
+        { name: "Nevada", abbreviation: "NV" },
+        { name: "New Hampshire", abbreviation: "NH" },
+        { name: "New Jersey", abbreviation: "NJ" },
+        { name: "New Mexico", abbreviation: "NM" },
+        { name: "New York", abbreviation: "NY" },
+        { name: "North Carolina", abbreviation: "NC" },
+        { name: "North Dakota", abbreviation: "ND" },
+        { name: "Ohio", abbreviation: "OH" },
+        { name: "Oklahoma", abbreviation: "OK" },
+        { name: "Oregon", abbreviation: "OR" },
+        { name: "Palau", abbreviation: "PW" },
+        { name: "Pennsylvania", abbreviation: "PA" },
+        { name: "Puerto Rico", abbreviation: "PR" },
+        { name: "Rhode Island", abbreviation: "RI" },
+        { name: "South Carolina", abbreviation: "SC" },
+        { name: "South Dakota", abbreviation: "SD" },
+        { name: "Tennessee", abbreviation: "TN" },
+        { name: "Texas", abbreviation: "TX" },
+        { name: "Utah", abbreviation: "UT" },
+        { name: "Vermont", abbreviation: "VT" },
+        { name: "Virgin Islands", abbreviation: "VI" },
+        { name: "Virginia", abbreviation: "VA" },
+        { name: "Washington", abbreviation: "WA" },
+        { name: "West Virginia", abbreviation: "WV" },
+        { name: "Wisconsin", abbreviation: "WI" },
+        { name: "Wyoming", abbreviation: "WY" }
+      ],
+      address_street: '',
+      address_apt: '',
+      address_city: '',
+      address_state: '',
+      address_zip: '',
+      pdf_file: ''
     }
   },
   computed: {
@@ -421,33 +537,67 @@ export default {
       }
 
       if(this.step === 2){
-        return true
+        return this.formData.org_name != '' &&
+          this.formData.org_city != '' &&
+          this.formData.org_state != ''
       }
 
       if(this.step === 3){
-        return true
+        return this.formData.event_name != '' &&
+          this.formData.event_date != '' &&
+          this.formData.event_desc != ''
       }
 
       if(this.step === 4){
-        return true
+        return this.formData.donation_type != '' &&
+          this.formData.how_many != '' && (
+            this.formData.card_amount != '' ||
+            this.formData.merch_type != '' ||
+            this.formData.food_type != ''
+          )
       }
 
       if(this.step === 5){
-        return true
+        return this.formData.mailing_address != ''
       }
 
       if(this.step === 6){
+        return this.formData.donation_file != ''
+      }
+
+      if(this.step === 7){
         return true
       }
       
     },
-    hasError() {
-      return this.validate && this.processing
-    },
+    fullAddress() {
+      return this.address_street + ' ' + this.address_apt + ', ' + this.address_city + ', '  + this.address_state + ' ' + this.address_zip
+    }
+  },
+  watch: {
+    fullAddress(){
+      this.formData.mailing_address = this.fullAddress
+    }
   },
   mounted () {
   },
   methods: {
+    fileChange (target, files) {
+      let uploader = this
+      var fileToLoad = files[0];
+      var fileReader = new FileReader();
+      var base64;
+      // Onload of file read the file content
+      fileReader.onload = function(fileLoadedEvent) {
+          base64 = fileLoadedEvent.target.result;
+          console.log(base64); 
+          uploader.formData.donation_file = base64
+      };
+      fileReader.readAsDataURL(fileToLoad);
+
+      console.log(this.formData.donation_file); 
+      this.pdf_file = files[0]
+    },
     submitForm () {
       this.processing = true
 
@@ -456,6 +606,7 @@ export default {
         mode: 'cors',
         cache: 'no-cache',
         headers: {
+          // 'Content-Type': 'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2),
           'Content-Type': 'application/json',
           'X-WP-Nonce': this.nonce
         },

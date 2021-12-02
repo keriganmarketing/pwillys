@@ -93,6 +93,13 @@
   }
 }
 
+.select {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 6'><path d='M11.7,1,6.3,5,1,1' transform='translate(0 0)' fill='none' stroke='rgb(253, 184, 19)' stroke-linecap='round' stroke-linejoin='round' stroke-width='3'/></svg>");
+  background-position: 98% center;
+  background-size: 20px 10px;
+  background-repeat: no-repeat;
+}
+
 @media screen and (min-width: $desktop) {
   .has-text-centered-desktop {
     text-align: center;

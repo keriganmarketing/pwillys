@@ -34,6 +34,7 @@ class Form {
 
   // Validation
   public $request;
+  public $files;
   public $errorCode;
   public $errors = [];
   public $formData;
@@ -59,6 +60,8 @@ class Form {
   public $receiptSubject = 'Thanks for Contacting Us';
   public $receiptHeadline = 'Thanks for Contacting Us';
   public $receiptBodyText = 'One of our staff members will get back to you as soon as possible. What you submitted is included below:';
+
+  public $uploads = [];
 
   const VALIDATION_ERROR = ['status' => 422];
 
@@ -97,6 +100,14 @@ class Form {
         $this->akismet($data);
       }
 
+      if(count($this->uploads) > 0){        
+        foreach($this->uploads as $upload){
+          $this->formData[$upload] = $this->uploadFile(
+            $this->formData[$upload]
+          );
+        }
+      }
+
       if ($this->hasErrors() && count($this->errors[]) > 0) {
         wp_send_json_error($this->errors, 406);
       }
@@ -119,6 +130,43 @@ class Form {
       $this->persistToDashboard();
 
       wp_send_json_success("success", 200);
+  }
+
+  public function uploadFile($base64string)
+  {
+		require( ABSPATH . 'wp-load.php' );
+
+    if (strpos($base64string, ',') !== false) {
+      $fileParts = explode(',', $base64string);
+      $type64 = explode(';', $fileParts[0]);
+      $type = explode(':', $type64[0]);
+      $extension = explode('/', $type[1]);
+    }
+
+    $decoded_file = base64_decode($fileParts[1], true);
+
+    $file = [
+      'data' => $decoded_file,
+      'type' => $type[1],
+      'name' => date('YmdHis') . '.' . $extension[1]
+    ];
+
+		$wordpress_upload_dir = wp_upload_dir();
+		$new_file_path = wp_normalize_path($wordpress_upload_dir['path'] . '/' . $file['name']);
+    $upload_file = file_put_contents( $new_file_path, $file['data'] );
+
+    $attachment = array(
+      'post_mime_type' => $file['type'],
+      'post_title'     => $file['name'],
+      'post_content'   => '',
+      'post_status'    => 'inherit',
+      'guid'           => $wordpress_upload_dir['url'] . '/' . basename( $file['name'] )
+    );
+  
+    $upload_id = wp_insert_attachment( $attachment, $new_file_path );
+
+    return wp_get_attachment_url($upload_id);
+
   }
 
   public function sendEmail()
@@ -180,30 +228,29 @@ class Form {
 
   public function formDataHTML()
   {
-    $data = '<table cellspacing="0" cellpadding="0" border="0" class="datatable widefat fixed">' .
-    '<tr><td colspan="2" style="padding: 0px 3px 0px">';
+    $data = '';
 
     foreach($this->allFields as $name => $label){
       if(isset($this->formData[$name])){
 
         if(is_array($this->formData[$name])){
 
-          $data .= '<tr><td style="padding:3px">' . $label . '</td>
-          <td style="padding:3px"><ul>';
+          $data .= '<p><strong>' . $label . '</strong><br>
+          <ul>';
           foreach($this->formData[$name] as $key => $var){
             $data .= '<li>' . $var['label'] . ': ' . ($var === 'true' ? 'yes' : ($var === 'false' ? 'no' : $var)) . '</li>';
           }
-          $data .= '</ul></td></tr>';
+          $data .= '</ul></p>';
 
         } else {
-          $data .= '<tr><td style="padding:3px">' . $label . '</td>
-          <td style="padding:3px">' . $this->formData[$name] . '</td></tr>';
+          $data .= '<p><strong>' . $label . '</strong><br>' . 
+          $this->formData[$name] . '</p>';
         }
 
       }
     }
 
-    $data .= '</table>';
+    $data .= '';
 
     return $data;
   }

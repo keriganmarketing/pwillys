@@ -19,7 +19,7 @@ class Donations extends Form {
     'org_name'         => 'Organization',
     'org_city'         => 'City',
     'org_state'        => 'State',
-    'event'            => 'Event',
+    'event_name'       => 'Event',
     'event_date'       => 'Event Date',
     'event_desc'       => 'Event Description',
     'donation_type'    => 'Donation Type',
@@ -35,6 +35,10 @@ class Donations extends Form {
   public $requiredFields = [
     'email',
     'comments',
+  ];
+
+  public $uploads = [
+    'donation_file'
   ];
 
   public $restRoute = '/submit-donation-request';

@@ -1,5 +1,5 @@
 <template>
-    <article class="message" v-show="isVisible" :class="this.class">
+    <article class="message" v-show="isVisible" >
         <div class="message-body">
             <button class="delete is-pulled-right" @click="hideMessage"></button>
             <slot></slot>
@@ -10,8 +10,7 @@
 <script>
     export default {
         props: [
-            'title',
-            'class'
+            'title'
         ],
 
         data(){
