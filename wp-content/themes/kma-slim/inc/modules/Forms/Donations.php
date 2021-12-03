@@ -69,6 +69,8 @@ class Donations extends Form {
 
   public function makeShortcode($atts)
   {
+    ob_start();
     echo '<donations-form nonce="' .wp_create_nonce( 'wp_rest' ) . '" ></donations-form>';
+    return ob_get_clean();
   }
 }

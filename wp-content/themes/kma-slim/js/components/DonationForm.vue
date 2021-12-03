@@ -12,7 +12,7 @@
     <form method="post" v-else >
       <div v-if="step == 1" class="columns is-multiline">
         <div class="column is-12">
-          <h2 class="title is-secondary">Tell us about yourself.</h2>
+          <h2 class="title is-primary dimbo is-2">Complete our Online Donation Request form.</h2>
           <p class="subtitle is-6">question 1 of 7</p>
         </div>
         <div class="column is-6">
@@ -51,7 +51,7 @@
 
       <div v-if="step == 2" class="columns is-multiline">
         <div class="column is-12">
-          <h2 class="title is-secondary">Tell us about your organization.</h2>
+          <h2 class="title is-primary dimbo is-2">Tell us about your organization.</h2>
           <p class="subtitle is-6">question 2 of 7</p>
         </div>
 
@@ -106,7 +106,7 @@
 
       <div v-if="step == 3" class="columns is-multiline">
         <div class="column is-12">
-          <h2 class="title is-secondary">What is the event or occasion?</h2>
+          <h2 class="title is-primary dimbo is-2">What is the event or occasion?</h2>
           <p class="subtitle is-6">question 3 of 7</p>
         </div>
 
@@ -150,11 +150,11 @@
 
       <div v-if="step == 4" class="columns is-multiline">
         <div class="column is-12">
-          <h2 class="title is-secondary">What type of donation suits your needs?</h2>
+          <h2 class="title is-primary dimbo is-2">What type of donation suits your needs?</h2>
           <p class="subtitle is-6">question 4 of 7</p>
         </div>
 
-        <div class="column is-6">
+        <div class="column is-4">
           <label for="donation_type-text">Select Donation Type</label>
           <select
             v-model="formData.donation_type"
@@ -168,7 +168,7 @@
           </select>
         </div>
 
-        <div v-if="formData.donation_type != ''" class="column is-6">
+        <div v-if="formData.donation_type != ''" class="column is-4">
 
           <label 
             v-if="formData.donation_type == 'gift card'" 
@@ -186,7 +186,7 @@
           <input id="how_many-text" type="number" v-model="formData.how_many" class="input"  required>
         </div>
 
-        <div v-if="formData.donation_type == 'gift card'" class="column is-6">
+        <div v-if="formData.donation_type == 'gift card'" class="column is-4">
           <label for="card_amount-text">What amount on the card(s)?</label>
           <select
             v-model="formData.card_amount"
@@ -200,7 +200,7 @@
           </select>
         </div>
 
-        <div v-if="formData.donation_type == 'merch'" class="column is-6">
+        <div v-if="formData.donation_type == 'merch'" class="column is-4">
           <label for="merch_type-text">What type of merch?</label>
           <select
             v-model="formData.merch_type"
@@ -214,7 +214,7 @@
           </select>
         </div>
 
-        <div v-if="formData.donation_type == 'food'" class="column is-6">
+        <div v-if="formData.donation_type == 'food'" class="column is-4">
           <label for="food_type-text">What type of food?</label>
           <select
             v-model="formData.food_type"
@@ -255,7 +255,7 @@
 
       <div v-if="step == 5" class="columns is-multiline">
         <div class="column is-12">
-          <h2 class="title is-secondary">What is your mailing address?</h2>
+          <h2 class="title is-primary dimbo is-2">What is your mailing address?</h2>
           <p class="subtitle is-6">question 5 of 7</p>
         </div>
 
@@ -318,7 +318,7 @@
 
       <div v-if="step == 6" class="columns is-multiline">
         <div class="column is-12">
-          <h2 class="title is-secondary">Please provide us with your donation form.</h2>
+          <h2 class="title is-primary dimbo is-2">Please provide us with your donation form.</h2>
           <p class="subtitle is-6">question 6 of 7</p>
         </div>
 
@@ -378,7 +378,7 @@
 
       <div v-if="step == 7" class="columns is-multiline">  
         <div class="column is-12">
-          <h2 class="title is-secondary">Is there anything else you'd like us to know?</h2>
+          <h2 class="title is-primary dimbo is-2">Is there anything else you'd like us to know?</h2>
           <p class="subtitle is-6">question 7 of 7</p>
         </div>
 
