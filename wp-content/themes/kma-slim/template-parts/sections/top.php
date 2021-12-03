@@ -37,32 +37,38 @@ use Includes\Modules\Helpers\PageField;
         'scrolling': isScrolling }
     ">
         <div id="top" class="header">
-        <div id="alert" style="background-color:#0872DD; text-align: center; color: #FFF; padding:.5rem;">
-        <p class="m-0">We are currently closed for the season and will be reopening early 2022.</p>
-        </div> 
+            <div id="alert" style="background-color:#0872DD; text-align: center; color: #FFF; padding:.5rem; box-shadow:inset 0 -8px 8px rgba(0,0,0,.25); text-shadow: 1px 1px 2px rgba(0,0,0,.6)">
+            <p class="m-0">We are currently closed for the season and will be reopening early 2022.</p>
+            </div> 
             <div class="top-one">
                 <div class="container">
                     <nav class="navbar navbar-top-row">
                         <div class="navbar-end mini-nav">
-                            <div class="navbar-item is-hidden-touch">
+                            <div class="navbar-item is-hidden-desktop-only">
                                 <a href="/">Home</a>
                             </div>
                             <div class="navbar-item separator is-hidden-touch">
                                 |
                             </div>
-                            <div class="navbar-item is-hidden-touch">
+                            <div class="navbar-item is-hidden-desktop-only">
                                 <a href="/contact/">Contact</a>
                             </div>
                             <div class="navbar-item separator is-hidden-touch">
                                 |
                             </div>
-                            <div class="navbar-item is-hidden-touch">
+                            <div class="navbar-item is-hidden-desktop-only">
                                 <a href="/history/">History</a>
                             </div>
                             <div class="navbar-item separator is-hidden-touch">
                                 |
                             </div>
-                            <div class="navbar-item is-hidden-touch">
+                            <div class="navbar-item is-hidden-desktop-only">
+                                <a href="/donations/">Donations</a>
+                            </div>
+                            <div class="navbar-item separator is-hidden-touch">
+                                |
+                            </div>
+                            <div class="navbar-item is-hidden-desktop-only">
                                 <a href="/faq/">FAQ</a>
                             </div>
                             <div class="navbar-item top-phone">
