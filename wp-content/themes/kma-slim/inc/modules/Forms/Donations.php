@@ -43,7 +43,7 @@ class Donations extends Form {
 
   public $restRoute = '/submit-donation-request';
 
-  public $mailto = 'bryan@kerigan.com';
+  public $mailto = 'jaredknetzer@gmail.com';
   public $mailcc = '';
   public $mailbcc = 'websites@kerigan.com';
   public $mailfrom = 'donations@mg.pwillys.com';
