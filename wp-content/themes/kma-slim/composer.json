@@ -14,6 +14,7 @@
     "gothick/php-akismet": "^1.0",
     "kevinrob/guzzle-cache-middleware": "^3.3",
     "symfony/cache": "^5.1",
-    "facebook/graph-sdk": "^5.7"
+    "facebook/graph-sdk": "^5.7",
+    "google/recaptcha": "^1.2"
   }
 }
