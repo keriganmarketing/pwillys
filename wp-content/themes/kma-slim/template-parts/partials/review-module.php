@@ -21,7 +21,7 @@ for($i=0; $i<floor($feed['rating']); $i++){
 <div class="card social-module review-module tripadvisor"  tabindex="0">
     <div class="card-content">
         <div class="review single has-text-centered" >
-            <span class="open-quote">&ldquo;</span>
+            <span class="open-quote dimbo">&ldquo;</span>
             <p class="review-text"><?= $feed['content']; ?>&rdquo;</p>
             <p class="review-author">
                 <span class="name">&mdash; <?= $feed['author']; ?></span>
@@ -32,6 +32,6 @@ for($i=0; $i<floor($feed['rating']); $i++){
         </div>
     </div>
     <div class="card-bottom">
-        <a class="button is-primary is-large is-rounded has-shadow" target="_blank" href="https://www.facebook.com/pineapplewillys/reviews/">More Reviews on Facebook</a>
+        <a class="button is-primary is-large is-rounded has-shadow" target="_blank" href="https://www.facebook.com/pineapplewillys/reviews/">Read More Reviews</a>
     </div>
 </div>
