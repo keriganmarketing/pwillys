@@ -21,7 +21,7 @@ for($i=0; $i<floor($feed['rating']); $i++){
 <div class="card social-module review-module tripadvisor"  tabindex="0">
     <div class="card-content">
         <div class="review single has-text-centered" >
-            <strong class="open-quote dimbo">&ldquo;</strong>
+            <strong class="open-quote dimbo" style="font-weight:400;">&ldquo;</strong>
             <p class="review-text"><?= $feed['content']; ?>&rdquo;</p>
             <p class="review-author">
                 <strong class="name">&mdash; <?= $feed['author']; ?></strong>
