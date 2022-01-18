@@ -8,7 +8,7 @@ if(count(json_decode($photos))>0){
 ?>
 <div class="card social-module instagram has-text-centered">
     <div class="card-content">
-        <h2 class="title dimbo is-secondary is-3">Follow Us</h2>
+        <h2 class="title dimbo is-3" style="color:fbb631!important;">Follow Us</h2>
         <p class="subtitle">on Instagram</p>
         <insta-gallery :photos='<?= $photos; ?>' ></insta-gallery>
     </div>
