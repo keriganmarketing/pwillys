@@ -44,31 +44,31 @@ use Includes\Modules\Helpers\PageField;
                 <div class="container">
                     <nav class="navbar navbar-top-row">
                         <div class="navbar-end mini-nav">
-                            <div class="navbar-item is-hidden-desktop-only">
+                            <div class="navbar-item is-hidden-mobile">
                                 <a href="/">Home</a>
                             </div>
-                            <div class="navbar-item separator is-hidden-touch">
+                            <div class="navbar-item separator is-hidden-mobile">
                                 |
                             </div>
-                            <div class="navbar-item is-hidden-desktop-only">
+                            <div class="navbar-item is-hidden-mobile">
                                 <a href="/contact/">Contact</a>
                             </div>
-                            <div class="navbar-item separator is-hidden-touch">
+                            <div class="navbar-item separator is-hidden-mobile">
                                 |
                             </div>
-                            <div class="navbar-item is-hidden-desktop-only">
+                            <div class="navbar-item is-hidden-mobile">
                                 <a href="/history/">History</a>
                             </div>
-                            <div class="navbar-item separator is-hidden-touch">
+                            <div class="navbar-item separator is-hidden-mobile">
                                 |
                             </div>
-                            <div class="navbar-item is-hidden-desktop-only">
+                            <div class="navbar-item is-hidden-mobile">
                                 <a href="/donations/">Donations</a>
                             </div>
-                            <div class="navbar-item separator is-hidden-touch">
+                            <div class="navbar-item separator is-hidden-mobile">
                                 |
                             </div>
-                            <div class="navbar-item is-hidden-desktop-only">
+                            <div class="navbar-item is-hidden-mobile">
                                 <a href="/faq/">FAQ</a>
                             </div>
                             <div class="navbar-item top-phone">
