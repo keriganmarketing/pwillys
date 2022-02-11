@@ -37,9 +37,9 @@ use Includes\Modules\Helpers\PageField;
         'scrolling': isScrolling }
     ">
         <div id="top" class="header">
-            <div id="alert" style="background-color:#0872DD; text-align: center; color: #FFF; padding:.5rem; box-shadow:inset 0 -8px 8px rgba(0,0,0,.25); text-shadow: 1px 1px 2px rgba(0,0,0,.6)">
+            <!-- <div id="alert" style="background-color:#0872DD; text-align: center; color: #FFF; padding:.5rem; box-shadow:inset 0 -8px 8px rgba(0,0,0,.25); text-shadow: 1px 1px 2px rgba(0,0,0,.6)">
             <p class="m-0">We are currently closed for the season and will be reopening February 11 at 4pm.</p>
-            </div> 
+            </div>  -->
             <div class="top-one">
                 <div class="container">
                     <nav class="navbar navbar-top-row">
