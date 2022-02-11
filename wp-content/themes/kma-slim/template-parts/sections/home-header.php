@@ -7,7 +7,7 @@
             '<?php echo get_stylesheet_directory_uri(); ?>/video/pwillys_video_short.webm'
         ]" 
         tabindex="0"
-        aria-label="Promotional Video of Lagoon Pontoon Trips and Adventures"
+        aria-label="Promotional Video of Pineapple Willy's."
         ></video-background>
     </div>
     <div class="video-headline has-text-centered">

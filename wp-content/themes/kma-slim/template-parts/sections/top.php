@@ -44,31 +44,31 @@ use Includes\Modules\Helpers\PageField;
                 <div class="container">
                     <nav class="navbar navbar-top-row">
                         <div class="navbar-end mini-nav">
-                            <div class="navbar-item is-hidden-desktop-only">
+                            <div class="navbar-item is-hidden-touch">
                                 <a href="/">Home</a>
                             </div>
                             <div class="navbar-item separator is-hidden-touch">
                                 |
                             </div>
-                            <div class="navbar-item is-hidden-desktop-only">
+                            <div class="navbar-item is-hidden-touch">
                                 <a href="/contact/">Contact</a>
                             </div>
                             <div class="navbar-item separator is-hidden-touch">
                                 |
                             </div>
-                            <div class="navbar-item is-hidden-desktop-only">
+                            <div class="navbar-item is-hidden-touch">
                                 <a href="/history/">History</a>
                             </div>
                             <div class="navbar-item separator is-hidden-touch">
                                 |
                             </div>
-                            <div class="navbar-item is-hidden-desktop-only">
+                            <div class="navbar-item is-hidden-touch">
                                 <a href="/donations/">Donations</a>
                             </div>
                             <div class="navbar-item separator is-hidden-touch">
                                 |
                             </div>
-                            <div class="navbar-item is-hidden-desktop-only">
+                            <div class="navbar-item is-hidden-touch">
                                 <a href="/faq/">FAQ</a>
                             </div>
                             <div class="navbar-item top-phone">
