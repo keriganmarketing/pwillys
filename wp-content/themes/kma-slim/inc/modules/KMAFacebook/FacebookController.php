@@ -12,6 +12,7 @@ use GuzzleHttp\Exception\RequestException;
 use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
 use Kevinrob\GuzzleCache\Storage\WordPressObjectCacheStorage;
+use Carbon\Carbon;
 
 class FacebookController
 {
@@ -139,12 +140,13 @@ class FacebookController
 
         $output = [];
         foreach($postArray as $post){
+            $post->datestamp = get_post_meta($post->ID, 'datestamp', true);
             $post->event_name = get_post_meta($post->ID, 'event_name', true);
-            $post->post_link = get_post_meta($post->ID, 'post_link', true);
+            $post->event_link = get_post_meta($post->ID, 'event_link', true);
             $post->where = get_post_meta($post->ID, 'where', false);
             $post->full_image_url = get_post_meta($post->ID, 'full_image_url', true);
-            $post->start_time = get_post_meta($post->ID, 'start_time', true);
-            $post->end_time = get_post_meta($post->ID, 'end_time', true);
+            $post->event_date = get_post_meta($post->ID, 'event_date', true);
+            $post->event_time = get_post_meta($post->ID, 'event_time', true);
             $output[] = $post;
         }
 
@@ -176,11 +178,13 @@ class FacebookController
     public function updateEvents($n = 30)
     {
         $feed = $this->getEvents($n);
-        // echo '<pre>',print_r($feed),'</pre>';
 
         if($feed->posts){
-
             foreach($feed->posts as $fbpost){
+
+                $startDateTime = Carbon::parse($fbpost->start_time);
+                $endDateTime = isset($fbpost->end_time) ? Carbon::parse($fbpost->end_time) : null;
+
                 $postArray = [
                     'ID' => 0,
                     'post_content' => $fbpost->description,
@@ -188,12 +192,13 @@ class FacebookController
                     'post_status' => 'publish',
                     'post_type' => 'kma-fb-event',
                     'meta_input' => [
+                        'datestamp' => $startDateTime->format('Ymd'),
                         'event_name' => $fbpost->name,
-                        'post_link' => 'https://www.facebook.com/events/' . $fbpost->permalink_url,
+                        'event_link' => 'https://www.facebook.com/events/' . $fbpost->id,
                         'where' => $fbpost->place->name,
                         'full_image_url' => $fbpost->cover->source,
-                        'start_time' => $fbpost->start_time,
-                        'end_time' => $fbpost->end_time,
+                        'event_date' => $endDateTime != null && $endDateTime->diffInDays($startDateTime) > 1 ? $startDateTime->copy()->format('M d') . ' - '. $endDateTime->copy()->format('M d, Y') : $startDateTime->format('M d, Y'),
+                        'event_time' => $endDateTime != null ? $startDateTime->copy()->format('g:i A') . ' - '. $endDateTime->copy()->format('g:i A') : $startDateTime->copy()->format('g:i A'),
                     ]
                 ];
 
@@ -469,12 +474,12 @@ class FacebookController
                 'singular_name' => __( 'kma-fb-event' )
             ),
             'supports' => ['title','editor','custom-fields'],
-            'public' => false,
+            'public' => true,
             'has_archive' => false,
             'rewrite' => false,
             'exclude_from_search' => true,
             'publicly_queryable' => false,
-            'show_in_menu' => false
+            'show_in_menu' => true
         ));
     }
 

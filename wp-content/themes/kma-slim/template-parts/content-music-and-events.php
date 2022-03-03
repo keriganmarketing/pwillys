@@ -1,6 +1,6 @@
 <?php
 
-use Includes\Modules\Events\Events;
+use Includes\Modules\KMAFacebook\FacebookController;
 
 /**
  * @package KMA
@@ -9,8 +9,20 @@ use Includes\Modules\Events\Events;
  * @version 1.2
  */
 
-$events      = new Events();
-$eventsArray = $events->getUpcomingEvents();
+$facebook = new FacebookController();
+$events = $facebook->getFbEvents(-1,[
+    'meta_query' => [
+        [
+            'key'     => 'datestamp',
+            'value'   => date('Ymd'),
+            'type'    => 'NUMERIC',
+            'compare' => '>='
+        ]
+    ],
+    'orderby' => [
+        'datestamp'   => 'ASC',
+    ]
+]);
 
 include(locate_template('template-parts/sections/top.php'));
 ?>
@@ -23,8 +35,8 @@ include(locate_template('template-parts/sections/top.php'));
                         <?php the_content(); ?>
 
                         <div class="section">
-                            <div class="events-grid columns is-multiline is-aligned">
-                                <?php foreach ($eventsArray as $event) { ?>
+                            <div class="events-grid columns is-multiline">
+                                <?php foreach ($events as $event) { ?>
                                     <?php include(locate_template('template-parts/partials/mini-event.php')); ?>
                                 <?php } ?>
                             </div>
