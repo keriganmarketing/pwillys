@@ -161,7 +161,13 @@ class FacebookController
             wp_schedule_event(strtotime('01:00:00'), 'hourly', 'kma-fb-sync');
         }
 
-        add_action('kma-fb-sync', [$this,'updatePosts']);
+        add_action('kma-fb-sync', [$this,'runSyncCron']);
+    }
+
+    public function runSyncCron()
+    {
+        $this->updatePosts();
+        $this->updateEvents();
     }
 
     public function syncPosts()
