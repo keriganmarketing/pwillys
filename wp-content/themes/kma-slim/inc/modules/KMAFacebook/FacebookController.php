@@ -198,6 +198,8 @@ class FacebookController
                     'post_status' => 'publish',
                     'post_type' => 'kma-fb-event',
                     'meta_input' => [
+                        'start' => $startDateTime->copy()->format('YmdHi'),
+                        'end' => $endDateTime->copy()->format('YmdHi'),
                         'datestamp' => $startDateTime->format('Ymd'),
                         'event_name' => $fbpost->name,
                         'event_link' => 'https://www.facebook.com/events/' . $fbpost->id,
