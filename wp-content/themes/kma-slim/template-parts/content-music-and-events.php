@@ -20,7 +20,7 @@ $events = $facebook->getFbEvents(-1,[
         ]
     ],
     'orderby' => [
-        'datestamp'   => 'ASC',
+        'start'   => 'ASC',
     ]
 ]);
 
