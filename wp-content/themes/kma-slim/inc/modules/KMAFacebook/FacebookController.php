@@ -129,8 +129,9 @@ class FacebookController
         $request = [
             'posts_per_page' => $num,
             'offset'         => 0,
-            'order'          => 'DESC',
-            'orderby'        => 'date_posted',
+            'order'          => 'ASC',
+            'orderby'        => 'meta_value_num',
+            'meta_key'       => 'start',
             'post_type'      => 'kma-fb-event',
             'post_status'    => 'publish',
         ];

@@ -18,9 +18,6 @@ $events = $facebook->getFbEvents(-1,[
             'type'    => 'NUMERIC',
             'compare' => '>='
         ]
-    ],
-    'orderby' => [
-        'start'   => 'ASC',
     ]
 ]);
 
