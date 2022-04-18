@@ -211,7 +211,6 @@ class FacebookController
                     ]
                 ];
 
-                // echo '<pre>',print_r($postArray),'</pre>';
                 $postExists = get_page_by_title($fbpost->id, OBJECT, 'kma-fb-event');
 
                 if(isset($postExists->ID)){

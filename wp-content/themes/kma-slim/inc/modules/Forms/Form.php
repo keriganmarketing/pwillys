@@ -332,27 +332,6 @@ class Form {
     $this->isSpam = $result;
   }
 
-  public function validate($recaptchaResponse)
-  {
-    $valid = false;
-
-    if($recaptchaResponse === ''){
-      return $valid;
-    }
-
-    $recaptcha = new ReCaptcha(env('GOOGLE_RECAPTCHA_SECRETKEY', 'ABCD'));
-
-    $resp = $recaptcha->setExpectedHostname(env('DOMAIN', 'www.test.com'))
-      ->setScoreThreshold(env('SCORE_THRESHOLD', 0.5))
-      ->verify($recaptchaResponse, $this->getIP());
-
-    if ($resp->isSuccess()) {
-      $valid = true;
-    }
-
-    return $valid;
-  }
-
   public function getIP()
   {
     $Ip = '0.0.0.0';
@@ -444,14 +423,26 @@ class Form {
 
   public function setOrdering($query)
   {
-    if ( ! is_admin() )
+    if ( !is_admin() ){
       return;
+    }
 
     $orderby = $query->get( 'orderby');
 
     foreach($this->allFields as $key => $var){
       if ( $key == $orderby ) {
-        $query->set( 'meta_key', $key );
+        $meta_query = array(
+          'relation' => 'OR',
+          array(
+            'key' => $key,
+            'compare' => 'NOT EXISTS',
+          ),
+          array(
+            'key' => $key,
+          ),
+        );
+
+        $query->set( 'meta_query', $meta_query );
         $query->set( 'orderby', 'meta_value' );
       }
     }

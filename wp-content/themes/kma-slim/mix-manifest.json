@@ -1,7 +1,6 @@
 {
-  "/app.js": "/app.js",
-  "/style.css": "/style.css",
-  "/generic.js": "/generic.js",
-  "/front.js": "/front.js",
-  "/map.css": "/map.css"
+    "/front.js": "/front.js",
+    "/generic.js": "/generic.js",
+    "/style.css": "/style.css",
+    "/map.css": "/map.css"
 }

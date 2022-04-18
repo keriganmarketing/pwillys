@@ -13,6 +13,7 @@ class Leads
     public    $bccEmail;
     public    $additionalFields;
     public    $siteName;
+    public    $isSpam = false;
 
     /**
      * Leads constructor.
@@ -69,6 +70,10 @@ class Leads
     {
         $fullName = (isset($dataSubmitted['full_name']) ? $dataSubmitted['full_name'] : null);
         $dataSubmitted['full_name'] = (isset($dataSubmitted['first_name']) && isset($dataSubmitted['last_name']) ? $dataSubmitted['first_name'] . ' ' . $dataSubmitted['last_name'] : $fullName);
+
+        if (function_exists( 'akismet_http_post')){
+            $this->isSpam = $this->checkSpam($dataSubmitted);
+        }
         
         if(!$this->validateSubmission($dataSubmitted)){ return false; }
         $this->addToDashboard($dataSubmitted);
@@ -96,10 +101,14 @@ class Leads
             $passCheck = false;
         }
 
-        if (function_exists('akismet_verify_key') && !empty(akismet_get_key())){
+        if (function_exists( 'akismet_http_post')){
             if ($this->checkSpam($dataSubmitted)){
                 $passCheck = false;
             }
+        }
+
+        if($this->isSpam){
+            $passCheck = false;
         }
 
         return $passCheck;
@@ -108,40 +117,59 @@ class Leads
 
     public function getIP() 
     {
-        $client  = @$_SERVER['HTTP_CLIENT_IP'];
-        $forwarded = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-        $remote  = $_SERVER['REMOTE_ADDR'];
+        $Ip = '0.0.0.0';
+        if (isset($_SERVER['HTTP_CLIENT_IP']) && $_SERVER['HTTP_CLIENT_IP'] != '')
+        $Ip = $_SERVER['HTTP_CLIENT_IP'];
+        elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != '')
+        $Ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        elseif (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] != '')
+        $Ip = $_SERVER['REMOTE_ADDR'];
+        if (($CommaPos = strpos($Ip, ',')) > 0)
+        $Ip = substr($Ip, 0, ($CommaPos - 1));
 
-        if (filter_var($client, FILTER_VALIDATE_IP)) {
-            return $client;}
-        elseif (filter_var($forwarded, FILTER_VALIDATE_IP)) {
-            return $forwarded;}
-        else {
-            return $remote;}
+        return $Ip;
     } 
 
-    public function checkSpam($dataSubmitted)
+    public function checkSpam($data)
     {
-        $client = new \Gothick\AkismetClient\Client(
-            site_url(),           // Your website's URL (this becomes Akismet's "blog" parameter)
-            "KMA Spam Checker",   // Your website or app's name (Used in the User-Agent: header when talking to Akismet)
-            "1.0",                // Your website or app's software version (Used in the User-Agent: header when talking to Akismet)
-            akismet_get_key()     
-        );
+        global $akismet_api_host, $akismet_api_port;
 
-        $result = $client->commentCheck([
-            'user_ip'              => $dataSubmitted['ip_address'],
-            'user_agent'           => $dataSubmitted['user_agent'],
-            'referrer'             => $dataSubmitted['referrer'],
-            'comment_author'       => $dataSubmitted['full_name'],
-            'comment_author_email' => $dataSubmitted['email_address'],
-            'comment_content'      => $dataSubmitted['message']
-        ], $_SERVER);
-
-        $spam = $result->isSpam();
-        //echo '<pre>',print_r($result),'</pre>';
-
-        return $spam; // Boolean 
+        // data package to be delivered to Akismet
+        $commentData = [
+          'comment_author_email'  => $data['email_address'], //required
+          'blog'                  => site_url(),
+          'blog_lang'             => 'en_US',
+          'blog_charset'          => 'UTF-8',
+          'is_test'               => TRUE,
+        ];
+    
+        if(isset($data['ip_address'])){
+          $commentData['user_ip'] = $data['ip_address'];
+        }
+    
+        if(isset($data['user_agent'])){
+          $commentData['user_agent'] = $data['user_agent'];
+        }
+    
+        if(isset($data['referrer'])){
+          $commentData['referrer'] = $data['referrer'];
+        }
+    
+        if(isset($data['full_name'])){
+          $commentData['comment_author'] = $data['full_name'];
+        }
+    
+        if(isset($data['message'])){
+          $commentData['comment_content'] = $data['message'];
+        }
+    
+        // construct the query string
+        $query_string = http_build_query( $commentData );
+        // post it to Akismet
+        $response = akismet_http_post( $query_string, $akismet_api_host, '/1.1/comment-check', $akismet_api_port );
+    
+        // the result is the second item in the array, boolean
+        return $response[1] == 'true' ? true : false;
     }
 
     /**

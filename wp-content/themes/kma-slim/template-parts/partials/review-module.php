@@ -12,7 +12,7 @@ $feed = $reviews->getRecentReview();
 
 $when = human_time_diff(strtotime($feed['date'])) . ' ago';
 $stars = '';
-for($i=0; $i<floor($feed['rating']); $i++){
+for($i=0; $i<floor($feed['rating'] != null ? $feed['rating'] : 5); $i++){
     $stars .= '<span class="icon is-small">
                 <i class="fa fa-star" aria-hidden="true"></i>
                </span>';
