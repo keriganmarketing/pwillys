@@ -1,7 +1,5 @@
 require("babel-polyfill");
 
-window.Vue = require('vue');
-
 import modal from './components/modal.vue';
 import VideoModal from './components/VideoModal.vue';
 import GoogleMap from './components/GoogleMap.vue';
@@ -10,6 +8,10 @@ import {VueMasonryPlugin} from 'vue-masonry';
 import InstaGallery from './components/InstaGallery';
 import SocialSharingIcons from './components/SocialSharingIcons';
 import DonationForm from './components/DonationForm';
+import RestaurantMenu from './components/RestaurantMenu';
+import Vue from 'vue/dist/vue';
+
+window.Vue = Vue;
 
 Vue.use(VueMasonryPlugin)
 
@@ -24,7 +26,8 @@ let app = new Vue({
         'pin': GoogleMapPin,
         'insta-gallery': InstaGallery,
         'social-sharing-icons': SocialSharingIcons,
-        'donations-form': DonationForm
+        'donations-form': DonationForm,
+        'food-menu': RestaurantMenu
     },
 
     data: {

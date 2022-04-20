@@ -10751,17 +10751,17 @@ h2.subtitle {
 .our-menu .menu-item {
   border-color: #fdb813;
   margin-bottom: 0;
-  padding: 1rem 0;
 }
 .our-menu .menu-item .card-content {
   margin: 0;
-  padding-bottom: 0;
-  padding-top: 0;
 }
 .our-menu .menu-item .card-content .item-name,
 .our-menu .menu-item .card-content .item-price {
   font-size: 1.7rem;
   margin: 0;
+}
+.our-menu .menu-item .card-content .item-price-info {
+  margin-bottom: 0 !important;
 }
 .our-menu .menu-item .card-content .item-description {
   color: #7d7d7d;
@@ -10785,10 +10785,15 @@ h2.subtitle {
   position: absolute;
   z-index: 10;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+8,0.65+100 */
-  padding-bottom: 1rem;
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), color-stop(8%, rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.8)));
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 8%, rgba(0, 0, 0, 0.8) 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#00000000", endColorstr="#a6000000", GradientType=0);
+  /* IE6-9 */
   width: 100%;
-  top: 0;
-  margin-top: 47.5%;
+  bottom: -16px;
 }
 .our-menu .menu-item.has-image .item-price-info .item-name,
 .our-menu .menu-item.has-image .item-price-info .item-price {

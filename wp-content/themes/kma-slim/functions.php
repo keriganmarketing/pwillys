@@ -19,7 +19,7 @@ use Includes\Modules\KMAFacebook\FacebookController;
 use Includes\Modules\KMAInstagram\InstagramController;
 use Includes\Modules\Forms\Donations;
 
-use Includes\Modules\Menu\Menu;
+use Includes\Modules\Models\Menu;
 
 require('vendor/autoload.php');
 
@@ -44,8 +44,7 @@ $events->setupAdmin();
 $events = new BulmaSlider();
 $events->setupAdmin();
 
-$ourMenu = new Menu();
-$ourMenu->setupAdmin();
+(new Menu)->use();
 
 $facebook = new FacebookController();
 $facebook->use();
@@ -59,6 +58,7 @@ $reviews->setupAdmin();
 $donations = new Donations();
 $donations->use();
 add_shortcode( 'donations-form', [$donations, 'makeShortcode'] );
+
 
 PageField::addField('Contact Info',[
 	'Phone number' => 'text',

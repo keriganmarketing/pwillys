@@ -1,7 +1,7 @@
 <?php
 
 use Includes\Modules\Layouts\Layouts;
-use Includes\Modules\Menu\Menu;
+use Includes\Modules\Models\Menu;
 
 /**
  * @package KMA
@@ -11,7 +11,7 @@ use Includes\Modules\Menu\Menu;
  */
 
 $menu           = new Menu();
-$menuCategories = $menu->getMenu();
+$menuCategories = $menu->getCategories();
 
 include(locate_template('template-parts/sections/top.php'));
 ?>
@@ -23,19 +23,8 @@ include(locate_template('template-parts/sections/top.php'));
                     <div class="entry-content content">
                         <?php the_content(); ?>
 
-                        <div class="section">
-                            <div v-masonry transition-duration="0.3s" item-selector=".menu-category"
-                                 class="our-menu columns is-multiline is-mobile">
-                                <?php foreach ($menuCategories as $menuCategory) { ?>
-                                    <div v-masonry-tile class="menu-category column is-12-mobile is-6-tablet is-4-widescreen">
-                                        <h2 class="title is-2 dimbo" tabindex="0"><?= $menuCategory['category_name']; ?></h2>
-                                        <?php foreach ($menuCategory['menu_items'] as $menuItem) { ?>
-                                            <?php include(locate_template('template-parts/partials/mini-menu-item.php')); ?>
-                                        <?php } ?>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                        </div>
+                        <food-menu :categories='<?php echo json_encode($menuCategories); ?>'></food-menu>
+                        
                     </div>
                 </div>
             </section>
