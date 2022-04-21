@@ -1,20 +1,19 @@
 {
   "private": true,
   "scripts": {
-    "dev": "npm run development",
-    "development": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch-poll": "npm run watch -- --watch-poll",
-    "hot": "cnode node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "prod": "npm run production",
-    "production": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "build": "mix --production",
+    "dev": "mix watch"
   },
   "devDependencies": {
     "bulma": "^0.4.4",
     "cross-env": "^5.2.0",
     "font-awesome": "^4.7.0",
-    "laravel-mix": "0.*",
+    "laravel-mix": "^6",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.50.0",
+    "sass-loader": "^12.1.0",
     "vue": "^2.6.10",
+    "vue-loader": "^15.9.7",
     "vue-social-sharing": "^3.0.8"
   },
   "dependencies": {

@@ -1,10 +1,12 @@
-const { mix } = require('laravel-mix');
+const mix = require("laravel-mix")
 const purgeCss = require('purgecss-webpack-plugin');
 const glob = require('glob');
 
-mix.js('js/front.js', './')
-   .js('js/generic.js', './')
-   .sass('sass/style.scss', './')
+mix.js('js/front.js', './').vue()
+   .js('js/generic.js', './').vue()
+   
+
+mix.sass('sass/style.scss', './')
    .sass('sass/sections/map.scss', './');
 
 mix.options({

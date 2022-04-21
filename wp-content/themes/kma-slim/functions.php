@@ -99,9 +99,9 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('styles', get_template_directory_uri() . '/style.css');
 
     if(is_front_page()){
-        wp_enqueue_script('scripts', get_template_directory_uri() . '/front.js', array(), '0.0.1', true);
+        wp_enqueue_script('scripts', get_template_directory_uri() . '/front.js', array(), '0.0.2', true);
     }else{
-        wp_enqueue_script('scripts', get_template_directory_uri() . '/generic.js', array(), '0.0.1', true);
+        wp_enqueue_script('scripts', get_template_directory_uri() . '/generic.js', array(), '0.0.2', true);
     }
     
 });

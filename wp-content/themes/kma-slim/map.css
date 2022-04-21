@@ -1,1 +1,21 @@
-.map-section{height:40vh;width:100%;background-position:center;background-size:cover;background-image:url("/wp-content/themes/kma-slim/img/map-section-mobile.webp");display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-align:end;-webkit-box-align:end;align-items:flex-end;-ms-flex-pack:center;-webkit-box-pack:center;justify-content:center}@media screen and (min-width:768px){.map-section{height:22rem;background-image:url("/wp-content/themes/kma-slim/img/map-section-desktop.webp")}}.map-section .button{margin-bottom:3rem}
+.map-section {
+  height: 40vh;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  background-image: url("/wp-content/themes/kma-slim/img/map-section-mobile.webp");
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+@media screen and (min-width: 768px) {
+  .map-section {
+    height: 22rem;
+    background-image: url("/wp-content/themes/kma-slim/img/map-section-desktop.webp");
+  }
+}
+.map-section .button {
+  margin-bottom: 3rem;
+}
