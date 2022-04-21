@@ -217,6 +217,7 @@ class FacebookController
                     'post_title' => $fbpost->id,
                     'post_status' => 'publish',
                     'post_type' => 'kma-fb-event',
+                    'post_date' => date('Y-m-d H:i:s', strtotime($fbpost->start_time)),
                     'meta_input' => [
                         'is_canceled' => $fbpost->is_canceled,
                         'is_draft' => $fbpost->is_draft,
