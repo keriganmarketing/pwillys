@@ -1,7 +1,5 @@
 require("babel-polyfill");
 
-window.Vue = require('vue');
-
 import modal from './components/modal.vue';
 import VideoModal from './components/VideoModal.vue';
 import GoogleMap from './components/GoogleMap.vue';
@@ -11,7 +9,9 @@ import InstaGallery from './components/InstaGallery';
 import SocialSharingIcons from './components/SocialSharingIcons';
 import DonationForm from './components/DonationForm';
 import ContactForm from './components/ContactForm';
+import Vue from 'vue/dist/vue';
 
+window.Vue = Vue;
 
 Vue.use(VueMasonryPlugin)
 
