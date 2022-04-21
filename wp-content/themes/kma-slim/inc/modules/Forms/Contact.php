@@ -25,8 +25,7 @@ class Contact extends Form {
 
   public $restRoute = '/submit-contact-form';
 
-  // public $mailto = 'jaredknetzer@gmail.com';
-  public $mailto = 'bryan@kerigan.com';
+  public $mailto = 'jaredknetzer@gmail.com';
   public $mailcc = '';
   public $mailbcc = 'websites@kerigan.com';
   public $mailfrom = 'notifications@mg.pwillys.com';
