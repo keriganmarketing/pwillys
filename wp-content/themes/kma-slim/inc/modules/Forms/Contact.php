@@ -4,12 +4,12 @@ namespace Includes\Modules\Forms;
 
 class Contact extends Form {
 
-  public $postType = 'donation-request';
-  public $queryVar = 'donation-requests';
-  public $menu_name = 'Donation Requests';
-  public $singular = 'Donation Request';
-  public $plural = 'Donation Requests';
-  public $icon = 'money-alt';
+  public $postType = 'contact-request';
+  public $queryVar = 'contact-requests';
+  public $menu_name = 'Contact Requests';
+  public $singular = 'Contact Request';
+  public $plural = 'Contact Requests';
+  public $icon = 'email';
 
   public $allFields = [
     'fname'            => 'First Name',
@@ -23,7 +23,7 @@ class Contact extends Form {
     'comments',
   ];
 
-  public $restRoute = '/submit-contact-request';
+  public $restRoute = '/submit-contact-form';
 
   // public $mailto = 'jaredknetzer@gmail.com';
   public $mailto = 'bryan@kerigan.com';
@@ -40,14 +40,17 @@ class Contact extends Form {
   public $receiptHeadline = 'Thanks for contacting us';
   public $receiptBodyText = 'One of our staff members will reach back out to your as soon as possible. What you submitted is below.';
 
-  public $useRecaptcha = false;
   public $useAkismet = true;
 
   // Maps form fields to akismet for spam detection
   // allowed keys: email (required), comment, author
   public $akismetMappings = [
-    'email'   => 'email',
-    'comment' => 'comments'
+    'comment_author_email' => 'email',
+    'comment_author' => 'fname',
+    'comment_content' => 'comments',
+    'user_ip' => 'user_ip',
+    'user_agent' => 'user_agent',
+    'referrer' => 'referrer',
   ];
 
   public function makeShortcode($atts)

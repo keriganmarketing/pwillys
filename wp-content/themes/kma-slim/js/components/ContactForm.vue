@@ -1,105 +1,86 @@
 <template>
   <div>
     <div v-if="success" id="contact-form-success" >
-      <slot />
+      <p>Thanks for reaching out. One of our staff members will get back with you as soon as possible.</p>
     </div>
     <div v-else id="contact-form-view" >
-      <div class="px-8" >
+      <div class="contact-form" >
         <div v-if="hasError" id="contact-form-error" >
           <p
             v-for="error in errors"
             :key="error"
-            class="text-error font-bold"
+            class="has-text-danger is-bold"
           >{{ error }}</p>
         </div>
-        <form class="grid md:grid-cols-2 lg:grid-cols-4 pt-2 lg:pt-4 gap-4" >
-          <div>
-            <div class="input-wrapper" :class="{ 'border-error': hasError && formData.fname == '' }">
+        <form >
+          <div class="columns is-multiline">
+
+            <div class="column is-6" >
               <label for="first-name" class="sr-only">First Name</label>
               <input
                 v-model="formData.fname"
                 id="first-name"
                 type="text"
-                class="text-input md:pl-4"
+                class="input"
                 placeholder="First Name"
                 required
               >
             </div>
-          </div>
-          <div>
-            <div class="input-wrapper" :class="{ 'border-error': hasError && formData.lname == '' }">
+ 
+            <div class="column is-6" >
               <label for="last-name" class="sr-only">Last Name</label>
               <input
                 v-model="formData.lname"
                 id="last-name"
                 type="text"
-                class="text-input md:pl-4"
+                class="input" 
                 placeholder="Last Name"
                 required
               >
             </div>
-          </div>
 
-          <div>
-            <div class="input-wrapper" :class="{ 'border-error': hasError && formData.email == '' }">
+            <div class="column is-12" >
               <label for="email-address" class="sr-only">Email Address</label>
               <input
                 v-model="formData.email"
                 id="email-address"
                 type="email"
-                class="text-input md:pl-4"
+                class="input email" 
+                :class="{ 'border-error': hasError && formData.email == '' }"
                 placeholder="Email Address"
                 required
               >
             </div>
-          </div>
 
-          <div>
-            <div class="input-wrapper" :class="{ 'border-error': hasError && formData.phone == '' }">
-              <label for="phone-number" class="sr-only">Phone Number</label>
-              <input
-                v-model="formData.phone"
-                id="phone-number"
-                type="tel"
-                class="text-input md:pl-4"
-                placeholder="Phone Number"
-                required
-              >
-            </div>
-          </div>
-
-          <div class="md:col-span-2 lg:col-span-4" >
-            <div class="input-wrapper h-32" :class="{ 'border-error': hasError && formData.message == '' }">
-              <label for="message" class="sr-only">Message</label>
+            <div class="column is-12">
+              <label for="comments" class="sr-only">Message</label>
               <textarea
                 type="text"
-                id="message"
-                v-model="formData.message"
-                class="textarea-input h-full w-full p-4"
+                id="comments"
+                v-model="formData.comments"
+                class="textarea" 
+                :class="{ 'border-error': hasError && formData.comments == '' }"
                 placeholder="Type your message here."
                 required
               />
             </div>
-          </div>
 
-          <div class="md:col-span-2 lg:col-span-4 flex flex-col md:flex-row items-center pt-2" >
-            <button
-              @click.prevent="submitForm"
-              type="submit"
-              :disabled="processing"
-              class="form-button bg-coral text-white hover:bg-slate"
-            >
-              Send Message
-            </button>
-            <div
-              v-if="!processing"
-              class="text-sm p-4 leading-none"
-              :class="{ 'text-error font-bold': this.hasError }" >
-              All fields required</div>
-            <div
-              v-if="processing"
-              class="text-sm p-4 leading-none"
-              >Sending&nbsp;inquiry.</div>
+            <div class="column is-12 columns" >
+              <div class="column is-narrow">
+                <button
+                  @click.prevent="submitForm"
+                  type="submit"
+                  :disabled="processing"
+                  class="button is-primary is-rounded has-shadow" 
+                >
+                  Send Message
+                </button>
+              </div>
+              <em
+                v-if="processing"
+                class="column is-narrow is-inline"
+                >Sending&nbsp;inquiry.</em>
+            </div>
           </div>
         </form>
       </div>
@@ -111,10 +92,6 @@ export default {
   name: 'ContactForm',
   props: {
     nonce: {
-      type: String,
-      default: '',
-    },
-    postId: {
       type: String,
       default: '',
     },
@@ -142,9 +119,8 @@ export default {
       formData: {
         fname: '',
         lname: '',
-        phone: '',
         email: '',
-        message: '',
+        comments: '',
       },
       form: '',
       mailto: '',
@@ -156,14 +132,12 @@ export default {
     validate() {
       return this.formData.fname != '' &&
         this.formData.lname != '' &&
-        this.formData.phone != '' &&
         this.formData.email != '' &&
-        this.formData.message != ''
+        this.formData.comments != ''
     },
   },
 
   mounted () {
-    this.formData.post_id = this.postId
     this.formData.user_ip = this.userIp
     this.formData.user_agent = this.userAgent
     this.formData.referrer = this.referrer
@@ -172,6 +146,12 @@ export default {
   methods: {
     submitForm () {
       this.processing = true
+
+      if(!this.validate){
+        this.hasError = true
+        this.processing = false
+        return null
+      }
 
       fetch('/wp-json/kma/v1/submit-contact-form', {
         method: 'POST',
@@ -200,3 +180,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+.border-error {
+  border: 1px solid red;
+  border-radius: 0.5rem;
+}
+</style>

@@ -13,7 +13,6 @@ use Includes\Modules\Helpers\CleanWP;
 use Includes\Modules\Layouts\Layouts;
 use Includes\Modules\Helpers\Session;
 use Includes\Modules\Helpers\PageField;
-// use Includes\Modules\Leads\SimpleContact;
 use Includes\Modules\Social\SocialSettingsPage;
 use Includes\Modules\KMAFacebook\FacebookController;
 use Includes\Modules\KMAInstagram\InstagramController;
@@ -35,10 +34,6 @@ if (is_admin()) {
 
 $layouts = new Layouts();
 $layouts->addPageHeadlines();
-
-// $contact = new SimpleContact();
-// $contact->setupAdmin();
-// $contact->setupShortcode();
 
 $events = new Events();
 $events->setupAdmin();

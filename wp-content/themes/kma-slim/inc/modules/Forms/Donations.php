@@ -57,14 +57,13 @@ class Donations extends Form {
   public $receiptHeadline = 'Thanks for requesting a donation';
   public $receiptBodyText = 'We are honored that you thought of us to help with your fundraiser or event. We try to support as many local, non-profit organizations as we possibly can but we receive a ton of charitable inquiries and often the number of applications we receive exceeds the funds / resources available and we are honestly unable to honor all requests. Please accept our apologies if we don\'t write back! We will solely reach out to folks whose requests we can facilitate. Thank you for your understanding!';
 
-  public $useRecaptcha = false;
   public $useAkismet = true;
 
   // Maps form fields to akismet for spam detection
   // allowed keys: email (required), comment, author
   public $akismetMappings = [
-    'email'   => 'email',
-    'comment' => 'comments'
+    'comment_author_email' => 'email',
+    'comment_content' => 'comments'
   ];
 
   public function makeShortcode($atts)

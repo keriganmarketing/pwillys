@@ -99,6 +99,7 @@ class Form {
           $data[$key] = $this->formData[$var];
         }
         $this->isSpam = $this->akismet->checkSpam($data);
+
       }
 
       if(count($this->uploads) > 0){        
@@ -109,8 +110,8 @@ class Form {
         }
       }
 
-      if ($this->hasErrors() && count($this->errors[]) > 0) {
-        wp_send_json_error($this->errors, 406);
+      if ($this->hasErrors()) {
+        wp_send_json_error($this->errors, $this->errorCode, 406);
       }
 
       if ( function_exists( 'acf_add_local_field_group' ) ) {
@@ -262,26 +263,29 @@ class Form {
   public function hasErrors()
   {
     // Check Akismet for comment spam
-    if($this->useAkismet && $this->isSpam != 'false'){
+    if($this->isSpam){
       $this->errorCode = 'akismet_failed';
-      $this->errors[] = ($this->isSpam == 'yes' ? 'Akismet validation failed' : $this->isSpam);
-      return true;
+      $this->errors[] = 'This message has been flagged as spam.';
     }
 
     // loop through other required fields to make sure they are not blank
     foreach($this->requiredFields as $field){
       if ( $this->formData[$field] === null && $this->formData[$field] !== '') {
-        $this->errors[] = 'The ' . $this->allFields[$field] . ' field is required';
-        return true;
+        $this->errorCode = 'missing_required_fields';
+        $this->errors[] = 'The ' . $this->allFields[$field] . ' field is required.';
       }
 
       // check email formatting
       if($field == 'email'){
         if ( ! filter_var($this->formData['email'], FILTER_VALIDATE_EMAIL)) {
-          $this->errors[] = 'The email address you entered is invalid';
-          return true;
+          $this->errorCode = 'email_formatted_badly';
+          $this->errors[] = 'The email address you entered is invalid.';
         }
       }
+    }
+
+    if(count($this->errors) > 0){
+      return true;
     }
 
     return false;
