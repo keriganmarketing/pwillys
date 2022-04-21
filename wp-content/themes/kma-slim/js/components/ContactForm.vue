@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-if="success" id="contact-form-success" >
+    <message v-if="success" id="contact-form-success" class="is-success" >
       <p>Thanks for reaching out. One of our staff members will get back with you as soon as possible.</p>
-    </div>
+    </message>
     <div v-else id="contact-form-view" >
       <div class="contact-form" >
         <div v-if="hasError" id="contact-form-error" >
