@@ -13,7 +13,7 @@ $facebook = new FacebookController();
 $events = $facebook->getFbEvents(-1,[
     'meta_query' => [
         [
-            'key'     => 'end',
+            'key'     => 'datestamp',
             'value'   => date('YmdHi'),
             'type'    => 'NUMERIC',
             'compare' => '>='
