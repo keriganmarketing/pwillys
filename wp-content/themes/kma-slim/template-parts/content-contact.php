@@ -54,7 +54,7 @@ include(locate_template('template-parts/sections/top.php'));
                             <div class="column is-12 is-6-desktop">
                                 <h2 class="title is-primary is-2 dimbo">Get in Touch</h2>
                                 <p>Just fill out the form below and we'll get back with you.</p>
-                                <?php echo do_shortcode('[contact_form]'); ?>
+                                <?php echo do_shortcode('[contact-form]'); ?>
                             </div>
                         </div>
                     </div>

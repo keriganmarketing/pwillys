@@ -13,11 +13,12 @@ use Includes\Modules\Helpers\CleanWP;
 use Includes\Modules\Layouts\Layouts;
 use Includes\Modules\Helpers\Session;
 use Includes\Modules\Helpers\PageField;
-use Includes\Modules\Leads\SimpleContact;
 use Includes\Modules\Social\SocialSettingsPage;
 use Includes\Modules\KMAFacebook\FacebookController;
 use Includes\Modules\KMAInstagram\InstagramController;
 use Includes\Modules\Forms\Donations;
+use Includes\Modules\Forms\Contact;
+
 
 use Includes\Modules\Models\Menu;
 
@@ -33,10 +34,6 @@ if (is_admin()) {
 
 $layouts = new Layouts();
 $layouts->addPageHeadlines();
-
-$contact = new SimpleContact();
-$contact->setupAdmin();
-$contact->setupShortcode();
 
 $events = new Events();
 $events->setupAdmin();
@@ -59,6 +56,9 @@ $donations = new Donations();
 $donations->use();
 add_shortcode( 'donations-form', [$donations, 'makeShortcode'] );
 
+$contact = new Contact();
+$contact->use();
+add_shortcode( 'contact-form', [$contact, 'makeShortcode'] );
 
 PageField::addField('Contact Info',[
 	'Phone number' => 'text',
@@ -93,9 +93,9 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('styles', get_template_directory_uri() . '/style.css');
 
     if(is_front_page()){
-        wp_enqueue_script('scripts', get_template_directory_uri() . '/front.js', array(), '0.0.1', true);
+        wp_enqueue_script('scripts', get_template_directory_uri() . '/front.js', array(), '0.0.2', true);
     }else{
-        wp_enqueue_script('scripts', get_template_directory_uri() . '/generic.js', array(), '0.0.1', true);
+        wp_enqueue_script('scripts', get_template_directory_uri() . '/generic.js', array(), '0.0.2', true);
     }
     
 });

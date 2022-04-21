@@ -2,13 +2,13 @@
 
 namespace Includes\Modules\Forms;
 
-use Akismet;
 use Includes\Modules\Mail\Mail;
 use Includes\Modules\Mail\Message;
-use ReCaptcha\ReCaptcha;
 use Includes\Modules\Core\PostType;
 use Includes\Modules\Core\Taxonomy;
 use Includes\Modules\Core\MetaBox;
+use Includes\Modules\Helpers\Akismet;
+use Includes\Modules\Helpers\Helpers;
 
 class Form {
 
@@ -33,6 +33,8 @@ class Form {
   ];
 
   // Validation
+  public $akismet;
+  public $helpers;
   public $request;
   public $files;
   public $errorCode;
@@ -67,6 +69,8 @@ class Form {
 
   public function __construct()
   {
+    $this->akismet = new Akismet;
+    $this->helpers = new Helpers;
   }
 
   public function setFields(Array $fields = [])
@@ -90,14 +94,12 @@ class Form {
       $this->formData = $request->get_params();
 
       if($this->useAkismet){
-        $data['email'] = $this->formData[$this->akismetMappings['email']];
-        if(isset($this->akismetMappings['author'])){
-          $data['author'] = $this->formData[$this->akismetMappings['author']];
+        $data = [];
+        foreach($this->akismetMappings as $key => $var) {
+          $data[$key] = $this->formData[$var];
         }
-        if(isset($this->akismetMappings['comment'])){
-          $data['comment'] = $this->formData[$this->akismetMappings['comment']];
-        }
-        $this->akismet($data);
+        $this->isSpam = $this->akismet->checkSpam($data);
+
       }
 
       if(count($this->uploads) > 0){        
@@ -108,8 +110,8 @@ class Form {
         }
       }
 
-      if ($this->hasErrors() && count($this->errors[]) > 0) {
-        wp_send_json_error($this->errors, 406);
+      if ($this->hasErrors()) {
+        wp_send_json_error($this->errors, $this->errorCode, 406);
       }
 
       if ( function_exists( 'acf_add_local_field_group' ) ) {
@@ -261,90 +263,32 @@ class Form {
   public function hasErrors()
   {
     // Check Akismet for comment spam
-    if($this->useAkismet && $this->isSpam != 'false'){
+    if($this->isSpam){
       $this->errorCode = 'akismet_failed';
-      $this->errors[] = ($this->isSpam == 'yes' ? 'Akismet validation failed' : $this->isSpam);
-      return true;
-    }
-
-    // Check Google ReCaptcha
-    if($this->useReCaptcha && !$this->validate($this->request->get_param('token'))){
-      $this->errorCode = 'recptcha_failed';
-      $this->errors[] = 'ReCaptcha validation failed';
-      return true;
+      $this->errors[] = 'This message has been flagged as spam.';
     }
 
     // loop through other required fields to make sure they are not blank
     foreach($this->requiredFields as $field){
       if ( $this->formData[$field] === null && $this->formData[$field] !== '') {
-        $this->errors[] = 'The ' . $this->allFields[$field] . ' field is required';
-        return true;
+        $this->errorCode = 'missing_required_fields';
+        $this->errors[] = 'The ' . $this->allFields[$field] . ' field is required.';
       }
 
       // check email formatting
       if($field == 'email'){
         if ( ! filter_var($this->formData['email'], FILTER_VALIDATE_EMAIL)) {
-          $this->errors[] = 'The email address you entered is invalid';
-          return true;
+          $this->errorCode = 'email_formatted_badly';
+          $this->errors[] = 'The email address you entered is invalid.';
         }
       }
     }
 
+    if(count($this->errors) > 0){
+      return true;
+    }
+
     return false;
-  }
-
-  public function akismet($data)
-  {
-    // no Akisment installed so return false for spam check
-    if( !function_exists( 'akismet_http_post' ) ){
-      return 'false';
-    }
-
-    global $akismet_api_host, $akismet_api_port;
-
-    // data package to be delivered to Akismet
-    $data = array(
-      'comment_author_email'  => $data['email'],
-      'user_ip'               => $this->getIP(),
-      'user_agent'            => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
-      'referrer'              => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
-      'blog'                  => site_url(),
-      'blog_lang'             => 'en_US',
-      'blog_charset'          => 'UTF-8',
-      'is_test'               => TRUE,
-    );
-
-    if(isset($data['author'])){
-      $data['comment_author'] = $data['author'];
-    }
-
-    if(isset($data['comment'])){
-      $data['comment_content'] = $data['comment'];
-    }
-
-    // construct the query string
-    $query_string = http_build_query( $data );
-    // post it to Akismet
-    $response = akismet_http_post( $query_string, $akismet_api_host, '/1.1/comment-check', $akismet_api_port );
-    // check the results
-    $result = ( is_array( $response ) && isset( $response[1] ) ) ? $response[1] : 'false';
-    // display the result (it can be 'true', 'false' or some error message )
-    $this->isSpam = $result;
-  }
-
-  public function getIP()
-  {
-    $Ip = '0.0.0.0';
-    if (isset($_SERVER['HTTP_CLIENT_IP']) && $_SERVER['HTTP_CLIENT_IP'] != '')
-      $Ip = $_SERVER['HTTP_CLIENT_IP'];
-    elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != '')
-      $Ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    elseif (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] != '')
-      $Ip = $_SERVER['REMOTE_ADDR'];
-    if (($CommaPos = strpos($Ip, ',')) > 0)
-      $Ip = substr($Ip, 0, ($CommaPos - 1));
-
-    return $Ip;
   }
 
   public function persistToDashboard()

@@ -13,7 +13,6 @@
     "kerigansolutions/fb-autoblog-wp": "^1",
     "kevinrob/guzzle-cache-middleware": "^3.3",
     "symfony/cache": "^5.1",
-    "google/recaptcha": "^1.2",
     "facebook/graph-sdk": "^5.1",
     "nesbot/carbon": "^2.57"
   }

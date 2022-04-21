@@ -131,7 +131,7 @@ class FacebookController
             'offset'         => 0,
             'order'          => 'ASC',
             'orderby'        => 'meta_value_num',
-            'meta_key'       => 'start',
+            'meta_key'       => 'datestamp',
             'post_type'      => 'kma-fb-event',
             'post_status'    => 'publish',
         ];
@@ -141,6 +141,8 @@ class FacebookController
 
         $output = [];
         foreach($postArray as $post){
+            $post->is_canceled = get_post_meta($post->ID, 'is_canceled', true);
+            $post->is_draft = get_post_meta($post->ID, 'is_draft', true);
             $post->datestamp = get_post_meta($post->ID, 'datestamp', true);
             $post->event_name = get_post_meta($post->ID, 'event_name', true);
             $post->event_link = get_post_meta($post->ID, 'event_link', true);
@@ -148,6 +150,7 @@ class FacebookController
             $post->full_image_url = get_post_meta($post->ID, 'full_image_url', true);
             $post->event_date = get_post_meta($post->ID, 'event_date', true);
             $post->event_time = get_post_meta($post->ID, 'event_time', true);
+            $post->event_times = get_post_meta($post->ID, 'event_times', true);
             $output[] = $post;
         }
 
@@ -178,7 +181,7 @@ class FacebookController
 
     public function syncEvents()
     {
-        $this->updateEvents(30) ? wp_send_json_success() : wp_send_json_error();
+        $this->updateEvents(120) ? wp_send_json_success() : wp_send_json_error();
     }
 
 
@@ -192,32 +195,59 @@ class FacebookController
                 $startDateTime = Carbon::parse($fbpost->start_time);
                 $endDateTime = isset($fbpost->end_time) ? Carbon::parse($fbpost->end_time) : null;
 
+                $event_times = [];
+                $sortDate = $startDateTime->format('Ymd');
+
+                if(isset($fbpost->event_times)){
+                    foreach($fbpost->event_times as $time){
+                        if(date('YmdHi',strtotime($time->start_time)) >= date('YmdHi')) {
+                            array_unshift($event_times, $time);
+                        }
+                    }
+
+                    if(isset($event_times[0])){
+                        $sortDate = date('YmdHi', strtotime($event_times[0]->end_time));
+                    }
+                }
+
+
                 $postArray = [
                     'ID' => 0,
-                    'post_content' => $fbpost->description,
+                    'post_content' => isset($fbpost->description) ? $fbpost->description : null,
                     'post_title' => $fbpost->id,
                     'post_status' => 'publish',
                     'post_type' => 'kma-fb-event',
+                    'post_date' => date('Y-m-d H:i:s', strtotime($fbpost->start_time)),
                     'meta_input' => [
+                        'is_canceled' => $fbpost->is_canceled,
+                        'is_draft' => $fbpost->is_draft,
                         'start' => $startDateTime->copy()->format('YmdHi'),
                         'end' => $endDateTime->copy()->format('YmdHi'),
-                        'datestamp' => $startDateTime->format('Ymd'),
+                        'datestamp' => $sortDate,
                         'event_name' => $fbpost->name,
                         'event_link' => 'https://www.facebook.com/events/' . $fbpost->id,
                         'where' => $fbpost->place->name,
                         'full_image_url' => $fbpost->cover->source,
                         'event_date' => $endDateTime != null && $endDateTime->diffInDays($startDateTime) > 1 ? $startDateTime->copy()->format('M d') . ' - '. $endDateTime->copy()->format('M d, Y') : $startDateTime->format('M d, Y'),
                         'event_time' => $endDateTime != null ? $startDateTime->copy()->format('g:i A') . ' - '. $endDateTime->copy()->format('g:i A') : $startDateTime->copy()->format('g:i A'),
+                        'event_times' => $event_times
                     ]
                 ];
 
                 $postExists = get_page_by_title($fbpost->id, OBJECT, 'kma-fb-event');
 
                 if(isset($postExists->ID)){
-                    $postArray['ID'] = $postExists->ID;
-                    wp_update_post($postArray);
+                    if($fbpost->is_canceled){
+                        wp_delete_post($postExists->ID);
+                    }else{
+                        $postArray['ID'] = $postExists->ID;
+                        wp_update_post($postArray);
+                    }
+                    
                 }else{
-                    wp_insert_post($postArray);
+                    if(!$fbpost->is_canceled){
+                        wp_insert_post($postArray);
+                    }
                 }
 
             }

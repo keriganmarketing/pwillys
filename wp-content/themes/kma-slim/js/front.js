@@ -1,9 +1,10 @@
 require("babel-polyfill");
 
-window.Vue = require('vue');
-
 import VideoBackground from './components/VideoBackground'
 import InstaGallery from './components/InstaGallery';
+import Vue from 'vue/dist/vue';
+
+window.Vue = Vue;
 
 let app = new Vue({
 
