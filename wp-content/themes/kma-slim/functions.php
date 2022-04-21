@@ -13,11 +13,13 @@ use Includes\Modules\Helpers\CleanWP;
 use Includes\Modules\Layouts\Layouts;
 use Includes\Modules\Helpers\Session;
 use Includes\Modules\Helpers\PageField;
-use Includes\Modules\Leads\SimpleContact;
+// use Includes\Modules\Leads\SimpleContact;
 use Includes\Modules\Social\SocialSettingsPage;
 use Includes\Modules\KMAFacebook\FacebookController;
 use Includes\Modules\KMAInstagram\InstagramController;
 use Includes\Modules\Forms\Donations;
+use Includes\Modules\Forms\Contact;
+
 
 use Includes\Modules\Menu\Menu;
 
@@ -34,9 +36,9 @@ if (is_admin()) {
 $layouts = new Layouts();
 $layouts->addPageHeadlines();
 
-$contact = new SimpleContact();
-$contact->setupAdmin();
-$contact->setupShortcode();
+// $contact = new SimpleContact();
+// $contact->setupAdmin();
+// $contact->setupShortcode();
 
 $events = new Events();
 $events->setupAdmin();
@@ -59,6 +61,10 @@ $reviews->setupAdmin();
 $donations = new Donations();
 $donations->use();
 add_shortcode( 'donations-form', [$donations, 'makeShortcode'] );
+
+$contact = new Contact();
+$contact->use();
+add_shortcode( 'contact-form', [$contact, 'makeShortcode'] );
 
 PageField::addField('Contact Info',[
 	'Phone number' => 'text',
