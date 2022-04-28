@@ -222,7 +222,7 @@ class FacebookController
                         'is_canceled' => $fbpost->is_canceled,
                         'is_draft' => $fbpost->is_draft,
                         'start' => $startDateTime->copy()->format('YmdHi'),
-                        'end' => $endDateTime->copy()->format('YmdHi'),
+                        'end' => isset($endDateTime) ? $endDateTime->copy()->format('YmdHi') : null,
                         'datestamp' => $sortDate,
                         'event_name' => $fbpost->name,
                         'event_link' => 'https://www.facebook.com/events/' . $fbpost->id,
