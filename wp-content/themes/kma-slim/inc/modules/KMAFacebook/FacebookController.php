@@ -181,7 +181,7 @@ class FacebookController
 
     public function syncEvents()
     {
-        $this->updateEvents(120) ? wp_send_json_success() : wp_send_json_error();
+        $this->updateEvents(600) ? wp_send_json_success() : wp_send_json_error();
     }
 
 
