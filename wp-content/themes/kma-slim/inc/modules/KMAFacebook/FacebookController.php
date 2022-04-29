@@ -181,7 +181,7 @@ class FacebookController
 
     public function syncEvents()
     {
-        $this->updateEvents(120) ? wp_send_json_success() : wp_send_json_error();
+        $this->updateEvents(999) ? wp_send_json_success() : wp_send_json_error();
     }
 
 
@@ -222,12 +222,12 @@ class FacebookController
                         'is_canceled' => $fbpost->is_canceled,
                         'is_draft' => $fbpost->is_draft,
                         'start' => $startDateTime->copy()->format('YmdHi'),
-                        'end' => $endDateTime->copy()->format('YmdHi'),
+                        'end' => $endDateTime ? $endDateTime->copy()->format('YmdHi') : null,
                         'datestamp' => $sortDate,
                         'event_name' => $fbpost->name,
                         'event_link' => 'https://www.facebook.com/events/' . $fbpost->id,
-                        'where' => $fbpost->place->name,
-                        'full_image_url' => $fbpost->cover->source,
+                        'where' => isset($fbpost->place) ? $fbpost->place->name : null,
+                        'full_image_url' => isset($fbpost->cover) ? $fbpost->cover->source : null,
                         'event_date' => $endDateTime != null && $endDateTime->diffInDays($startDateTime) > 1 ? $startDateTime->copy()->format('M d') . ' - '. $endDateTime->copy()->format('M d, Y') : $startDateTime->format('M d, Y'),
                         'event_time' => $endDateTime != null ? $startDateTime->copy()->format('g:i A') . ' - '. $endDateTime->copy()->format('g:i A') : $startDateTime->copy()->format('g:i A'),
                         'event_times' => $event_times
