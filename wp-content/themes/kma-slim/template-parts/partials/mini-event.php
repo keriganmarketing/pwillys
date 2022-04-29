@@ -10,11 +10,12 @@
             
 
             <?php if(count($event->event_times) > 0) { ?>
-                <?php foreach($event->event_times as $time) { ?>
-                    <p class="date"><?= date('M d', strtotime($time->start_time)); ?>, 
-                        <?= date('g:i A', strtotime($time->start_time)); ?> - <?= date('g:i A', strtotime($time->end_time)); ?>
-                    </p>
+                <p class="date"><strong style="color:#FFF">Upcoming Dates:</strong><br>
+                <?php foreach(array_slice($event->event_times,0,4,true) as $time) { ?>
+                   <?= date('M d', strtotime($time->start_time)); ?>, 
                 <?php } ?>
+                </p>
+                <p class="date"><?= $event->event_time; ?></p>
             <?php } else { ?>
                 <?php if($event->event_date != ''){ ?>
                 <p class="date"><?= $event->event_date; ?></p>
