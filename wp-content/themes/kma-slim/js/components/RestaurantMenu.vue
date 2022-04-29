@@ -5,13 +5,13 @@
       <div class="column has-text-right pad-5 is-half">
         <button @click="language = 'english'" class="button is-rounded" :class="{ 'is-secondary': language == 'english', 'is-primary': language == 'spanish' }" >
           <span v-if="language=='english'" >English</span>
-          <span v-else>Espanol</span>
+          <span v-else>Inglés</span>
         </button>
       </div>
       <div class="column has-text-left pad-5 is-half">
         <button @click="language = 'spanish'" class="button is-rounded" :class="{ 'is-secondary': language == 'spanish', 'is-primary': language == 'english' }" >
           <span v-if="language=='english'" >Spanish</span>
-          <span v-else>Spanish</span>
+          <span v-else>Español</span>
         </button>
       </div>
     </div>
