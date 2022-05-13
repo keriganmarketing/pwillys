@@ -20,7 +20,7 @@
       <div v-if="language == 'english'" class="column is-auto columns items-justified-right" >
         <div class="column is-narrow" style="text-align: center;">
           <a 
-            v-if="englishMenuPdf != {}"
+            v-if="englishMenuPdf"
             class="button is-rounded is-primary is-inline-block" 
             :href="englishMenuPdf.url"
             target="_blank"
@@ -30,7 +30,7 @@
         </div>
         <div class="column is-narrow" style="text-align: center;">
           <a 
-            v-if="englishAllergenPdf != {}"
+            v-if="englishAllergenPdf"
             class="button is-rounded is-primary is-inline-block" 
             :href="englishAllergenPdf.url"
             target="_blank"
@@ -43,7 +43,7 @@
       <div v-if="language == 'spanish'" class="column is-auto columns items-justified-right" >
         <div class="column is-narrow" style="text-align: center;">
           <a 
-            v-if="spanishMenuPdf != {}"
+            v-if="spanishMenuPdf"
             class="button is-rounded is-primary is-inline-block" 
             :href="spanishMenuPdf.url"
             target="_blank"
@@ -53,7 +53,7 @@
         </div>
         <div class="column is-narrow" style="text-align: center;">
           <a 
-            v-if="spanishAllergenPdf != {}"
+            v-if="spanishAllergenPdf"
             class="button is-rounded is-primary is-inline-block" 
             :href="spanishAllergenPdf.url"
             target="_blank"

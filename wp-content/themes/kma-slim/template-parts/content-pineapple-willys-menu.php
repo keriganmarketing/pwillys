@@ -47,7 +47,7 @@ include(locate_template('template-parts/sections/top.php'));
                             <?php if($englishAllergenPDF){ ?>
                             :english-allergen-pdf='<?php echo json_encode($englishAllergenPDF); ?>'
                             <?php } ?>
-                            <?php if($englishDisclaimer){ ?>
+                            <?php if($spanishAllergenPDF){ ?>
                             :spanish-allergen-pdf='<?php echo json_encode($spanishAllergenPDF); ?>'
                             <?php } ?>
                         ></food-menu>
