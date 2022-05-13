@@ -16,7 +16,7 @@ $menuCategories = $menu->getCategories();
 $englishDisclaimer = get_field('english_disclaimer');
 $spanishDisclaimer = get_field('spanish_disclaimer') ? get_field('spanish_disclaimer') : $englishDisclaimer;
 $englishMenuPDF = get_field('english_menu_pdf_download');
-$spanishMenuPDF = get_field('spanish_menu_pdf_download') ? get_field('spanish_menu_pdf_download') : $spanishMenuPDF;
+$spanishMenuPDF = get_field('spanish_menu_pdf_download') ? get_field('spanish_menu_pdf_download') : $englishMenuPDF;
 $englishAllergenPDF = get_field('english_allergen_menu_guide');
 $spanishAllergenPDF = get_field('spanish_allergen_menu_guide') ? get_field('spanish_allergen_menu_guide') : $englishAllergenPDF;
 
