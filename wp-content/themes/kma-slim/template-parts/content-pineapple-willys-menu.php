@@ -13,6 +13,13 @@ use Includes\Modules\Models\Menu;
 $menu           = new Menu();
 $menuCategories = $menu->getCategories();
 
+$englishDisclaimer = get_field('english_disclaimer');
+$spanishDisclaimer = get_field('spanish_disclaimer') ? get_field('spanish_disclaimer') : $englishDisclaimer;
+$englishMenuPDF = get_field('english_menu_pdf_download');
+$spanishMenuPDF = get_field('spanish_menu_pdf_download') ? get_field('spanish_menu_pdf_download') : $spanishMenuPDF;
+$englishAllergenPDF = get_field('english_allergen_menu_guide');
+$spanishAllergenPDF = get_field('spanish_allergen_menu_guide') ? get_field('spanish_allergen_menu_guide') : $englishAllergenPDF;
+
 include(locate_template('template-parts/sections/top.php'));
 ?>
     <div id="mid">
@@ -23,7 +30,27 @@ include(locate_template('template-parts/sections/top.php'));
                     <div class="entry-content content">
                         <?php the_content(); ?>
 
-                        <food-menu :categories='<?php echo json_encode($menuCategories); ?>'></food-menu>
+                        <food-menu 
+                            :categories='<?php echo json_encode($menuCategories); ?>'
+                            <?php if($englishDisclaimer){ ?>
+                            english-disclaimer='<?php echo $englishDisclaimer; ?>'
+                            <?php } ?>
+                            <?php if($spanishDisclaimer){ ?>
+                            spanish-disclaimer='<?php echo $spanishDisclaimer; ?>'
+                            <?php } ?>
+                            <?php if($englishMenuPDF){ ?>
+                            :english-menu-pdf='<?php echo json_encode($englishMenuPDF); ?>'
+                            <?php } ?>
+                            <?php if($spanishMenuPDF){ ?>
+                            :spanish-menu-pdf='<?php echo json_encode($spanishMenuPDF); ?>'
+                            <?php } ?>
+                            <?php if($englishAllergenPDF){ ?>
+                            :english-allergen-pdf='<?php echo json_encode($englishAllergenPDF); ?>'
+                            <?php } ?>
+                            <?php if($englishDisclaimer){ ?>
+                            :spanish-allergen-pdf='<?php echo json_encode($spanishAllergenPDF); ?>'
+                            <?php } ?>
+                        ></food-menu>
                         
                     </div>
                 </div>

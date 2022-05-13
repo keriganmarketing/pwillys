@@ -55,6 +55,8 @@ class Menu extends PostObject {
       $category->name_spanish = get_field('name_spanish', $this->taxonomy . '_' . $category->cat_ID); 
       $category->description_english = get_field('description_english', $this->taxonomy . '_' . $category->cat_ID);
       $category->description_spanish = get_field('description_spanish', $this->taxonomy . '_' . $category->cat_ID);
+      $category->disclaimer_english = get_field('disclaimer_english', $this->taxonomy . '_' . $category->cat_ID);
+      $category->disclaimer_spanish = get_field('disclaimer_spanish', $this->taxonomy . '_' . $category->cat_ID);
       $category->photo = get_field('photo', $this->taxonomy . '_' . $category->cat_ID);
       $category->items = $this->query(
         ['tax_query' => [
@@ -211,7 +213,145 @@ class Menu extends PostObject {
       'max_height' => 0,
     ));
 
-    
+    acf_add_local_field_group(array(
+      'key' => 'group_627e5b8a86378',
+      'title' => 'Menu Settings',
+      'fields' => array(
+        array(
+          'key' => 'field_627e5b9dc21eb',
+          'label' => 'English Disclaimer',
+          'name' => 'english_disclaimer',
+          'type' => 'wysiwyg',
+          'instructions' => '',
+          'required' => 0,
+          'conditional_logic' => 0,
+          'wrapper' => array(
+            'width' => '50',
+            'class' => '',
+            'id' => '',
+          ),
+          'default_value' => '',
+          'tabs' => 'all',
+          'toolbar' => 'basic',
+          'media_upload' => 0,
+          'delay' => 1,
+        ),
+        array(
+          'key' => 'field_627e5bbfc21ec',
+          'label' => 'Spanish Disclaimer',
+          'name' => 'spanish_disclaimer',
+          'type' => 'wysiwyg',
+          'instructions' => '',
+          'required' => 0,
+          'conditional_logic' => 0,
+          'wrapper' => array(
+            'width' => '50',
+            'class' => '',
+            'id' => '',
+          ),
+          'default_value' => '',
+          'tabs' => 'all',
+          'toolbar' => 'basic',
+          'media_upload' => 0,
+          'delay' => 1,
+        ),
+        array(
+          'key' => 'field_627e5bddc21ed',
+          'label' => 'English Menu PDF Download',
+          'name' => 'english_menu_pdf_download',
+          'type' => 'file',
+          'instructions' => '',
+          'required' => 0,
+          'conditional_logic' => 0,
+          'wrapper' => array(
+            'width' => '50',
+            'class' => '',
+            'id' => '',
+          ),
+          'return_format' => 'array',
+          'library' => 'all',
+          'min_size' => '',
+          'max_size' => '',
+          'mime_types' => '',
+        ),
+        array(
+          'key' => 'field_627e5c0fc21ee',
+          'label' => 'Spanish Menu PDF Download',
+          'name' => 'spanish_menu_pdf_download',
+          'type' => 'file',
+          'instructions' => '',
+          'required' => 0,
+          'conditional_logic' => 0,
+          'wrapper' => array(
+            'width' => '50',
+            'class' => '',
+            'id' => '',
+          ),
+          'return_format' => 'array',
+          'library' => 'all',
+          'min_size' => '',
+          'max_size' => '',
+          'mime_types' => '',
+        ),
+        array(
+          'key' => 'field_627e5c21c21ef',
+          'label' => 'English Allergen Menu Guide',
+          'name' => 'english_allergen_menu_guide',
+          'type' => 'file',
+          'instructions' => '',
+          'required' => 0,
+          'conditional_logic' => 0,
+          'wrapper' => array(
+            'width' => '50',
+            'class' => '',
+            'id' => '',
+          ),
+          'return_format' => 'array',
+          'library' => 'all',
+          'min_size' => '',
+          'max_size' => '',
+          'mime_types' => '',
+        ),
+        array(
+          'key' => 'field_627e5c3ec21f0',
+          'label' => 'Spanish Allergen Menu Guide',
+          'name' => 'spanish_allergen_menu_guide',
+          'type' => 'file',
+          'instructions' => '',
+          'required' => 0,
+          'conditional_logic' => 0,
+          'wrapper' => array(
+            'width' => '50',
+            'class' => '',
+            'id' => '',
+          ),
+          'return_format' => 'array',
+          'library' => 'all',
+          'min_size' => '',
+          'max_size' => '',
+          'mime_types' => '',
+        ),
+      ),
+      'location' => array(
+        array(
+          array(
+            'param' => 'page',
+            'operator' => '==',
+            'value' => '15',
+          ),
+        ),
+      ),
+      'menu_order' => 0,
+      'position' => 'acf_after_title',
+      'style' => 'default',
+      'label_placement' => 'top',
+      'instruction_placement' => 'label',
+      'hide_on_screen' => '',
+      'active' => true,
+      'description' => '',
+      'show_in_rest' => 0,
+    ));
+      
   }
 
   public function removeDefaultDescription()
@@ -309,6 +449,46 @@ class Menu extends PostObject {
           'key' => $this->taxonomy . '_description_spanish',
           'label' => 'Spanish Description',
           'name' => 'description_spanish',
+          'type' => 'wysiwyg',
+          'instructions' => '',
+          'required' => 0,
+          'conditional_logic' => 0,
+          'wrapper' => array(
+            'width' => '',
+            'class' => '',
+            'id' => '',
+          ),
+          'default_value' => '',
+          'tabs' => 'all',
+          'toolbar' => 'basic',
+          'media_upload' => 0,
+          'delay' => 1,
+        ),
+
+        array(
+          'key' => $this->taxonomy . '_disclaimer_english',
+          'label' => 'English Disclaimer',
+          'name' => 'disclaimer_english',
+          'type' => 'wysiwyg',
+          'instructions' => '',
+          'required' => 0,
+          'conditional_logic' => 0,
+          'wrapper' => array(
+            'width' => '',
+            'class' => '',
+            'id' => '',
+          ),
+          'default_value' => '',
+          'tabs' => 'all',
+          'toolbar' => 'basic',
+          'media_upload' => 0,
+          'delay' => 1,
+        ),
+
+        array(
+          'key' => $this->taxonomy . '_disclaimer_spanish',
+          'label' => 'Spanish Disclaimer',
+          'name' => 'disclaimer_spanish',
           'type' => 'wysiwyg',
           'instructions' => '',
           'required' => 0,

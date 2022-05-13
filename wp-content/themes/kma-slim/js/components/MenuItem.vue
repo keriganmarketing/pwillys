@@ -61,8 +61,8 @@ export default {
   name: "MenuItem",
   props: {
     item: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => {}
     },
     language: {
       type: String,
