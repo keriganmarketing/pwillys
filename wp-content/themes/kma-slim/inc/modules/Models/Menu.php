@@ -134,7 +134,7 @@ class Menu extends PostObject {
     // price
     acf_add_local_field(array(
       'key' => $this->postType . '_price',
-      'label' => 'Title',
+      'label' => 'Price',
       'name' => 'price',
       'type' => 'text',
       'parent' => 'group_'.$this->postType.'_details',
