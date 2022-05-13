@@ -376,11 +376,10 @@ class Menu extends PostObject {
       'fields' => array(
 
         array(
-          'key' => $this->postType . '_english_name',
+          'key' => $this->taxonomy . '_english_name',
           'label' => 'English Name',
           'name' => 'name_english',
           'type' => 'text',
-          'parent' => 'group_'.$this->postType.'_details',
           'wrapper' => array(
             'width' => '',
             'class' => '',
