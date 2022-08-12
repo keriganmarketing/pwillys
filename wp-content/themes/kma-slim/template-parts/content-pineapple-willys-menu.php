@@ -31,7 +31,6 @@ include(locate_template('template-parts/sections/top.php'));
                         <?php the_content(); ?>
 
                         <food-menu 
-                            :categories='<?php echo json_encode($menuCategories); ?>'
                             <?php if($englishDisclaimer){ ?>
                             english-disclaimer='<?php echo $englishDisclaimer; ?>'
                             <?php } ?>

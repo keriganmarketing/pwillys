@@ -143,10 +143,6 @@ export default {
   },
 
   props: {
-    categories: {
-      type: Array,
-      default: () => []
-    },
     englishDisclaimer: {
       type: String,
       default: ''
@@ -176,8 +172,13 @@ export default {
   data () {
     return {
       loaded: true,
-      language: 'english'
+      language: 'english',
+      categories: []
     }
+  },
+
+  mounted () {
+    this.getMenu()
   },
 
   methods: {
@@ -189,6 +190,20 @@ export default {
       Vue.nextTick(function () {
         menu.loaded = true
       })
+    },
+
+    getMenu () {
+      fetch('/wp-json/kma/v1/menu', {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(r => r.json())
+        .then((res) => {
+          this.categories = res
+        })
     }
   }
 }

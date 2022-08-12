@@ -14,7 +14,7 @@ class Menu extends PostObject {
   public $hierarchical = false;
   public $adminOnly = true;
   public $restCollection = '/menu';
-  public $restSingleton = '/menu';
+  public $restSingleton = '/menu-item';
   public $menuIcon = 'list-view';
   public $enableTaxonomy = true;
   public $taxonomy = 'menu-group';
@@ -45,6 +45,10 @@ class Menu extends PostObject {
     'price',
     'photo'
   ];
+
+  public function restCollection ($request) {
+    return $this->getCategories();
+  }
 
   public function getCategories ()
   {
