@@ -261,9 +261,9 @@ class FacebookController
         $feed = $this->getFeed($n);
 
         if($feed->posts){
-
             foreach($feed->posts as $fbpost){
-                if($fbpost->status_type == 'mobile_status_update' && $fbpost->message == ''){
+                // print_r($fbpost);
+                if(isset($fbpost->status_type) && ($fbpost->status_type == 'mobile_status_update' && $fbpost->message == '') || isset($fbpost->status_type) && $fbpost->status_type == 'created_event'){
                     //nothing to do here...
                 }else{
 
@@ -283,6 +283,12 @@ class FacebookController
 
                     if(isset($fbpost->attachments)){
                         $media = $fbpost->attachments->data[0];
+
+                        // fix unavailable content messages
+                        if($fbpost->status_type == 'mobile_status_update' && $media->description == "When this happens, it's usually because the owner only shared it with a small group of people, changed who can see it or it's been deleted.") {
+                            $media->description = $fbpost->message;
+                        }
+                        
                         $postArray['meta_input']['attachments'] = $fbpost->attachments->data;
                         $postArray['meta_input']['target_url'] = isset($media->target->url ) ? $media->target->url : '';
                         $postArray['meta_input']['image_src'] = isset($media->media->image->src ) ? $media->media->image->src : '';
@@ -290,21 +296,44 @@ class FacebookController
                         $postArray['meta_input']['media_type'] = isset($media->media_type ) ? $media->media_type : '';
                         $postArray['meta_input']['type'] = isset($media->type ) ? $media->type : '';
                         $postArray['meta_input']['title'] = isset($media->title ) ? $media->title : '';
-                        $postArray['meta_input']['url'] = $media->url;
-                        $postArray['meta_input']['unshimmed_url'] = $media->unshimmed_url;
+                        $postArray['meta_input']['url'] = isset($media->url) ? $media->url : $fbpost->permalink_url;
+                        $postArray['meta_input']['unshimmed_url'] = isset($media->unshimmed_url) ? $media->url : $fbpost->permalink_url;
+                        $postArray['meta_input']['subattachments'] = [];
+
+                        if(isset($media->subattachments) && is_array($media->subattachments->data)){
+                            foreach($media->subattachments->data as $attachment){
+                                if($attachment->type == 'photo'){
+                                    $postArray['meta_input']['subattachments'][] = [
+                                        'type' => $attachment->type,
+                                        'src'  => $attachment->media->image->src,
+                                        'width' => $attachment->media->image->width,
+                                        'height' => $attachment->media->image->height,
+                                        'url' => $attachment->url,
+                                    ];
+                                }
+                            }
+                        }
                     }
 
                     $postExists = get_page_by_title($fbpost->id, OBJECT, 'kma-fb-post');
 
+                    // If exists, update the post. Otherwise, add a new one
                     if(isset($postExists->ID)){
-                        $postArray['ID'] = $postExists->ID;
-                        wp_update_post($postArray);
-                        // update_post_meta($postExists->ID, 'attachments', $fbpost->media);
-                        
+
+                        // Catch cancelled events that were added already
+                        if(isset($fbpost->is_canceled) && $fbpost->is_canceled){
+                            wp_delete_post($postExists->ID);
+                        }else{
+                            $postArray['ID'] = $postExists->ID;
+                            wp_update_post($postArray);
+                        }
+                
                     }else{
-                        $postID = wp_insert_post($postArray);
-                        // update_post_meta($postID, 'attachments', $fbpost->media);
+                        if(!isset($fbpost->is_canceled) || !$fbpost->is_canceled){
+                            wp_insert_post($postArray);
+                        }
                     }
+
                 }
 
             }
