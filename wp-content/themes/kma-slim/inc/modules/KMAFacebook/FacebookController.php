@@ -189,6 +189,8 @@ class FacebookController
     {
         $feed = $this->getEvents($n);
 
+        // print_r($feed);
+
         if($feed->posts){
             foreach($feed->posts as $fbpost){
 
@@ -196,7 +198,7 @@ class FacebookController
                 $endDateTime = isset($fbpost->end_time) ? Carbon::parse($fbpost->end_time) : null;
 
                 $event_times = [];
-                $sortDate = $startDateTime->format('Ymd');
+                $sortDate = $startDateTime->format('YmdHi');
 
                 if(isset($fbpost->event_times)){
                     foreach($fbpost->event_times as $time){
