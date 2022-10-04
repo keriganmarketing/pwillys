@@ -189,10 +189,11 @@ class FacebookController
     {
         $feed = $this->getEvents($n);
 
-        // print_r($feed);
-
         if($feed->posts){
             foreach($feed->posts as $fbpost){
+
+                echo '<pre>',print_r($fbpost),'</pre>';
+
 
                 $startDateTime = Carbon::parse($fbpost->start_time);
                 $endDateTime = isset($fbpost->end_time) ? Carbon::parse($fbpost->end_time) : $startDateTime;
@@ -209,8 +210,12 @@ class FacebookController
 
                     if(isset($event_times[0])){
                         $sortDate = date('YmdHi', strtotime($event_times[0]->end_time));
+
+                        print_r($event_times); die();
+
                     }
                 }
+
 
 
                 $postArray = [
@@ -235,6 +240,8 @@ class FacebookController
                         'event_times' => $event_times
                     ]
                 ];
+
+                // echo '<pre>',print_r($postArray),'</pre>';
 
                 $postExists = get_page_by_title($fbpost->id, OBJECT, 'kma-fb-event');
 
