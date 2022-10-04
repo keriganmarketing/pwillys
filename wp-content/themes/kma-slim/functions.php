@@ -14,13 +14,12 @@ use Includes\Modules\Layouts\Layouts;
 use Includes\Modules\Helpers\Session;
 use Includes\Modules\Helpers\PageField;
 use Includes\Modules\Social\SocialSettingsPage;
-use Includes\Modules\KMAFacebook\FacebookController;
 use Includes\Modules\KMAInstagram\InstagramController;
 use Includes\Modules\Forms\Donations;
 use Includes\Modules\Forms\Contact;
 
 
-use Includes\Modules\Menu\Menu;
+use Includes\Modules\Models\Menu;
 
 require('vendor/autoload.php');
 
@@ -41,11 +40,9 @@ $events->setupAdmin();
 $events = new BulmaSlider();
 $events->setupAdmin();
 
-$ourMenu = new Menu();
-$ourMenu->setupAdmin();
+(new Menu)->use();
 
-$facebook = new FacebookController();
-$facebook->use();
+(new KeriganSolutions\FacebookFeed\WP\Admin())->use();
 
 $instagram = new InstagramController();
 $instagram->setupAdmin();

@@ -1,7 +1,7 @@
 <?php
 
 use Includes\Modules\Layouts\Layouts;
-use Includes\Modules\Menu\Menu;
+use Includes\Modules\Models\Menu;
 
 /**
  * @package KMA
@@ -11,7 +11,14 @@ use Includes\Modules\Menu\Menu;
  */
 
 $menu           = new Menu();
-$menuCategories = $menu->getMenu();
+$menuCategories = $menu->getCategories();
+
+$englishDisclaimer = get_field('english_disclaimer');
+$spanishDisclaimer = get_field('spanish_disclaimer') ? get_field('spanish_disclaimer') : $englishDisclaimer;
+$englishMenuPDF = get_field('english_menu_pdf_download');
+$spanishMenuPDF = get_field('spanish_menu_pdf_download') ? get_field('spanish_menu_pdf_download') : $englishMenuPDF;
+$englishAllergenPDF = get_field('english_allergen_menu_guide');
+$spanishAllergenPDF = get_field('spanish_allergen_menu_guide') ? get_field('spanish_allergen_menu_guide') : $englishAllergenPDF;
 
 include(locate_template('template-parts/sections/top.php'));
 ?>
@@ -23,19 +30,27 @@ include(locate_template('template-parts/sections/top.php'));
                     <div class="entry-content content">
                         <?php the_content(); ?>
 
-                        <div class="section">
-                            <div v-masonry transition-duration="0.3s" item-selector=".menu-category"
-                                 class="our-menu columns is-multiline is-mobile">
-                                <?php foreach ($menuCategories as $menuCategory) { ?>
-                                    <div v-masonry-tile class="menu-category column is-12-mobile is-6-tablet is-4-widescreen">
-                                        <h2 class="title is-2 dimbo" tabindex="0"><?= $menuCategory['category_name']; ?></h2>
-                                        <?php foreach ($menuCategory['menu_items'] as $menuItem) { ?>
-                                            <?php include(locate_template('template-parts/partials/mini-menu-item.php')); ?>
-                                        <?php } ?>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                        </div>
+                        <food-menu 
+                            <?php if($englishDisclaimer){ ?>
+                            english-disclaimer='<?php echo $englishDisclaimer; ?>'
+                            <?php } ?>
+                            <?php if($spanishDisclaimer){ ?>
+                            spanish-disclaimer='<?php echo $spanishDisclaimer; ?>'
+                            <?php } ?>
+                            <?php if($englishMenuPDF){ ?>
+                            :english-menu-pdf='<?php echo json_encode($englishMenuPDF); ?>'
+                            <?php } ?>
+                            <?php if($spanishMenuPDF){ ?>
+                            :spanish-menu-pdf='<?php echo json_encode($spanishMenuPDF); ?>'
+                            <?php } ?>
+                            <?php if($englishAllergenPDF){ ?>
+                            :english-allergen-pdf='<?php echo json_encode($englishAllergenPDF); ?>'
+                            <?php } ?>
+                            <?php if($spanishAllergenPDF){ ?>
+                            :spanish-allergen-pdf='<?php echo json_encode($spanishAllergenPDF); ?>'
+                            <?php } ?>
+                        ></food-menu>
+                        
                     </div>
                 </div>
             </section>

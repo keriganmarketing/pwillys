@@ -1,8 +1,12 @@
 <?php
-use Includes\Modules\KMAFacebook\FacebookController;
+// use Includes\Modules\KMAFacebook\FacebookController;
 
-$facebook = new FacebookController();
-$feed = $facebook->getFbPosts(1);
+// $facebook = new FacebookController();
+// $feed = $facebook->getFbPosts(1);
+
+$facebook = new KeriganSolutions\FacebookFeed\WP\FacebookPost();
+
+$feed = $facebook->query(1);
 
 // echo '<pre>',print_r($feed),'</pre>';
 

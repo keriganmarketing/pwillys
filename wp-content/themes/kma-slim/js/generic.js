@@ -8,6 +8,7 @@ import {VueMasonryPlugin} from 'vue-masonry';
 import InstaGallery from './components/InstaGallery';
 import SocialSharingIcons from './components/SocialSharingIcons';
 import DonationForm from './components/DonationForm';
+import RestaurantMenu from './components/RestaurantMenu';
 import ContactForm from './components/ContactForm';
 import Vue from 'vue/dist/vue';
 
@@ -27,6 +28,7 @@ let app = new Vue({
         'insta-gallery': InstaGallery,
         'social-sharing-icons': SocialSharingIcons,
         'donations-form': DonationForm,
+        'food-menu': RestaurantMenu,
         'contact-form': ContactForm
     },
 

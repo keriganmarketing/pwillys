@@ -124,13 +124,11 @@ class PostType
             'has_archive' => $this->archiveSlug,
             'rewrite' => [
                 'slug' => $this->queryvar,
-                'ep_mask' => $this->queryvar,
             ],
             'query_var' => $this->postType,
             'menu_icon' => 'dashicons-' . $this->menuIcon,
             'show_in_rest' => true,
             'rest_base' => $this->queryvar,
-            // 'rest_controller_class' => 'WP_REST_Posts_Controller'
         ];
 
 

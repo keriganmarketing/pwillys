@@ -1,6 +1,6 @@
 <?php
 
-use Includes\Modules\KMAFacebook\FacebookController;
+$facebook = new KeriganSolutions\FacebookFeed\WP\FacebookEvent();
 
 /**
  * @package KMA
@@ -9,8 +9,10 @@ use Includes\Modules\KMAFacebook\FacebookController;
  * @version 1.2
  */
 
-$facebook = new FacebookController();
-$events = $facebook->getFbEvents(-1,[
+$events = $facebook->query(-1,[
+    'order' => 'ASC',
+    'orderby' => 'meta_value',
+    'meta_key' => 'datestamp',
     'meta_query' => [
         [
             'key'     => 'datestamp',
