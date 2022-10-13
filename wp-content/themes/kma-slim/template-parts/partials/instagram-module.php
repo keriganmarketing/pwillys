@@ -7,7 +7,7 @@ $photos = $instagram->getFeed(9);
 if(count(json_decode($photos))>0){
 ?>
 <div class="card social-module instagram has-text-centered">
-    <div class="card-content">
+    <div class="card-content" tabindex="0">
         <h2 class="title dimbo is-secondary is-3">Follow Us</h2>
         <p class="subtitle">on Instagram</p>
         <insta-gallery :photos='<?= $photos; ?>' ></insta-gallery>
